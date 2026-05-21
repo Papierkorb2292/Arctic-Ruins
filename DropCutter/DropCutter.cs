@@ -64,16 +64,12 @@ namespace DiagonalCutter.DropCutter
                .WithoutSimulationConfiguration()
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
 
-            IPresentableUnlockableSideUpgradeBuilder sideUpgradeBuilder = SideUpgrade.New()
-               .WithPresentationData(CreateSideUpgradePresentationData(titleId, titleDescription))
-               .WithCost(new ResearchCostPoints(new ResearchPointCurrency(50)).AsEnumerable())
-               .WithCustomRequirements(Array.Empty<ResearchMechanicId>(), Array.Empty<ResearchUpgradeId>());
             AtomicBuildings.Extend()
-               .AllScenarios()
+               .SpecificScenarios(scenario => !scenario.IsTutorial) //TODO: Replace with correct selector
                .WithBuilding(dropCutterBuilder, dropCutterGroup)
                .UnlockedAtMilestone(new MilestoneSelector())
                .WithDefaultPlacement()
-               .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(^1).InsertAfter())
+               .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(0).Replace()) // Replace normal cutter
                .WithSimulation(new DropCutterFactoryBuilder(), logger)
                .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
                .WithPrediction(new DropCutterPredictionFactoryBuilder(), logger)

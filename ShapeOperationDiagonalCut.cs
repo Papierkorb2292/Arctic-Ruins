@@ -7,8 +7,8 @@ public class ShapeOperationDiagonalCut : ShapeOperation<ShapeDefinition, ShapeDi
 
     public ShapeOperationDiagonalCut(
         int maxShapeLayers,
-        [DisallowNull] IShapeRegistry shapeRegistry,
-        [DisallowNull] IShapeIdManager shapeIdManager) : base(shapeRegistry, shapeIdManager)
+        IShapeRegistry shapeRegistry,
+        IShapeIdManager shapeIdManager) : base(shapeRegistry, shapeIdManager)
     {
         MaxShapeLayers = maxShapeLayers;
     }
