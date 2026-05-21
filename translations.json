@@ -3,6 +3,8 @@
     "building-variant.cutter-diagonal.title": "Diagonal Destroyer",
     "building-variant.cutter-diagonal.description": "<gl>Destroys</gl> the <gl>Even Parts</gl> of a shape.",
     "building-variant.drop-cutter.title": "Cutter",
-    "building-variant.drop-cutter.description": "<gl>Cuts</gl> the shape down the middle"
+    "building-variant.drop-cutter.description": "<gl>Cuts</gl> the shape down the middle",
+    "game-mode.ArcticRuins.title": "Arctic Ruins",
+    "game-mode.ArcticRuins.description": "TODO: Description"
   }
 }

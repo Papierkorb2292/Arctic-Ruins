@@ -94,7 +94,7 @@ public class DiagonalCuttersMod : IMod
     private static void AddGameMode(GameData gameData)
     {
         var baseMode = gameData._GameModes.Values.First();
-        gameData._GameModes[new GameModeId("arctic_ruins")] = new GameModeDefinition((MetaGameModeDefinition)ScriptableObject.CreateInstance(typeof(MetaGameModeDefinition), scriptable => 
+        gameData._GameModes[new GameModeId("ArcticRuins")] = new GameModeDefinition((MetaGameModeDefinition)ScriptableObject.CreateInstance(typeof(MetaGameModeDefinition), scriptable => 
         { 
             //TODO: Add proper assets
             var mode = (MetaGameModeDefinition)scriptable;
@@ -104,7 +104,7 @@ public class DiagonalCuttersMod : IMod
             mode.GameModeBuildings = baseMode.Buildings;
             mode.GameModeIslands = baseMode.Islands;
             mode.TrainSimulationConfiguration = baseMode.TrainSimulationConfiguration;
-            mode.name = "arctic_ruins";
+            mode.name = "ArcticRuins";
         }));
     }
 
