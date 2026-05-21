@@ -26,6 +26,8 @@ public class DiagonalCuttersMod : IMod
     {
         resources = ModDirectoryLocator.CreateLocator<DiagonalCuttersMod>().SubLocator("Resources");
         
+        DropCutter.Register(logger, this);
+        
         BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
         BuildingDefinitionId definitionId = new("DiagonalCutter");
 
