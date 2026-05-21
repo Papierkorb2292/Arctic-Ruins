@@ -29,7 +29,10 @@
             <HintPath>$(SPZ2_PATH)\SPZGameAssembly.dll</HintPath>
             <Private>False</Private>
         </Reference>
-
+        <Reference Include="Unity.Core">
+            <HintPath>$(SPZ2_PATH)\Unity.Core.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="Game.Content">
             <HintPath>$(SPZ2_PATH)\Game.Content.dll</HintPath>
             <Private>False</Private>
@@ -137,6 +140,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.0"/>
         <None Update="manifest.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Linq;
 using Core.Collections;
 using Core.Localization;
-using DiagonalCutter;
 using DiagonalCutter.DropCutter;
+using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Research;
 using JetBrains.Annotations;
+using MonoMod.RuntimeDetour;
 using ShapezShifter.Flow;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Flow.Research;
 using ShapezShifter.Flow.Toolbar;
 using ShapezShifter.Kit;
+using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
 using UnityEngine;
 using ILogger = Core.Logging.ILogger;
@@ -22,8 +25,12 @@ public class DiagonalCuttersMod : IMod
 {
     public ModFolderLocator resources { get; }
     
+    public readonly Hook GameModeHook;
+    
     public DiagonalCuttersMod(ILogger logger)
     {
+        GameModeHook = CreateGameModeHook();
+        
         resources = ModDirectoryLocator.CreateLocator<DiagonalCuttersMod>().SubLocator("Resources");
         
         DropCutter.Register(logger, this);
@@ -76,7 +83,35 @@ public class DiagonalCuttersMod : IMod
            .Build();
     }
 
-    public void Dispose() { }
+    //TODO: Find a better place to hook into
+    private static Hook CreateGameModeHook()
+    {
+        return DetourHelper.CreatePostfixHook<MainMenuOrchestrator, GameSessionOrchestrator, GlobalsData, IGameData>(
+            (mainMenuOrchestrator,gameSessionOrchestrator,globalsData,gameData) => mainMenuOrchestrator.Step_0_1_InitDependencies(gameSessionOrchestrator,globalsData,gameData), 
+            (_, _, _, gameData) => AddGameMode((GameData)gameData));
+    }
+
+    private static void AddGameMode(GameData gameData)
+    {
+        var baseMode = gameData._GameModes.Values.First();
+        gameData._GameModes[new GameModeId("arctic_ruins")] = new GameModeDefinition((MetaGameModeDefinition)ScriptableObject.CreateInstance(typeof(MetaGameModeDefinition), scriptable => 
+        { 
+            //TODO: Add proper assets
+            var mode = (MetaGameModeDefinition)scriptable;
+            mode.Icon = baseMode.Icon;
+            mode.VideoPreview = baseMode.VideoPreview;
+            mode.ImagePreview = baseMode.ImagePreview;
+            mode.GameModeBuildings = baseMode.Buildings;
+            mode.GameModeIslands = baseMode.Islands;
+            mode.TrainSimulationConfiguration = baseMode.TrainSimulationConfiguration;
+            mode.name = "arctic_ruins";
+        }));
+    }
+
+    public void Dispose()
+    {
+        GameModeHook.Dispose();
+    }
 
     private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)
     {
