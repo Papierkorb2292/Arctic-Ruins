@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "yimoUKgHO0s=",
+  "success": true,
+  "projectFilePath": "/home/papierkorb2292/Documents/ArcticRuins/DiagonalCutter.csproj",
+  "expectedPackageFiles": [
+    "/home/papierkorb2292/.nuget/packages/krafs.publicizer/2.3.0/krafs.publicizer.2.3.0.nupkg.sha512",
+    "/home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/netstandard.library.ref.2.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

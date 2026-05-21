@@ -1,0 +1,858 @@
+[4:33:12 PM INF] Initializing assembly publicization
+[4:33:12 PM INF] Referenced assemblies: 141
+[4:33:12 PM INF] Publicize: Core, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Core.Localization, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Content, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Content.Features, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Coordinates, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Map.Layout.Model, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Map.Model, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Map.Simulation, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Modding, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Rendering, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Core.Simulation, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Interaction, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Game.Orchestration, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Microsoft.Win32.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: mscorlib, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: netstandard, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: ShapezShifter, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: SPZGameAssembly, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.AppContext, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Buffers, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Collections.Concurrent, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Collections, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Collections.NonGeneric, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Collections.Specialized, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ComponentModel.Composition, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ComponentModel, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ComponentModel.EventBasedAsync, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ComponentModel.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ComponentModel.TypeConverter, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Console, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Core, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Data.Common, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Data, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.Contracts, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.Debug, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.FileVersionInfo, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.Process, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.StackTrace, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.TextWriterTraceListener, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.Tools, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.TraceSource, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Diagnostics.Tracing, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Drawing, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Drawing.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Dynamic.Runtime, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Globalization.Calendars, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Globalization, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Globalization.Extensions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.Compression, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.Compression.FileSystem, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.Compression.ZipFile, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.FileSystem, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.FileSystem.DriveInfo, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.FileSystem.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.FileSystem.Watcher, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.IsolatedStorage, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.MemoryMappedFiles, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.Pipes, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.IO.UnmanagedMemoryStream, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Linq, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Linq.Expressions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Linq.Parallel, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Linq.Queryable, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Memory, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.Http, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.NameResolution, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.NetworkInformation, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.Ping, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.Requests, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.Security, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.Sockets, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.WebHeaderCollection, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.WebSockets.Client, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Net.WebSockets, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Numerics, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Numerics.Vectors, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ObjectModel, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection.DispatchProxy, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection.Emit, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection.Emit.ILGeneration, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection.Emit.Lightweight, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection.Extensions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Reflection.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Resources.Reader, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Resources.ResourceManager, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Resources.Writer, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.CompilerServices.VisualC, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Extensions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Handles, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.InteropServices, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.InteropServices.RuntimeInformation, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Numerics, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Serialization, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Serialization.Formatters, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Serialization.Json, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Serialization.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Runtime.Serialization.Xml, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Claims, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Cryptography.Algorithms, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Cryptography.Csp, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Cryptography.Encoding, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Cryptography.Primitives, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Cryptography.X509Certificates, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.Principal, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Security.SecureString, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ServiceModel.Web, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Text.Encoding, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Text.Encoding.Extensions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Text.RegularExpressions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.Overlapped, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.Tasks, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.Tasks.Extensions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.Tasks.Parallel, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.Thread, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.ThreadPool, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Threading.Timer, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Transactions, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.ValueTuple, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Web, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Windows, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.Linq, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.ReaderWriter, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.Serialization, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.XDocument, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.XmlDocument, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.XmlSerializer, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.XPath, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: System.Xml.XPath.XDocument, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: Unity.Mathematics, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: UnityEngine.AssetBundleModule, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: UnityEngine.CoreModule, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] Publicize: UnityEngine.ImageConversionModule, virtual members: True, compiler-generated members: True, member pattern: 
+[4:33:12 PM INF] DoNotPublicize: SPZGameAssembly:BeltLaneRenderingDefinition
+[4:33:12 PM INF] DoNotPublicize: Game.Core.Coordinates
+[4:33:12 PM INF] DoNotPublicize: SPZGameAssembly:BuildingDefinition
+[4:33:12 PM INF] DoNotPublicize: Game.Orchestration:ParentToolbarElementData
+[4:33:12 PM INF] DoNotPublicize: Game.Orchestration:RootToolbarElementData
+[4:33:12 PM INF] [Core] Assembly processing starting...
+[4:33:12 PM INF] [Core] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Core.dll
+[4:33:12 PM INF] [Core] Publicization hash: D3D808FF1EDB1516E2FABE8BDAFF5806
+[4:33:12 PM INF] [Core] Assembly already publicized at obj/Debug/PublicizedAssemblies/Core.D3D808FF1EDB1516E2FABE8BDAFF5806/Core.dll
+[4:33:12 PM INF] [Core] Assembly processing finished
+[4:33:12 PM INF] [Core.Localization] Assembly processing starting...
+[4:33:12 PM INF] [Core.Localization] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Core.Localization.dll
+[4:33:12 PM INF] [Core.Localization] Publicization hash: A34A44B447EEBC07DF0B6C6AAEAD984E
+[4:33:12 PM INF] [Core.Localization] Assembly already publicized at obj/Debug/PublicizedAssemblies/Core.Localization.A34A44B447EEBC07DF0B6C6AAEAD984E/Core.Localization.dll
+[4:33:12 PM INF] [Core.Localization] Assembly processing finished
+[4:33:12 PM INF] [Game.Content] Assembly processing starting...
+[4:33:12 PM INF] [Game.Content] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Content.dll
+[4:33:12 PM INF] [Game.Content] Publicization hash: A78FE69CDB87F22985ED5AA26677262C
+[4:33:12 PM INF] [Game.Content] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Content.A78FE69CDB87F22985ED5AA26677262C/Game.Content.dll
+[4:33:12 PM INF] [Game.Content] Assembly processing finished
+[4:33:12 PM INF] [Game.Content.Features] Assembly processing starting...
+[4:33:12 PM INF] [Game.Content.Features] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Content.Features.dll
+[4:33:12 PM INF] [Game.Content.Features] Publicization hash: DF1E46FD5288D1ECD81D43B50D62DC90
+[4:33:12 PM INF] [Game.Content.Features] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Content.Features.DF1E46FD5288D1ECD81D43B50D62DC90/Game.Content.Features.dll
+[4:33:12 PM INF] [Game.Content.Features] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Coordinates] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Coordinates] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Coordinates.dll
+[4:33:12 PM INF] [Game.Core.Coordinates] Publicization hash: 20DC621F83FB27A83669C93113B41063
+[4:33:12 PM INF] [Game.Core.Coordinates] Publicizing members...
+[4:33:12 PM INF] [Game.Core.Coordinates] Publicized types: 0
+[4:33:12 PM INF] [Game.Core.Coordinates] Publicized properties: 0
+[4:33:12 PM INF] [Game.Core.Coordinates] Publicized methods: 0
+[4:33:12 PM INF] [Game.Core.Coordinates] Publicized fields: 0
+[4:33:12 PM WRN] [Game.Core.Coordinates] Assembly is marked for publicization, but no members were publicized
+[4:33:12 PM INF] [Game.Core] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.dll
+[4:33:12 PM INF] [Game.Core] Publicization hash: 0CF1EFCDD809E53CF23503AF3C55496C
+[4:33:12 PM INF] [Game.Core] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.0CF1EFCDD809E53CF23503AF3C55496C/Game.Core.dll
+[4:33:12 PM INF] [Game.Core] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Map.Layout.Model] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Map.Layout.Model] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Map.Layout.Model.dll
+[4:33:12 PM INF] [Game.Core.Map.Layout.Model] Publicization hash: 424D231D51BD593C1F44DECDF3CEBF78
+[4:33:12 PM INF] [Game.Core.Map.Layout.Model] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.Map.Layout.Model.424D231D51BD593C1F44DECDF3CEBF78/Game.Core.Map.Layout.Model.dll
+[4:33:12 PM INF] [Game.Core.Map.Layout.Model] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Map.Model] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Map.Model] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Map.Model.dll
+[4:33:12 PM INF] [Game.Core.Map.Model] Publicization hash: 4ED101F6D68AF320F5DCAF656DFC8A31
+[4:33:12 PM INF] [Game.Core.Map.Model] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.Map.Model.4ED101F6D68AF320F5DCAF656DFC8A31/Game.Core.Map.Model.dll
+[4:33:12 PM INF] [Game.Core.Map.Model] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Map.Simulation] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Map.Simulation] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Map.Simulation.dll
+[4:33:12 PM INF] [Game.Core.Map.Simulation] Publicization hash: 4F26F81C6C56BBD67CFAE2476996B2A9
+[4:33:12 PM INF] [Game.Core.Map.Simulation] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.Map.Simulation.4F26F81C6C56BBD67CFAE2476996B2A9/Game.Core.Map.Simulation.dll
+[4:33:12 PM INF] [Game.Core.Map.Simulation] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Modding] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Modding] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Modding.dll
+[4:33:12 PM INF] [Game.Core.Modding] Publicization hash: 97C558B4E8787CDD7C596232FB963DEE
+[4:33:12 PM INF] [Game.Core.Modding] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.Modding.97C558B4E8787CDD7C596232FB963DEE/Game.Core.Modding.dll
+[4:33:12 PM INF] [Game.Core.Modding] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Rendering] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Rendering] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Rendering.dll
+[4:33:12 PM INF] [Game.Core.Rendering] Publicization hash: 8DC0CA42F5749C31616BAF66626BAB3F
+[4:33:12 PM INF] [Game.Core.Rendering] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.Rendering.8DC0CA42F5749C31616BAF66626BAB3F/Game.Core.Rendering.dll
+[4:33:12 PM INF] [Game.Core.Rendering] Assembly processing finished
+[4:33:12 PM INF] [Game.Core.Simulation] Assembly processing starting...
+[4:33:12 PM INF] [Game.Core.Simulation] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Core.Simulation.dll
+[4:33:12 PM INF] [Game.Core.Simulation] Publicization hash: CFEC36871F34107AF2DDEAA05DA1EAFB
+[4:33:12 PM INF] [Game.Core.Simulation] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Core.Simulation.CFEC36871F34107AF2DDEAA05DA1EAFB/Game.Core.Simulation.dll
+[4:33:12 PM INF] [Game.Core.Simulation] Assembly processing finished
+[4:33:12 PM INF] [Game.Interaction] Assembly processing starting...
+[4:33:12 PM INF] [Game.Interaction] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Interaction.dll
+[4:33:12 PM INF] [Game.Interaction] Publicization hash: 673CCC1726A0239DAACF62FDA254FE03
+[4:33:12 PM INF] [Game.Interaction] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Interaction.673CCC1726A0239DAACF62FDA254FE03/Game.Interaction.dll
+[4:33:12 PM INF] [Game.Interaction] Assembly processing finished
+[4:33:12 PM INF] [Game.Orchestration] Assembly processing starting...
+[4:33:12 PM INF] [Game.Orchestration] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Game.Orchestration.dll
+[4:33:12 PM INF] [Game.Orchestration] Publicization hash: 02EC0676BF9C517D87E758501CDB075E
+[4:33:12 PM INF] [Game.Orchestration] Assembly already publicized at obj/Debug/PublicizedAssemblies/Game.Orchestration.02EC0676BF9C517D87E758501CDB075E/Game.Orchestration.dll
+[4:33:12 PM INF] [Game.Orchestration] Assembly processing finished
+[4:33:12 PM INF] [Microsoft.Win32.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [Microsoft.Win32.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/Microsoft.Win32.Primitives.dll
+[4:33:12 PM INF] [Microsoft.Win32.Primitives] Publicization hash: FC71CEE71490B73A0351A19031296199
+[4:33:12 PM INF] [Microsoft.Win32.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/Microsoft.Win32.Primitives.FC71CEE71490B73A0351A19031296199/Microsoft.Win32.Primitives.dll
+[4:33:12 PM INF] [Microsoft.Win32.Primitives] Assembly processing finished
+[4:33:12 PM INF] [mscorlib] Assembly processing starting...
+[4:33:12 PM INF] [mscorlib] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/mscorlib.dll
+[4:33:12 PM INF] [mscorlib] Publicization hash: 76F3B45F8E1C0EB08D1B44192CDD6EAE
+[4:33:12 PM INF] [mscorlib] Assembly already publicized at obj/Debug/PublicizedAssemblies/mscorlib.76F3B45F8E1C0EB08D1B44192CDD6EAE/mscorlib.dll
+[4:33:12 PM INF] [mscorlib] Assembly processing finished
+[4:33:12 PM INF] [netstandard] Assembly processing starting...
+[4:33:12 PM INF] [netstandard] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/netstandard.dll
+[4:33:12 PM INF] [netstandard] Publicization hash: 34F664D4FDE44F9E7D3F1173758A8EF7
+[4:33:12 PM INF] [netstandard] Assembly already publicized at obj/Debug/PublicizedAssemblies/netstandard.34F664D4FDE44F9E7D3F1173758A8EF7/netstandard.dll
+[4:33:12 PM INF] [netstandard] Assembly processing finished
+[4:33:12 PM INF] [ShapezShifter] Assembly processing starting...
+[4:33:12 PM INF] [ShapezShifter] Path: /home/papierkorb2292/.config/unity3d/tobspr Games/shapez 2/mods/ShapezShifter/ShapezShifter.dll
+[4:33:12 PM INF] [ShapezShifter] Publicization hash: C44DBD0BE3BF7E3AC1366513CB6193E6
+[4:33:12 PM INF] [ShapezShifter] Assembly already publicized at obj/Debug/PublicizedAssemblies/ShapezShifter.C44DBD0BE3BF7E3AC1366513CB6193E6/ShapezShifter.dll
+[4:33:12 PM INF] [ShapezShifter] Assembly processing finished
+[4:33:12 PM INF] [SPZGameAssembly] Assembly processing starting...
+[4:33:12 PM INF] [SPZGameAssembly] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/SPZGameAssembly.dll
+[4:33:12 PM INF] [SPZGameAssembly] Publicization hash: B2B3914A05048A0C422DBF90979164CE
+[4:33:12 PM INF] [SPZGameAssembly] Assembly already publicized at obj/Debug/PublicizedAssemblies/SPZGameAssembly.B2B3914A05048A0C422DBF90979164CE/SPZGameAssembly.dll
+[4:33:12 PM INF] [SPZGameAssembly] Assembly processing finished
+[4:33:12 PM INF] [System.AppContext] Assembly processing starting...
+[4:33:12 PM INF] [System.AppContext] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.AppContext.dll
+[4:33:12 PM INF] [System.AppContext] Publicization hash: 09EFA3BD820CADDFCF238A9CE4D09A46
+[4:33:12 PM INF] [System.AppContext] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.AppContext.09EFA3BD820CADDFCF238A9CE4D09A46/System.AppContext.dll
+[4:33:12 PM INF] [System.AppContext] Assembly processing finished
+[4:33:12 PM INF] [System.Buffers] Assembly processing starting...
+[4:33:12 PM INF] [System.Buffers] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Buffers.dll
+[4:33:12 PM INF] [System.Buffers] Publicization hash: 48992B4FA72C8146E602A26B0FF5FE19
+[4:33:12 PM INF] [System.Buffers] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Buffers.48992B4FA72C8146E602A26B0FF5FE19/System.Buffers.dll
+[4:33:12 PM INF] [System.Buffers] Assembly processing finished
+[4:33:12 PM INF] [System.Collections.Concurrent] Assembly processing starting...
+[4:33:12 PM INF] [System.Collections.Concurrent] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Collections.Concurrent.dll
+[4:33:12 PM INF] [System.Collections.Concurrent] Publicization hash: 291BF876E3B9D9E39D5994C25C6C9F39
+[4:33:12 PM INF] [System.Collections.Concurrent] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Collections.Concurrent.291BF876E3B9D9E39D5994C25C6C9F39/System.Collections.Concurrent.dll
+[4:33:12 PM INF] [System.Collections.Concurrent] Assembly processing finished
+[4:33:12 PM INF] [System.Collections] Assembly processing starting...
+[4:33:12 PM INF] [System.Collections] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Collections.dll
+[4:33:12 PM INF] [System.Collections] Publicization hash: E76BC2CBEE49E861015E4948E955F09D
+[4:33:12 PM INF] [System.Collections] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Collections.E76BC2CBEE49E861015E4948E955F09D/System.Collections.dll
+[4:33:12 PM INF] [System.Collections] Assembly processing finished
+[4:33:12 PM INF] [System.Collections.NonGeneric] Assembly processing starting...
+[4:33:12 PM INF] [System.Collections.NonGeneric] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Collections.NonGeneric.dll
+[4:33:12 PM INF] [System.Collections.NonGeneric] Publicization hash: 4E04C9444BD842B70D2294AF782D3AE4
+[4:33:12 PM INF] [System.Collections.NonGeneric] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Collections.NonGeneric.4E04C9444BD842B70D2294AF782D3AE4/System.Collections.NonGeneric.dll
+[4:33:12 PM INF] [System.Collections.NonGeneric] Assembly processing finished
+[4:33:12 PM INF] [System.Collections.Specialized] Assembly processing starting...
+[4:33:12 PM INF] [System.Collections.Specialized] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Collections.Specialized.dll
+[4:33:12 PM INF] [System.Collections.Specialized] Publicization hash: F625A869B10CEE55D02F89740C98F59A
+[4:33:12 PM INF] [System.Collections.Specialized] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Collections.Specialized.F625A869B10CEE55D02F89740C98F59A/System.Collections.Specialized.dll
+[4:33:12 PM INF] [System.Collections.Specialized] Assembly processing finished
+[4:33:12 PM INF] [System.ComponentModel.Composition] Assembly processing starting...
+[4:33:12 PM INF] [System.ComponentModel.Composition] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ComponentModel.Composition.dll
+[4:33:12 PM INF] [System.ComponentModel.Composition] Publicization hash: C7B6655C51AB1377293796E3D3DAC0C0
+[4:33:12 PM INF] [System.ComponentModel.Composition] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ComponentModel.Composition.C7B6655C51AB1377293796E3D3DAC0C0/System.ComponentModel.Composition.dll
+[4:33:12 PM INF] [System.ComponentModel.Composition] Assembly processing finished
+[4:33:12 PM INF] [System.ComponentModel] Assembly processing starting...
+[4:33:12 PM INF] [System.ComponentModel] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ComponentModel.dll
+[4:33:12 PM INF] [System.ComponentModel] Publicization hash: 2AEBD261129E611C945ED6CC12E10944
+[4:33:12 PM INF] [System.ComponentModel] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ComponentModel.2AEBD261129E611C945ED6CC12E10944/System.ComponentModel.dll
+[4:33:12 PM INF] [System.ComponentModel] Assembly processing finished
+[4:33:12 PM INF] [System.ComponentModel.EventBasedAsync] Assembly processing starting...
+[4:33:12 PM INF] [System.ComponentModel.EventBasedAsync] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ComponentModel.EventBasedAsync.dll
+[4:33:12 PM INF] [System.ComponentModel.EventBasedAsync] Publicization hash: B803E024CA7D789CFC870FD7E81D131F
+[4:33:12 PM INF] [System.ComponentModel.EventBasedAsync] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ComponentModel.EventBasedAsync.B803E024CA7D789CFC870FD7E81D131F/System.ComponentModel.EventBasedAsync.dll
+[4:33:12 PM INF] [System.ComponentModel.EventBasedAsync] Assembly processing finished
+[4:33:12 PM INF] [System.ComponentModel.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.ComponentModel.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ComponentModel.Primitives.dll
+[4:33:12 PM INF] [System.ComponentModel.Primitives] Publicization hash: 3B60FEA5EA5307C48F6BB20FD389384F
+[4:33:12 PM INF] [System.ComponentModel.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ComponentModel.Primitives.3B60FEA5EA5307C48F6BB20FD389384F/System.ComponentModel.Primitives.dll
+[4:33:12 PM INF] [System.ComponentModel.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.ComponentModel.TypeConverter] Assembly processing starting...
+[4:33:12 PM INF] [System.ComponentModel.TypeConverter] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ComponentModel.TypeConverter.dll
+[4:33:12 PM INF] [System.ComponentModel.TypeConverter] Publicization hash: 2CA244DE683F94511CDCC3F315E3EB5A
+[4:33:12 PM INF] [System.ComponentModel.TypeConverter] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ComponentModel.TypeConverter.2CA244DE683F94511CDCC3F315E3EB5A/System.ComponentModel.TypeConverter.dll
+[4:33:12 PM INF] [System.ComponentModel.TypeConverter] Assembly processing finished
+[4:33:12 PM INF] [System.Console] Assembly processing starting...
+[4:33:12 PM INF] [System.Console] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Console.dll
+[4:33:12 PM INF] [System.Console] Publicization hash: 2F34B570A1D23B7813BD80C76D75560C
+[4:33:12 PM INF] [System.Console] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Console.2F34B570A1D23B7813BD80C76D75560C/System.Console.dll
+[4:33:12 PM INF] [System.Console] Assembly processing finished
+[4:33:12 PM INF] [System.Core] Assembly processing starting...
+[4:33:12 PM INF] [System.Core] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Core.dll
+[4:33:12 PM INF] [System.Core] Publicization hash: B3D1CCB2F609A32CF1B8318E614E57C9
+[4:33:12 PM INF] [System.Core] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Core.B3D1CCB2F609A32CF1B8318E614E57C9/System.Core.dll
+[4:33:12 PM INF] [System.Core] Assembly processing finished
+[4:33:12 PM INF] [System.Data.Common] Assembly processing starting...
+[4:33:12 PM INF] [System.Data.Common] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Data.Common.dll
+[4:33:12 PM INF] [System.Data.Common] Publicization hash: F5C6C553D57F85D99655EA63003BDE29
+[4:33:12 PM INF] [System.Data.Common] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Data.Common.F5C6C553D57F85D99655EA63003BDE29/System.Data.Common.dll
+[4:33:12 PM INF] [System.Data.Common] Assembly processing finished
+[4:33:12 PM INF] [System.Data] Assembly processing starting...
+[4:33:12 PM INF] [System.Data] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Data.dll
+[4:33:12 PM INF] [System.Data] Publicization hash: 55A2973E94AA83AF431E46716FA0FD1D
+[4:33:12 PM INF] [System.Data] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Data.55A2973E94AA83AF431E46716FA0FD1D/System.Data.dll
+[4:33:12 PM INF] [System.Data] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.Contracts] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.Contracts] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.Contracts.dll
+[4:33:12 PM INF] [System.Diagnostics.Contracts] Publicization hash: CB948847DA9523A52909A229E449A60D
+[4:33:12 PM INF] [System.Diagnostics.Contracts] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.Contracts.CB948847DA9523A52909A229E449A60D/System.Diagnostics.Contracts.dll
+[4:33:12 PM INF] [System.Diagnostics.Contracts] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.Debug] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.Debug] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.Debug.dll
+[4:33:12 PM INF] [System.Diagnostics.Debug] Publicization hash: 0099139A854359C11E23A650A76FCE44
+[4:33:12 PM INF] [System.Diagnostics.Debug] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.Debug.0099139A854359C11E23A650A76FCE44/System.Diagnostics.Debug.dll
+[4:33:12 PM INF] [System.Diagnostics.Debug] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.FileVersionInfo] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.FileVersionInfo] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.FileVersionInfo.dll
+[4:33:12 PM INF] [System.Diagnostics.FileVersionInfo] Publicization hash: 1E5FF36CABBB5F910CB203A237F2CD13
+[4:33:12 PM INF] [System.Diagnostics.FileVersionInfo] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.FileVersionInfo.1E5FF36CABBB5F910CB203A237F2CD13/System.Diagnostics.FileVersionInfo.dll
+[4:33:12 PM INF] [System.Diagnostics.FileVersionInfo] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.Process] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.Process] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.Process.dll
+[4:33:12 PM INF] [System.Diagnostics.Process] Publicization hash: 52B15624605C92E0A305ACCFAFEA8EE2
+[4:33:12 PM INF] [System.Diagnostics.Process] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.Process.52B15624605C92E0A305ACCFAFEA8EE2/System.Diagnostics.Process.dll
+[4:33:12 PM INF] [System.Diagnostics.Process] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.StackTrace] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.StackTrace] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.StackTrace.dll
+[4:33:12 PM INF] [System.Diagnostics.StackTrace] Publicization hash: 72C95CD5E21BCD9C5E967368DE028AC5
+[4:33:12 PM INF] [System.Diagnostics.StackTrace] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.StackTrace.72C95CD5E21BCD9C5E967368DE028AC5/System.Diagnostics.StackTrace.dll
+[4:33:12 PM INF] [System.Diagnostics.StackTrace] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.TextWriterTraceListener] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.TextWriterTraceListener] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.TextWriterTraceListener.dll
+[4:33:12 PM INF] [System.Diagnostics.TextWriterTraceListener] Publicization hash: D3DD7ABC4FDAFBA73977570F14BC9472
+[4:33:12 PM INF] [System.Diagnostics.TextWriterTraceListener] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.TextWriterTraceListener.D3DD7ABC4FDAFBA73977570F14BC9472/System.Diagnostics.TextWriterTraceListener.dll
+[4:33:12 PM INF] [System.Diagnostics.TextWriterTraceListener] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.Tools] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.Tools] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.Tools.dll
+[4:33:12 PM INF] [System.Diagnostics.Tools] Publicization hash: 7137C4346E10FBB9A380CC2247A7F03C
+[4:33:12 PM INF] [System.Diagnostics.Tools] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.Tools.7137C4346E10FBB9A380CC2247A7F03C/System.Diagnostics.Tools.dll
+[4:33:12 PM INF] [System.Diagnostics.Tools] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.TraceSource] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.TraceSource] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.TraceSource.dll
+[4:33:12 PM INF] [System.Diagnostics.TraceSource] Publicization hash: 0C31979F89CA0941C3093292EE1C40DC
+[4:33:12 PM INF] [System.Diagnostics.TraceSource] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.TraceSource.0C31979F89CA0941C3093292EE1C40DC/System.Diagnostics.TraceSource.dll
+[4:33:12 PM INF] [System.Diagnostics.TraceSource] Assembly processing finished
+[4:33:12 PM INF] [System.Diagnostics.Tracing] Assembly processing starting...
+[4:33:12 PM INF] [System.Diagnostics.Tracing] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Diagnostics.Tracing.dll
+[4:33:12 PM INF] [System.Diagnostics.Tracing] Publicization hash: C0F757D907E4B729AB93D95936F84BE5
+[4:33:12 PM INF] [System.Diagnostics.Tracing] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Diagnostics.Tracing.C0F757D907E4B729AB93D95936F84BE5/System.Diagnostics.Tracing.dll
+[4:33:12 PM INF] [System.Diagnostics.Tracing] Assembly processing finished
+[4:33:12 PM INF] [System] Assembly processing starting...
+[4:33:12 PM INF] [System] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.dll
+[4:33:12 PM INF] [System] Publicization hash: 9C019EF8BA3CD2E46F9021737483168B
+[4:33:12 PM INF] [System] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.9C019EF8BA3CD2E46F9021737483168B/System.dll
+[4:33:12 PM INF] [System] Assembly processing finished
+[4:33:12 PM INF] [System.Drawing] Assembly processing starting...
+[4:33:12 PM INF] [System.Drawing] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Drawing.dll
+[4:33:12 PM INF] [System.Drawing] Publicization hash: 8512F24492B0596D1E483954317D8CBD
+[4:33:12 PM INF] [System.Drawing] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Drawing.8512F24492B0596D1E483954317D8CBD/System.Drawing.dll
+[4:33:12 PM INF] [System.Drawing] Assembly processing finished
+[4:33:12 PM INF] [System.Drawing.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.Drawing.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Drawing.Primitives.dll
+[4:33:12 PM INF] [System.Drawing.Primitives] Publicization hash: 806E5F6989068643554E3488915DC435
+[4:33:12 PM INF] [System.Drawing.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Drawing.Primitives.806E5F6989068643554E3488915DC435/System.Drawing.Primitives.dll
+[4:33:12 PM INF] [System.Drawing.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.Dynamic.Runtime] Assembly processing starting...
+[4:33:12 PM INF] [System.Dynamic.Runtime] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Dynamic.Runtime.dll
+[4:33:12 PM INF] [System.Dynamic.Runtime] Publicization hash: DD5BF79322C2AABF5DD8709F85D18A35
+[4:33:12 PM INF] [System.Dynamic.Runtime] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Dynamic.Runtime.DD5BF79322C2AABF5DD8709F85D18A35/System.Dynamic.Runtime.dll
+[4:33:12 PM INF] [System.Dynamic.Runtime] Assembly processing finished
+[4:33:12 PM INF] [System.Globalization.Calendars] Assembly processing starting...
+[4:33:12 PM INF] [System.Globalization.Calendars] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Globalization.Calendars.dll
+[4:33:12 PM INF] [System.Globalization.Calendars] Publicization hash: 77A561CD5015BBAFFC9642820A748119
+[4:33:12 PM INF] [System.Globalization.Calendars] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Globalization.Calendars.77A561CD5015BBAFFC9642820A748119/System.Globalization.Calendars.dll
+[4:33:12 PM INF] [System.Globalization.Calendars] Assembly processing finished
+[4:33:12 PM INF] [System.Globalization] Assembly processing starting...
+[4:33:12 PM INF] [System.Globalization] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Globalization.dll
+[4:33:12 PM INF] [System.Globalization] Publicization hash: CDE876D87EB2779893570E343282545E
+[4:33:12 PM INF] [System.Globalization] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Globalization.CDE876D87EB2779893570E343282545E/System.Globalization.dll
+[4:33:12 PM INF] [System.Globalization] Assembly processing finished
+[4:33:12 PM INF] [System.Globalization.Extensions] Assembly processing starting...
+[4:33:12 PM INF] [System.Globalization.Extensions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Globalization.Extensions.dll
+[4:33:12 PM INF] [System.Globalization.Extensions] Publicization hash: FC20DEA09699EB24A39EBD8B62C2B43A
+[4:33:12 PM INF] [System.Globalization.Extensions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Globalization.Extensions.FC20DEA09699EB24A39EBD8B62C2B43A/System.Globalization.Extensions.dll
+[4:33:12 PM INF] [System.Globalization.Extensions] Assembly processing finished
+[4:33:12 PM INF] [System.IO.Compression] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.Compression] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.Compression.dll
+[4:33:12 PM INF] [System.IO.Compression] Publicization hash: 3DBC52F7BC48E41268156E3FAC97002B
+[4:33:12 PM INF] [System.IO.Compression] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.Compression.3DBC52F7BC48E41268156E3FAC97002B/System.IO.Compression.dll
+[4:33:12 PM INF] [System.IO.Compression] Assembly processing finished
+[4:33:12 PM INF] [System.IO.Compression.FileSystem] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.Compression.FileSystem] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.Compression.FileSystem.dll
+[4:33:12 PM INF] [System.IO.Compression.FileSystem] Publicization hash: 2C16D223E7523D565EEC87E3ADAAC535
+[4:33:12 PM INF] [System.IO.Compression.FileSystem] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.Compression.FileSystem.2C16D223E7523D565EEC87E3ADAAC535/System.IO.Compression.FileSystem.dll
+[4:33:12 PM INF] [System.IO.Compression.FileSystem] Assembly processing finished
+[4:33:12 PM INF] [System.IO.Compression.ZipFile] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.Compression.ZipFile] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.Compression.ZipFile.dll
+[4:33:12 PM INF] [System.IO.Compression.ZipFile] Publicization hash: D2B75B9AEA97F923C542A8263812F763
+[4:33:12 PM INF] [System.IO.Compression.ZipFile] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.Compression.ZipFile.D2B75B9AEA97F923C542A8263812F763/System.IO.Compression.ZipFile.dll
+[4:33:12 PM INF] [System.IO.Compression.ZipFile] Assembly processing finished
+[4:33:12 PM INF] [System.IO] Assembly processing starting...
+[4:33:12 PM INF] [System.IO] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.dll
+[4:33:12 PM INF] [System.IO] Publicization hash: 6E738869BE4308E673AAE0FD52DB4EB6
+[4:33:12 PM INF] [System.IO] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.6E738869BE4308E673AAE0FD52DB4EB6/System.IO.dll
+[4:33:12 PM INF] [System.IO] Assembly processing finished
+[4:33:12 PM INF] [System.IO.FileSystem] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.FileSystem] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.FileSystem.dll
+[4:33:12 PM INF] [System.IO.FileSystem] Publicization hash: 678CB9BDE8BEC47A8ACEC07CE6DCB05A
+[4:33:12 PM INF] [System.IO.FileSystem] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.FileSystem.678CB9BDE8BEC47A8ACEC07CE6DCB05A/System.IO.FileSystem.dll
+[4:33:12 PM INF] [System.IO.FileSystem] Assembly processing finished
+[4:33:12 PM INF] [System.IO.FileSystem.DriveInfo] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.FileSystem.DriveInfo] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.FileSystem.DriveInfo.dll
+[4:33:12 PM INF] [System.IO.FileSystem.DriveInfo] Publicization hash: A91E2E541E1E76D96A5DE289ED335B85
+[4:33:12 PM INF] [System.IO.FileSystem.DriveInfo] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.FileSystem.DriveInfo.A91E2E541E1E76D96A5DE289ED335B85/System.IO.FileSystem.DriveInfo.dll
+[4:33:12 PM INF] [System.IO.FileSystem.DriveInfo] Assembly processing finished
+[4:33:12 PM INF] [System.IO.FileSystem.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.FileSystem.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.FileSystem.Primitives.dll
+[4:33:12 PM INF] [System.IO.FileSystem.Primitives] Publicization hash: 0930847C47AEC54223DC2566C08E7D36
+[4:33:12 PM INF] [System.IO.FileSystem.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.FileSystem.Primitives.0930847C47AEC54223DC2566C08E7D36/System.IO.FileSystem.Primitives.dll
+[4:33:12 PM INF] [System.IO.FileSystem.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.IO.FileSystem.Watcher] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.FileSystem.Watcher] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.FileSystem.Watcher.dll
+[4:33:12 PM INF] [System.IO.FileSystem.Watcher] Publicization hash: 353AE9806D6BEC462BAC90D8CC987BBF
+[4:33:12 PM INF] [System.IO.FileSystem.Watcher] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.FileSystem.Watcher.353AE9806D6BEC462BAC90D8CC987BBF/System.IO.FileSystem.Watcher.dll
+[4:33:12 PM INF] [System.IO.FileSystem.Watcher] Assembly processing finished
+[4:33:12 PM INF] [System.IO.IsolatedStorage] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.IsolatedStorage] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.IsolatedStorage.dll
+[4:33:12 PM INF] [System.IO.IsolatedStorage] Publicization hash: 610FDC40BA5B4892DC6D4A3B6A7652E9
+[4:33:12 PM INF] [System.IO.IsolatedStorage] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.IsolatedStorage.610FDC40BA5B4892DC6D4A3B6A7652E9/System.IO.IsolatedStorage.dll
+[4:33:12 PM INF] [System.IO.IsolatedStorage] Assembly processing finished
+[4:33:12 PM INF] [System.IO.MemoryMappedFiles] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.MemoryMappedFiles] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.MemoryMappedFiles.dll
+[4:33:12 PM INF] [System.IO.MemoryMappedFiles] Publicization hash: 5DE53C86DBEE3742E7B6A1332FFBA71E
+[4:33:12 PM INF] [System.IO.MemoryMappedFiles] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.MemoryMappedFiles.5DE53C86DBEE3742E7B6A1332FFBA71E/System.IO.MemoryMappedFiles.dll
+[4:33:12 PM INF] [System.IO.MemoryMappedFiles] Assembly processing finished
+[4:33:12 PM INF] [System.IO.Pipes] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.Pipes] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.Pipes.dll
+[4:33:12 PM INF] [System.IO.Pipes] Publicization hash: CA3FABA607BE9CD91631D07784E2A0F5
+[4:33:12 PM INF] [System.IO.Pipes] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.Pipes.CA3FABA607BE9CD91631D07784E2A0F5/System.IO.Pipes.dll
+[4:33:12 PM INF] [System.IO.Pipes] Assembly processing finished
+[4:33:12 PM INF] [System.IO.UnmanagedMemoryStream] Assembly processing starting...
+[4:33:12 PM INF] [System.IO.UnmanagedMemoryStream] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.IO.UnmanagedMemoryStream.dll
+[4:33:12 PM INF] [System.IO.UnmanagedMemoryStream] Publicization hash: 2DBFFA4302901B6B94714D147D0751B8
+[4:33:12 PM INF] [System.IO.UnmanagedMemoryStream] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.IO.UnmanagedMemoryStream.2DBFFA4302901B6B94714D147D0751B8/System.IO.UnmanagedMemoryStream.dll
+[4:33:12 PM INF] [System.IO.UnmanagedMemoryStream] Assembly processing finished
+[4:33:12 PM INF] [System.Linq] Assembly processing starting...
+[4:33:12 PM INF] [System.Linq] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Linq.dll
+[4:33:12 PM INF] [System.Linq] Publicization hash: CF1CE2CEC3B965716D925305E0D1CE21
+[4:33:12 PM INF] [System.Linq] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Linq.CF1CE2CEC3B965716D925305E0D1CE21/System.Linq.dll
+[4:33:12 PM INF] [System.Linq] Assembly processing finished
+[4:33:12 PM INF] [System.Linq.Expressions] Assembly processing starting...
+[4:33:12 PM INF] [System.Linq.Expressions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Linq.Expressions.dll
+[4:33:12 PM INF] [System.Linq.Expressions] Publicization hash: 04A460B00922F13E7B6FA16DBBCEBE5A
+[4:33:12 PM INF] [System.Linq.Expressions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Linq.Expressions.04A460B00922F13E7B6FA16DBBCEBE5A/System.Linq.Expressions.dll
+[4:33:12 PM INF] [System.Linq.Expressions] Assembly processing finished
+[4:33:12 PM INF] [System.Linq.Parallel] Assembly processing starting...
+[4:33:12 PM INF] [System.Linq.Parallel] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Linq.Parallel.dll
+[4:33:12 PM INF] [System.Linq.Parallel] Publicization hash: E0477BEF4F4E7A00653AFAC2386E48BE
+[4:33:12 PM INF] [System.Linq.Parallel] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Linq.Parallel.E0477BEF4F4E7A00653AFAC2386E48BE/System.Linq.Parallel.dll
+[4:33:12 PM INF] [System.Linq.Parallel] Assembly processing finished
+[4:33:12 PM INF] [System.Linq.Queryable] Assembly processing starting...
+[4:33:12 PM INF] [System.Linq.Queryable] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Linq.Queryable.dll
+[4:33:12 PM INF] [System.Linq.Queryable] Publicization hash: 227D13187ED3BC941DCB418FAF610EE3
+[4:33:12 PM INF] [System.Linq.Queryable] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Linq.Queryable.227D13187ED3BC941DCB418FAF610EE3/System.Linq.Queryable.dll
+[4:33:12 PM INF] [System.Linq.Queryable] Assembly processing finished
+[4:33:12 PM INF] [System.Memory] Assembly processing starting...
+[4:33:12 PM INF] [System.Memory] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Memory.dll
+[4:33:12 PM INF] [System.Memory] Publicization hash: 4889B730BEFC8F508CC812A24FAECD38
+[4:33:12 PM INF] [System.Memory] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Memory.4889B730BEFC8F508CC812A24FAECD38/System.Memory.dll
+[4:33:12 PM INF] [System.Memory] Assembly processing finished
+[4:33:12 PM INF] [System.Net] Assembly processing starting...
+[4:33:12 PM INF] [System.Net] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.dll
+[4:33:12 PM INF] [System.Net] Publicization hash: CA5FF88CE11DAC053BCC72CBFFAF42F1
+[4:33:12 PM INF] [System.Net] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.CA5FF88CE11DAC053BCC72CBFFAF42F1/System.Net.dll
+[4:33:12 PM INF] [System.Net] Assembly processing finished
+[4:33:12 PM INF] [System.Net.Http] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.Http] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.Http.dll
+[4:33:12 PM INF] [System.Net.Http] Publicization hash: 9A9D0F617450166288C79602FA04E8E6
+[4:33:12 PM INF] [System.Net.Http] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.Http.9A9D0F617450166288C79602FA04E8E6/System.Net.Http.dll
+[4:33:12 PM INF] [System.Net.Http] Assembly processing finished
+[4:33:12 PM INF] [System.Net.NameResolution] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.NameResolution] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.NameResolution.dll
+[4:33:12 PM INF] [System.Net.NameResolution] Publicization hash: DC0B822AB451DE0DBA64B8D734002475
+[4:33:12 PM INF] [System.Net.NameResolution] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.NameResolution.DC0B822AB451DE0DBA64B8D734002475/System.Net.NameResolution.dll
+[4:33:12 PM INF] [System.Net.NameResolution] Assembly processing finished
+[4:33:12 PM INF] [System.Net.NetworkInformation] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.NetworkInformation] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.NetworkInformation.dll
+[4:33:12 PM INF] [System.Net.NetworkInformation] Publicization hash: FD156B2E5543A8080D5BC445E90DA046
+[4:33:12 PM INF] [System.Net.NetworkInformation] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.NetworkInformation.FD156B2E5543A8080D5BC445E90DA046/System.Net.NetworkInformation.dll
+[4:33:12 PM INF] [System.Net.NetworkInformation] Assembly processing finished
+[4:33:12 PM INF] [System.Net.Ping] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.Ping] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.Ping.dll
+[4:33:12 PM INF] [System.Net.Ping] Publicization hash: 1FC177E6266A0EFB2CE0F536F6F8D9BF
+[4:33:12 PM INF] [System.Net.Ping] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.Ping.1FC177E6266A0EFB2CE0F536F6F8D9BF/System.Net.Ping.dll
+[4:33:12 PM INF] [System.Net.Ping] Assembly processing finished
+[4:33:12 PM INF] [System.Net.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.Primitives.dll
+[4:33:12 PM INF] [System.Net.Primitives] Publicization hash: 66F0A667C367832ED605887206520041
+[4:33:12 PM INF] [System.Net.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.Primitives.66F0A667C367832ED605887206520041/System.Net.Primitives.dll
+[4:33:12 PM INF] [System.Net.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.Net.Requests] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.Requests] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.Requests.dll
+[4:33:12 PM INF] [System.Net.Requests] Publicization hash: 99C52232D1C59A58E1F44A24850E63A9
+[4:33:12 PM INF] [System.Net.Requests] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.Requests.99C52232D1C59A58E1F44A24850E63A9/System.Net.Requests.dll
+[4:33:12 PM INF] [System.Net.Requests] Assembly processing finished
+[4:33:12 PM INF] [System.Net.Security] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.Security] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.Security.dll
+[4:33:12 PM INF] [System.Net.Security] Publicization hash: B1127B0F7B01C87AD1F1380B36306E90
+[4:33:12 PM INF] [System.Net.Security] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.Security.B1127B0F7B01C87AD1F1380B36306E90/System.Net.Security.dll
+[4:33:12 PM INF] [System.Net.Security] Assembly processing finished
+[4:33:12 PM INF] [System.Net.Sockets] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.Sockets] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.Sockets.dll
+[4:33:12 PM INF] [System.Net.Sockets] Publicization hash: E22477A054961463687C8D5B2659EC85
+[4:33:12 PM INF] [System.Net.Sockets] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.Sockets.E22477A054961463687C8D5B2659EC85/System.Net.Sockets.dll
+[4:33:12 PM INF] [System.Net.Sockets] Assembly processing finished
+[4:33:12 PM INF] [System.Net.WebHeaderCollection] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.WebHeaderCollection] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.WebHeaderCollection.dll
+[4:33:12 PM INF] [System.Net.WebHeaderCollection] Publicization hash: 7621921ABD33FB5030608FA1DEE72735
+[4:33:12 PM INF] [System.Net.WebHeaderCollection] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.WebHeaderCollection.7621921ABD33FB5030608FA1DEE72735/System.Net.WebHeaderCollection.dll
+[4:33:12 PM INF] [System.Net.WebHeaderCollection] Assembly processing finished
+[4:33:12 PM INF] [System.Net.WebSockets.Client] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.WebSockets.Client] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.WebSockets.Client.dll
+[4:33:12 PM INF] [System.Net.WebSockets.Client] Publicization hash: 0A5CA839012789E6D30C7FD81E9B818F
+[4:33:12 PM INF] [System.Net.WebSockets.Client] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.WebSockets.Client.0A5CA839012789E6D30C7FD81E9B818F/System.Net.WebSockets.Client.dll
+[4:33:12 PM INF] [System.Net.WebSockets.Client] Assembly processing finished
+[4:33:12 PM INF] [System.Net.WebSockets] Assembly processing starting...
+[4:33:12 PM INF] [System.Net.WebSockets] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Net.WebSockets.dll
+[4:33:12 PM INF] [System.Net.WebSockets] Publicization hash: 78995ED3A1A9EAE7A4542B428B863AA0
+[4:33:12 PM INF] [System.Net.WebSockets] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Net.WebSockets.78995ED3A1A9EAE7A4542B428B863AA0/System.Net.WebSockets.dll
+[4:33:12 PM INF] [System.Net.WebSockets] Assembly processing finished
+[4:33:12 PM INF] [System.Numerics] Assembly processing starting...
+[4:33:12 PM INF] [System.Numerics] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Numerics.dll
+[4:33:12 PM INF] [System.Numerics] Publicization hash: 2CE548F0EF4028FE589728EF07CB6CBE
+[4:33:12 PM INF] [System.Numerics] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Numerics.2CE548F0EF4028FE589728EF07CB6CBE/System.Numerics.dll
+[4:33:12 PM INF] [System.Numerics] Assembly processing finished
+[4:33:12 PM INF] [System.Numerics.Vectors] Assembly processing starting...
+[4:33:12 PM INF] [System.Numerics.Vectors] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Numerics.Vectors.dll
+[4:33:12 PM INF] [System.Numerics.Vectors] Publicization hash: 1158A7069B6D44E859EBDF9502DAEE49
+[4:33:12 PM INF] [System.Numerics.Vectors] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Numerics.Vectors.1158A7069B6D44E859EBDF9502DAEE49/System.Numerics.Vectors.dll
+[4:33:12 PM INF] [System.Numerics.Vectors] Assembly processing finished
+[4:33:12 PM INF] [System.ObjectModel] Assembly processing starting...
+[4:33:12 PM INF] [System.ObjectModel] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ObjectModel.dll
+[4:33:12 PM INF] [System.ObjectModel] Publicization hash: 2580806A46979EB1E4C7FF16450A0452
+[4:33:12 PM INF] [System.ObjectModel] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ObjectModel.2580806A46979EB1E4C7FF16450A0452/System.ObjectModel.dll
+[4:33:12 PM INF] [System.ObjectModel] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection.DispatchProxy] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection.DispatchProxy] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.DispatchProxy.dll
+[4:33:12 PM INF] [System.Reflection.DispatchProxy] Publicization hash: 3F8563645A37FAB105FB4DE92D0FBF04
+[4:33:12 PM INF] [System.Reflection.DispatchProxy] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.DispatchProxy.3F8563645A37FAB105FB4DE92D0FBF04/System.Reflection.DispatchProxy.dll
+[4:33:12 PM INF] [System.Reflection.DispatchProxy] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.dll
+[4:33:12 PM INF] [System.Reflection] Publicization hash: 555862559DFD47ED68449DD314F7BC20
+[4:33:12 PM INF] [System.Reflection] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.555862559DFD47ED68449DD314F7BC20/System.Reflection.dll
+[4:33:12 PM INF] [System.Reflection] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection.Emit] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection.Emit] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.Emit.dll
+[4:33:12 PM INF] [System.Reflection.Emit] Publicization hash: DF58C9C9CF354838606A1108671248D1
+[4:33:12 PM INF] [System.Reflection.Emit] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.Emit.DF58C9C9CF354838606A1108671248D1/System.Reflection.Emit.dll
+[4:33:12 PM INF] [System.Reflection.Emit] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection.Emit.ILGeneration] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection.Emit.ILGeneration] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.Emit.ILGeneration.dll
+[4:33:12 PM INF] [System.Reflection.Emit.ILGeneration] Publicization hash: B1BBF87C9D517C51FCBCFCFBA804A08F
+[4:33:12 PM INF] [System.Reflection.Emit.ILGeneration] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.Emit.ILGeneration.B1BBF87C9D517C51FCBCFCFBA804A08F/System.Reflection.Emit.ILGeneration.dll
+[4:33:12 PM INF] [System.Reflection.Emit.ILGeneration] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection.Emit.Lightweight] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection.Emit.Lightweight] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.Emit.Lightweight.dll
+[4:33:12 PM INF] [System.Reflection.Emit.Lightweight] Publicization hash: E1B5565855F48EB0BE86278A82B6FC78
+[4:33:12 PM INF] [System.Reflection.Emit.Lightweight] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.Emit.Lightweight.E1B5565855F48EB0BE86278A82B6FC78/System.Reflection.Emit.Lightweight.dll
+[4:33:12 PM INF] [System.Reflection.Emit.Lightweight] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection.Extensions] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection.Extensions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.Extensions.dll
+[4:33:12 PM INF] [System.Reflection.Extensions] Publicization hash: 051469C2B71CF8660621D12211EDD7C1
+[4:33:12 PM INF] [System.Reflection.Extensions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.Extensions.051469C2B71CF8660621D12211EDD7C1/System.Reflection.Extensions.dll
+[4:33:12 PM INF] [System.Reflection.Extensions] Assembly processing finished
+[4:33:12 PM INF] [System.Reflection.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.Reflection.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Reflection.Primitives.dll
+[4:33:12 PM INF] [System.Reflection.Primitives] Publicization hash: 4B7BE2A0C37A79E272E7AAE8EBC25280
+[4:33:12 PM INF] [System.Reflection.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Reflection.Primitives.4B7BE2A0C37A79E272E7AAE8EBC25280/System.Reflection.Primitives.dll
+[4:33:12 PM INF] [System.Reflection.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.Resources.Reader] Assembly processing starting...
+[4:33:12 PM INF] [System.Resources.Reader] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Resources.Reader.dll
+[4:33:12 PM INF] [System.Resources.Reader] Publicization hash: 09A69983F877148D5AA3BFB5643634B4
+[4:33:12 PM INF] [System.Resources.Reader] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Resources.Reader.09A69983F877148D5AA3BFB5643634B4/System.Resources.Reader.dll
+[4:33:12 PM INF] [System.Resources.Reader] Assembly processing finished
+[4:33:12 PM INF] [System.Resources.ResourceManager] Assembly processing starting...
+[4:33:12 PM INF] [System.Resources.ResourceManager] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Resources.ResourceManager.dll
+[4:33:12 PM INF] [System.Resources.ResourceManager] Publicization hash: 1C2DF123DAE99D87586C217D3374730A
+[4:33:12 PM INF] [System.Resources.ResourceManager] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Resources.ResourceManager.1C2DF123DAE99D87586C217D3374730A/System.Resources.ResourceManager.dll
+[4:33:12 PM INF] [System.Resources.ResourceManager] Assembly processing finished
+[4:33:12 PM INF] [System.Resources.Writer] Assembly processing starting...
+[4:33:12 PM INF] [System.Resources.Writer] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Resources.Writer.dll
+[4:33:12 PM INF] [System.Resources.Writer] Publicization hash: 08E7E8F74C549B530F67570A58C110D0
+[4:33:12 PM INF] [System.Resources.Writer] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Resources.Writer.08E7E8F74C549B530F67570A58C110D0/System.Resources.Writer.dll
+[4:33:12 PM INF] [System.Resources.Writer] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.CompilerServices.VisualC] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.CompilerServices.VisualC] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.CompilerServices.VisualC.dll
+[4:33:12 PM INF] [System.Runtime.CompilerServices.VisualC] Publicization hash: 3CD1FC9E6F898FD7DC47459F803756E0
+[4:33:12 PM INF] [System.Runtime.CompilerServices.VisualC] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.CompilerServices.VisualC.3CD1FC9E6F898FD7DC47459F803756E0/System.Runtime.CompilerServices.VisualC.dll
+[4:33:12 PM INF] [System.Runtime.CompilerServices.VisualC] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.dll
+[4:33:12 PM INF] [System.Runtime] Publicization hash: 420CD5F897C149C4A60497BB35AAF3EF
+[4:33:12 PM INF] [System.Runtime] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.420CD5F897C149C4A60497BB35AAF3EF/System.Runtime.dll
+[4:33:12 PM INF] [System.Runtime] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Extensions] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Extensions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Extensions.dll
+[4:33:12 PM INF] [System.Runtime.Extensions] Publicization hash: A9908D6F18A54D5F0EE59A7EA2F900AD
+[4:33:12 PM INF] [System.Runtime.Extensions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Extensions.A9908D6F18A54D5F0EE59A7EA2F900AD/System.Runtime.Extensions.dll
+[4:33:12 PM INF] [System.Runtime.Extensions] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Handles] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Handles] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Handles.dll
+[4:33:12 PM INF] [System.Runtime.Handles] Publicization hash: 8C4F3E6826EAF113F5153B9B9ED844F3
+[4:33:12 PM INF] [System.Runtime.Handles] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Handles.8C4F3E6826EAF113F5153B9B9ED844F3/System.Runtime.Handles.dll
+[4:33:12 PM INF] [System.Runtime.Handles] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.InteropServices] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.InteropServices] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.InteropServices.dll
+[4:33:12 PM INF] [System.Runtime.InteropServices] Publicization hash: 593950844AA1E1C94B8EF62CA5005B0E
+[4:33:12 PM INF] [System.Runtime.InteropServices] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.InteropServices.593950844AA1E1C94B8EF62CA5005B0E/System.Runtime.InteropServices.dll
+[4:33:12 PM INF] [System.Runtime.InteropServices] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.InteropServices.RuntimeInformation] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.InteropServices.RuntimeInformation] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.InteropServices.RuntimeInformation.dll
+[4:33:12 PM INF] [System.Runtime.InteropServices.RuntimeInformation] Publicization hash: DC249D0DC1079FF46445CC10F84ECE7B
+[4:33:12 PM INF] [System.Runtime.InteropServices.RuntimeInformation] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.InteropServices.RuntimeInformation.DC249D0DC1079FF46445CC10F84ECE7B/System.Runtime.InteropServices.RuntimeInformation.dll
+[4:33:12 PM INF] [System.Runtime.InteropServices.RuntimeInformation] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Numerics] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Numerics] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Numerics.dll
+[4:33:12 PM INF] [System.Runtime.Numerics] Publicization hash: F055A9BFADD2E752B8056CE09D03EC73
+[4:33:12 PM INF] [System.Runtime.Numerics] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Numerics.F055A9BFADD2E752B8056CE09D03EC73/System.Runtime.Numerics.dll
+[4:33:12 PM INF] [System.Runtime.Numerics] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Serialization] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Serialization] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Serialization.dll
+[4:33:12 PM INF] [System.Runtime.Serialization] Publicization hash: 502BC78790877125A209B8E88B52F3C3
+[4:33:12 PM INF] [System.Runtime.Serialization] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Serialization.502BC78790877125A209B8E88B52F3C3/System.Runtime.Serialization.dll
+[4:33:12 PM INF] [System.Runtime.Serialization] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Serialization.Formatters] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Serialization.Formatters] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Serialization.Formatters.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Formatters] Publicization hash: 1027F82E301C0EB9753EAD7EDACCE284
+[4:33:12 PM INF] [System.Runtime.Serialization.Formatters] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Serialization.Formatters.1027F82E301C0EB9753EAD7EDACCE284/System.Runtime.Serialization.Formatters.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Formatters] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Serialization.Json] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Serialization.Json] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Serialization.Json.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Json] Publicization hash: 3EE7529098AA8474E1F703D86E28A342
+[4:33:12 PM INF] [System.Runtime.Serialization.Json] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Serialization.Json.3EE7529098AA8474E1F703D86E28A342/System.Runtime.Serialization.Json.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Json] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Serialization.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Serialization.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Serialization.Primitives.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Primitives] Publicization hash: 2FB8EDC83C69382AD415D92B9C0BB73E
+[4:33:12 PM INF] [System.Runtime.Serialization.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Serialization.Primitives.2FB8EDC83C69382AD415D92B9C0BB73E/System.Runtime.Serialization.Primitives.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.Runtime.Serialization.Xml] Assembly processing starting...
+[4:33:12 PM INF] [System.Runtime.Serialization.Xml] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Runtime.Serialization.Xml.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Xml] Publicization hash: 1592EA040C2597F8A101A73B3AFCB3C1
+[4:33:12 PM INF] [System.Runtime.Serialization.Xml] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Runtime.Serialization.Xml.1592EA040C2597F8A101A73B3AFCB3C1/System.Runtime.Serialization.Xml.dll
+[4:33:12 PM INF] [System.Runtime.Serialization.Xml] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Claims] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Claims] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Claims.dll
+[4:33:12 PM INF] [System.Security.Claims] Publicization hash: 1E4F1297932A66EA8132381D34D375AB
+[4:33:12 PM INF] [System.Security.Claims] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Claims.1E4F1297932A66EA8132381D34D375AB/System.Security.Claims.dll
+[4:33:12 PM INF] [System.Security.Claims] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Cryptography.Algorithms] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Cryptography.Algorithms] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Cryptography.Algorithms.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Algorithms] Publicization hash: 35E17AFA0212AB975D0C11F0DF2A75A1
+[4:33:12 PM INF] [System.Security.Cryptography.Algorithms] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Cryptography.Algorithms.35E17AFA0212AB975D0C11F0DF2A75A1/System.Security.Cryptography.Algorithms.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Algorithms] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Cryptography.Csp] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Cryptography.Csp] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Cryptography.Csp.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Csp] Publicization hash: 5F004D9ED6122EAEB0B0937C72F8B271
+[4:33:12 PM INF] [System.Security.Cryptography.Csp] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Cryptography.Csp.5F004D9ED6122EAEB0B0937C72F8B271/System.Security.Cryptography.Csp.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Csp] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Cryptography.Encoding] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Cryptography.Encoding] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Cryptography.Encoding.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Encoding] Publicization hash: 8F1309B2FABF2F2D1F9BB6D3D986A12F
+[4:33:12 PM INF] [System.Security.Cryptography.Encoding] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Cryptography.Encoding.8F1309B2FABF2F2D1F9BB6D3D986A12F/System.Security.Cryptography.Encoding.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Encoding] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Cryptography.Primitives] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Cryptography.Primitives] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Cryptography.Primitives.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Primitives] Publicization hash: 221CA5B28E6AF2B1F7965EED71FEFFB4
+[4:33:12 PM INF] [System.Security.Cryptography.Primitives] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Cryptography.Primitives.221CA5B28E6AF2B1F7965EED71FEFFB4/System.Security.Cryptography.Primitives.dll
+[4:33:12 PM INF] [System.Security.Cryptography.Primitives] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Cryptography.X509Certificates] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Cryptography.X509Certificates] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Cryptography.X509Certificates.dll
+[4:33:12 PM INF] [System.Security.Cryptography.X509Certificates] Publicization hash: 74D639DFB7DE99218B51B45D5EE925DE
+[4:33:12 PM INF] [System.Security.Cryptography.X509Certificates] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Cryptography.X509Certificates.74D639DFB7DE99218B51B45D5EE925DE/System.Security.Cryptography.X509Certificates.dll
+[4:33:12 PM INF] [System.Security.Cryptography.X509Certificates] Assembly processing finished
+[4:33:12 PM INF] [System.Security.Principal] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.Principal] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.Principal.dll
+[4:33:12 PM INF] [System.Security.Principal] Publicization hash: 9394B725822D23BD090B0034CD7E45F1
+[4:33:12 PM INF] [System.Security.Principal] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.Principal.9394B725822D23BD090B0034CD7E45F1/System.Security.Principal.dll
+[4:33:12 PM INF] [System.Security.Principal] Assembly processing finished
+[4:33:12 PM INF] [System.Security.SecureString] Assembly processing starting...
+[4:33:12 PM INF] [System.Security.SecureString] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Security.SecureString.dll
+[4:33:12 PM INF] [System.Security.SecureString] Publicization hash: E1FE3A808A24C545F231AC01BBBCFE7B
+[4:33:12 PM INF] [System.Security.SecureString] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Security.SecureString.E1FE3A808A24C545F231AC01BBBCFE7B/System.Security.SecureString.dll
+[4:33:12 PM INF] [System.Security.SecureString] Assembly processing finished
+[4:33:12 PM INF] [System.ServiceModel.Web] Assembly processing starting...
+[4:33:12 PM INF] [System.ServiceModel.Web] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ServiceModel.Web.dll
+[4:33:12 PM INF] [System.ServiceModel.Web] Publicization hash: 6B366419C3430B7B9E2F8C0643232EE9
+[4:33:12 PM INF] [System.ServiceModel.Web] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ServiceModel.Web.6B366419C3430B7B9E2F8C0643232EE9/System.ServiceModel.Web.dll
+[4:33:12 PM INF] [System.ServiceModel.Web] Assembly processing finished
+[4:33:12 PM INF] [System.Text.Encoding] Assembly processing starting...
+[4:33:12 PM INF] [System.Text.Encoding] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Text.Encoding.dll
+[4:33:12 PM INF] [System.Text.Encoding] Publicization hash: 9E71C890F81979C6D2EC5241D6213D65
+[4:33:12 PM INF] [System.Text.Encoding] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Text.Encoding.9E71C890F81979C6D2EC5241D6213D65/System.Text.Encoding.dll
+[4:33:12 PM INF] [System.Text.Encoding] Assembly processing finished
+[4:33:12 PM INF] [System.Text.Encoding.Extensions] Assembly processing starting...
+[4:33:12 PM INF] [System.Text.Encoding.Extensions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Text.Encoding.Extensions.dll
+[4:33:12 PM INF] [System.Text.Encoding.Extensions] Publicization hash: AC7EE365D6ECBF034816B3460967DF6E
+[4:33:12 PM INF] [System.Text.Encoding.Extensions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Text.Encoding.Extensions.AC7EE365D6ECBF034816B3460967DF6E/System.Text.Encoding.Extensions.dll
+[4:33:12 PM INF] [System.Text.Encoding.Extensions] Assembly processing finished
+[4:33:12 PM INF] [System.Text.RegularExpressions] Assembly processing starting...
+[4:33:12 PM INF] [System.Text.RegularExpressions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Text.RegularExpressions.dll
+[4:33:12 PM INF] [System.Text.RegularExpressions] Publicization hash: D74D2227C8419CF61FB69D8F7463380B
+[4:33:12 PM INF] [System.Text.RegularExpressions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Text.RegularExpressions.D74D2227C8419CF61FB69D8F7463380B/System.Text.RegularExpressions.dll
+[4:33:12 PM INF] [System.Text.RegularExpressions] Assembly processing finished
+[4:33:12 PM INF] [System.Threading] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.dll
+[4:33:12 PM INF] [System.Threading] Publicization hash: 63A9935A10A878ACC37A0B816B1E341E
+[4:33:12 PM INF] [System.Threading] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.63A9935A10A878ACC37A0B816B1E341E/System.Threading.dll
+[4:33:12 PM INF] [System.Threading] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.Overlapped] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.Overlapped] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.Overlapped.dll
+[4:33:12 PM INF] [System.Threading.Overlapped] Publicization hash: 76CC86F016C90566FF49AA07FA47583C
+[4:33:12 PM INF] [System.Threading.Overlapped] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.Overlapped.76CC86F016C90566FF49AA07FA47583C/System.Threading.Overlapped.dll
+[4:33:12 PM INF] [System.Threading.Overlapped] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.Tasks] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.Tasks] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.Tasks.dll
+[4:33:12 PM INF] [System.Threading.Tasks] Publicization hash: 29F7618514692C25DA3212E626595590
+[4:33:12 PM INF] [System.Threading.Tasks] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.Tasks.29F7618514692C25DA3212E626595590/System.Threading.Tasks.dll
+[4:33:12 PM INF] [System.Threading.Tasks] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.Tasks.Extensions] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.Tasks.Extensions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.Tasks.Extensions.dll
+[4:33:12 PM INF] [System.Threading.Tasks.Extensions] Publicization hash: AC59056E93DAB87F641467D5FC9AB291
+[4:33:12 PM INF] [System.Threading.Tasks.Extensions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.Tasks.Extensions.AC59056E93DAB87F641467D5FC9AB291/System.Threading.Tasks.Extensions.dll
+[4:33:12 PM INF] [System.Threading.Tasks.Extensions] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.Tasks.Parallel] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.Tasks.Parallel] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.Tasks.Parallel.dll
+[4:33:12 PM INF] [System.Threading.Tasks.Parallel] Publicization hash: 7511A04D0E6D80CB389274B9DA815D01
+[4:33:12 PM INF] [System.Threading.Tasks.Parallel] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.Tasks.Parallel.7511A04D0E6D80CB389274B9DA815D01/System.Threading.Tasks.Parallel.dll
+[4:33:12 PM INF] [System.Threading.Tasks.Parallel] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.Thread] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.Thread] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.Thread.dll
+[4:33:12 PM INF] [System.Threading.Thread] Publicization hash: E6422E51D368E92ECF47D3E67F4C9CFB
+[4:33:12 PM INF] [System.Threading.Thread] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.Thread.E6422E51D368E92ECF47D3E67F4C9CFB/System.Threading.Thread.dll
+[4:33:12 PM INF] [System.Threading.Thread] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.ThreadPool] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.ThreadPool] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.ThreadPool.dll
+[4:33:12 PM INF] [System.Threading.ThreadPool] Publicization hash: 139078C39712B8F653A8FB2F67F35A98
+[4:33:12 PM INF] [System.Threading.ThreadPool] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.ThreadPool.139078C39712B8F653A8FB2F67F35A98/System.Threading.ThreadPool.dll
+[4:33:12 PM INF] [System.Threading.ThreadPool] Assembly processing finished
+[4:33:12 PM INF] [System.Threading.Timer] Assembly processing starting...
+[4:33:12 PM INF] [System.Threading.Timer] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Threading.Timer.dll
+[4:33:12 PM INF] [System.Threading.Timer] Publicization hash: 30E5088B6910C5A55846B8045B86CC5C
+[4:33:12 PM INF] [System.Threading.Timer] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Threading.Timer.30E5088B6910C5A55846B8045B86CC5C/System.Threading.Timer.dll
+[4:33:12 PM INF] [System.Threading.Timer] Assembly processing finished
+[4:33:12 PM INF] [System.Transactions] Assembly processing starting...
+[4:33:12 PM INF] [System.Transactions] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Transactions.dll
+[4:33:12 PM INF] [System.Transactions] Publicization hash: CB607A3B9638C2B5F92994C64D68D52F
+[4:33:12 PM INF] [System.Transactions] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Transactions.CB607A3B9638C2B5F92994C64D68D52F/System.Transactions.dll
+[4:33:12 PM INF] [System.Transactions] Assembly processing finished
+[4:33:12 PM INF] [System.ValueTuple] Assembly processing starting...
+[4:33:12 PM INF] [System.ValueTuple] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.ValueTuple.dll
+[4:33:12 PM INF] [System.ValueTuple] Publicization hash: 4021B9E77010A605B9F0C96F36A765F9
+[4:33:12 PM INF] [System.ValueTuple] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.ValueTuple.4021B9E77010A605B9F0C96F36A765F9/System.ValueTuple.dll
+[4:33:12 PM INF] [System.ValueTuple] Assembly processing finished
+[4:33:12 PM INF] [System.Web] Assembly processing starting...
+[4:33:12 PM INF] [System.Web] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Web.dll
+[4:33:12 PM INF] [System.Web] Publicization hash: 87B77B7C550A7AEDB4FAAA04D8807F80
+[4:33:12 PM INF] [System.Web] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Web.87B77B7C550A7AEDB4FAAA04D8807F80/System.Web.dll
+[4:33:12 PM INF] [System.Web] Assembly processing finished
+[4:33:12 PM INF] [System.Windows] Assembly processing starting...
+[4:33:12 PM INF] [System.Windows] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Windows.dll
+[4:33:12 PM INF] [System.Windows] Publicization hash: 5CED9BFCF47F2387B4BC8BAA2E0FD0D4
+[4:33:12 PM INF] [System.Windows] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Windows.5CED9BFCF47F2387B4BC8BAA2E0FD0D4/System.Windows.dll
+[4:33:12 PM INF] [System.Windows] Assembly processing finished
+[4:33:12 PM INF] [System.Xml] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.dll
+[4:33:12 PM INF] [System.Xml] Publicization hash: 4B2E1FD92317A7D4045DDA10DCE66BE5
+[4:33:12 PM INF] [System.Xml] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.4B2E1FD92317A7D4045DDA10DCE66BE5/System.Xml.dll
+[4:33:12 PM INF] [System.Xml] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.Linq] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.Linq] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.Linq.dll
+[4:33:12 PM INF] [System.Xml.Linq] Publicization hash: DC0636E6F7C66EF567BDBB6FFBC4F572
+[4:33:12 PM INF] [System.Xml.Linq] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.Linq.DC0636E6F7C66EF567BDBB6FFBC4F572/System.Xml.Linq.dll
+[4:33:12 PM INF] [System.Xml.Linq] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.ReaderWriter] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.ReaderWriter] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.ReaderWriter.dll
+[4:33:12 PM INF] [System.Xml.ReaderWriter] Publicization hash: ACD17B3FAA0D12780E140CDF3F437E53
+[4:33:12 PM INF] [System.Xml.ReaderWriter] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.ReaderWriter.ACD17B3FAA0D12780E140CDF3F437E53/System.Xml.ReaderWriter.dll
+[4:33:12 PM INF] [System.Xml.ReaderWriter] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.Serialization] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.Serialization] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.Serialization.dll
+[4:33:12 PM INF] [System.Xml.Serialization] Publicization hash: 5404B539CAC77031B87482A92F628645
+[4:33:12 PM INF] [System.Xml.Serialization] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.Serialization.5404B539CAC77031B87482A92F628645/System.Xml.Serialization.dll
+[4:33:12 PM INF] [System.Xml.Serialization] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.XDocument] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.XDocument] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.XDocument.dll
+[4:33:12 PM INF] [System.Xml.XDocument] Publicization hash: 913F7DB58A2676B2BE385B58BD0D4B52
+[4:33:12 PM INF] [System.Xml.XDocument] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.XDocument.913F7DB58A2676B2BE385B58BD0D4B52/System.Xml.XDocument.dll
+[4:33:12 PM INF] [System.Xml.XDocument] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.XmlDocument] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.XmlDocument] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.XmlDocument.dll
+[4:33:12 PM INF] [System.Xml.XmlDocument] Publicization hash: 8FF727324E02A4992A4C21A3BB93215A
+[4:33:12 PM INF] [System.Xml.XmlDocument] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.XmlDocument.8FF727324E02A4992A4C21A3BB93215A/System.Xml.XmlDocument.dll
+[4:33:12 PM INF] [System.Xml.XmlDocument] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.XmlSerializer] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.XmlSerializer] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.XmlSerializer.dll
+[4:33:12 PM INF] [System.Xml.XmlSerializer] Publicization hash: 3D256C492BBA43E6CE2D75174A7A5138
+[4:33:12 PM INF] [System.Xml.XmlSerializer] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.XmlSerializer.3D256C492BBA43E6CE2D75174A7A5138/System.Xml.XmlSerializer.dll
+[4:33:12 PM INF] [System.Xml.XmlSerializer] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.XPath] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.XPath] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.XPath.dll
+[4:33:12 PM INF] [System.Xml.XPath] Publicization hash: B2CCE34596B84A4F8BE02307C02C9902
+[4:33:12 PM INF] [System.Xml.XPath] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.XPath.B2CCE34596B84A4F8BE02307C02C9902/System.Xml.XPath.dll
+[4:33:12 PM INF] [System.Xml.XPath] Assembly processing finished
+[4:33:12 PM INF] [System.Xml.XPath.XDocument] Assembly processing starting...
+[4:33:12 PM INF] [System.Xml.XPath.XDocument] Path: /home/papierkorb2292/.nuget/packages/netstandard.library.ref/2.1.0/ref/netstandard2.1/System.Xml.XPath.XDocument.dll
+[4:33:12 PM INF] [System.Xml.XPath.XDocument] Publicization hash: 8D6740A5AA750B1D59C458A14AD42F79
+[4:33:12 PM INF] [System.Xml.XPath.XDocument] Assembly already publicized at obj/Debug/PublicizedAssemblies/System.Xml.XPath.XDocument.8D6740A5AA750B1D59C458A14AD42F79/System.Xml.XPath.XDocument.dll
+[4:33:12 PM INF] [System.Xml.XPath.XDocument] Assembly processing finished
+[4:33:12 PM INF] [Unity.Mathematics] Assembly processing starting...
+[4:33:12 PM INF] [Unity.Mathematics] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/Unity.Mathematics.dll
+[4:33:12 PM INF] [Unity.Mathematics] Publicization hash: 16E604269D913EAADFD9E9210DE93515
+[4:33:12 PM INF] [Unity.Mathematics] Assembly already publicized at obj/Debug/PublicizedAssemblies/Unity.Mathematics.16E604269D913EAADFD9E9210DE93515/Unity.Mathematics.dll
+[4:33:12 PM INF] [Unity.Mathematics] Assembly processing finished
+[4:33:12 PM INF] [UnityEngine.AssetBundleModule] Assembly processing starting...
+[4:33:12 PM INF] [UnityEngine.AssetBundleModule] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/UnityEngine.AssetBundleModule.dll
+[4:33:12 PM INF] [UnityEngine.AssetBundleModule] Publicization hash: 18E32C217CC50E6CFAA1A2AF2A74614D
+[4:33:12 PM INF] [UnityEngine.AssetBundleModule] Assembly already publicized at obj/Debug/PublicizedAssemblies/UnityEngine.AssetBundleModule.18E32C217CC50E6CFAA1A2AF2A74614D/UnityEngine.AssetBundleModule.dll
+[4:33:12 PM INF] [UnityEngine.AssetBundleModule] Assembly processing finished
+[4:33:12 PM INF] [UnityEngine.CoreModule] Assembly processing starting...
+[4:33:12 PM INF] [UnityEngine.CoreModule] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/UnityEngine.CoreModule.dll
+[4:33:12 PM INF] [UnityEngine.CoreModule] Publicization hash: 5DCEC61BFC044D298D7AACDC6B87A2A3
+[4:33:12 PM INF] [UnityEngine.CoreModule] Assembly already publicized at obj/Debug/PublicizedAssemblies/UnityEngine.CoreModule.5DCEC61BFC044D298D7AACDC6B87A2A3/UnityEngine.CoreModule.dll
+[4:33:12 PM INF] [UnityEngine.CoreModule] Assembly processing finished
+[4:33:12 PM INF] [UnityEngine.ImageConversionModule] Assembly processing starting...
+[4:33:12 PM INF] [UnityEngine.ImageConversionModule] Path: /home/papierkorb2292/.local/share/Steam/steamapps/common/shapez 2/shapez 2_Data/Managed/UnityEngine.ImageConversionModule.dll
+[4:33:12 PM INF] [UnityEngine.ImageConversionModule] Publicization hash: B2B5D8CD68C055B938A8D999FC816CEB
+[4:33:12 PM INF] [UnityEngine.ImageConversionModule] Assembly already publicized at obj/Debug/PublicizedAssemblies/UnityEngine.ImageConversionModule.B2B5D8CD68C055B938A8D999FC816CEB/UnityEngine.ImageConversionModule.dll
+[4:33:12 PM INF] [UnityEngine.ImageConversionModule] Assembly processing finished
+[4:33:12 PM INF] Finished processing 141 assemblies. Terminating task.
