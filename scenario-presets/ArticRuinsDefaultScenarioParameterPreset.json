@@ -1,0 +1,13 @@
+{
+  "Version": "1",
+  "UniqueId": "arctic-ruins-default-parameter-preset",
+  "Title": "@scenario-preset.artic-ruins.title",
+  "Description": "@scenario-preset.artic-ruins.description",
+  "Parameters": {
+    "ScenarioId": "arctic-ruins-default",
+    "MapGenerationParameters": "#include:Scenarios/SharedData/BaseMapGenerationParameters",
+    "GameRuleParameters": {
+      "RuleIds": []
+    }
+  }
+}

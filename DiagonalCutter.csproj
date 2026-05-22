@@ -153,6 +153,14 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
 
+        <None Update="scenarios/*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+
+        <None Update="scenario-presets/*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+
         <None Update="Resources\Portal">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
