@@ -13,12 +13,12 @@ using ShapezShifter.Textures;
 using UnityEngine;
 using ILogger = Core.Logging.ILogger;
 
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     public static class ArticCutter
     {
         //TODO: Remove/fix sound
-        public static void Register(ILogger logger, DiagonalCuttersMod mod)
+        public static void Register(ILogger logger, ArcticRuinsMod mod)
         { 
             BuildingDefinitionGroupId groupId = new("ArcticCutterGroup");
             BuildingDefinitionId definitionId = new("ArcticCutter");
@@ -27,7 +27,7 @@ namespace DiagonalCutter.ArcticCutter
             string titleDescription = "building-variant.arctic-cutter.description";
             
             using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<DiagonalCuttersMod>("Resources/DiagonalCutter");
+                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
 
             string iconPath = mod.resources.SubPath("DiagonalCutter_Icon.png");
 
@@ -65,7 +65,7 @@ namespace DiagonalCutter.ArcticCutter
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
 
             AtomicBuildings.Extend()
-               .SpecificScenarios(DiagonalCuttersMod.ArcticRuinsScenarioSelector)
+               .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
                .UnlockedAtMilestone(new MilestoneSelector())
                .WithDefaultPlacement()

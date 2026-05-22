@@ -1,15 +1,15 @@
 {
   "Version": "1.0.0",
-  "Title": "Diagonal Cutter",
-  "Description": "Cuts one of the diagonals of a shape",
-  "Author": "tobspr Games",
+  "Title": "Arctic Ruins",
+  "Description": "Adds the Arctic Ruins gamemode, where you venture into an unknown world that turns the normal Shapez formula on its head: Requiring you to deconstruct complex shapes back into the base shapes",
+  "Author": "Papierkorb2292",
   "SavedModVersionCompabilityRangeWithSelf": "<1.1.0",
   "GameVersionSupportRange": "*",
   "AffectsSaveGames": true,
   "DisablesAchievements": true,
   "Conflicts": [],
   "Assemblies": [
-    "DiagonalCutter.dll"
+    "ArcticRuins.dll"
   ],
   "Dependencies": [
     {

@@ -6,7 +6,7 @@ using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Flow.Toolbar;
 using UnityEngine;
 
-namespace DiagonalCutter
+namespace ArcticRuins
 {
     public static class Helper
     {

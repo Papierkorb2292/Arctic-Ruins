@@ -2,7 +2,7 @@
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack;
 
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     internal class ArcticCutterFactoryBuilder
         : IBuildingSimulationFactoryBuilder<ArcticCutterSimulation, FullCutterSimulationState,

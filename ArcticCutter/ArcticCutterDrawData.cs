@@ -1,6 +1,6 @@
 using Game.Core.Coordinates;
 
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     internal class ArcticCutterDrawData : IArcticCutterDrawData
     {

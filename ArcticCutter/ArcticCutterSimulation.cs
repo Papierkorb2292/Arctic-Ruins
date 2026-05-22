@@ -1,4 +1,4 @@
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     public class ArcticCutterSimulation : FullCutterSimulation
     {

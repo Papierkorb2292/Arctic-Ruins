@@ -3,7 +3,7 @@ using Game.Content.Features.Predictions.Processing;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack.Predictions;
 
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     internal class ArcticCutterPredictionFactoryBuilder
         : IBuildingPredictionFactoryBuilder<Processing1In2OutPredictionSimulation>

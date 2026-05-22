@@ -1,6 +1,6 @@
 using Core.Factory;
 
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     public class ArcticCutterSimulationFactory: IFactory<FullCutterSimulationState, ArcticCutterSimulation>
     {

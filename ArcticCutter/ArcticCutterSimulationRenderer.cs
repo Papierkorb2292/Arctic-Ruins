@@ -3,7 +3,7 @@ using Game.Core.Coordinates;
 using Game.Core.Simulation;
 using JetBrains.Annotations;
 
-namespace DiagonalCutter.ArcticCutter
+namespace ArcticRuins.ArcticCutter
 {
     [UsedImplicitly]
     public class ArcticCutterSimulationRenderer
