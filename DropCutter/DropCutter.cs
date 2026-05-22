@@ -65,7 +65,7 @@ namespace DiagonalCutter.DropCutter
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
 
             AtomicBuildings.Extend()
-               .SpecificScenarios(scenario => !scenario.IsTutorial) //TODO: Replace with correct selector
+               .SpecificScenarios(DiagonalCuttersMod.ArcticRuinsScenarioSelector)
                .WithBuilding(dropCutterBuilder, dropCutterGroup)
                .UnlockedAtMilestone(new MilestoneSelector())
                .WithDefaultPlacement()

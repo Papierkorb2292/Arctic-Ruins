@@ -23,6 +23,9 @@ using RendererData = IDiagonalCutterDrawData;
 [UsedImplicitly]
 public class DiagonalCuttersMod : IMod
 {
+    public static readonly ScenarioSelector ArcticRuinsScenarioSelector =
+        scenario => scenario.UniqueId.Id.StartsWith("arctic-ruins");
+    
     public ModFolderLocator resources { get; }
     
     public readonly Hook GameModeHook;
