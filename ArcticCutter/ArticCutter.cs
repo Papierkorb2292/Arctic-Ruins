@@ -29,7 +29,7 @@ namespace ArcticRuins.ArcticCutter
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
 
-            string iconPath = mod.resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = mod.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(groupId)
                .WithTitle(titleId.T())
@@ -59,7 +59,7 @@ namespace ArcticRuins.ArcticCutter
             IBuildingBuilder arcticCutterBuilder = Building.Create(definitionId)
                .WithConnectorData(connectorData)
                .DynamicallyRendering<ArcticCutterSimulationRenderer, ArcticCutterSimulation, IArcticCutterDrawData>(new ArcticCutterDrawData())
-               .WithStaticDrawData(CreateDrawData(mod.resources))
+               .WithStaticDrawData(CreateDrawData(mod.Resources))
                .WithoutSound()
                .WithoutSimulationConfiguration()
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));

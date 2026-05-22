@@ -28,7 +28,7 @@ namespace ArcticRuins
         public static readonly ScenarioSelector ArcticRuinsScenarioSelector =
             scenario => scenario.UniqueId.Id.StartsWith("arctic-ruins");
 
-        public ModFolderLocator resources { get; }
+        public ModFolderLocator Resources { get; }
 
         public readonly Hook GameModeHook;
 
@@ -36,7 +36,7 @@ namespace ArcticRuins
         {
             GameModeHook = CreateGameModeHook();
 
-            resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
+            Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
 
             ArticCutter.Register(logger, this);
 
@@ -49,7 +49,7 @@ namespace ArcticRuins
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
 
-            string iconPath = resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder diagonalCutterGroup = BuildingGroup.Create(groupId)
                 .WithTitle(titleId.T())
@@ -67,7 +67,7 @@ namespace ArcticRuins
             IBuildingBuilder diagonalCutterBuilder = Building.Create(definitionId)
                 .WithConnectorData(connectorData)
                 .DynamicallyRendering<Renderer, Simulation, RendererData>(new DiagonalCutterDrawData())
-                .WithStaticDrawData(CreateDrawData(resources))
+                .WithStaticDrawData(CreateDrawData(Resources))
                 .WithoutSound()
                 .WithoutSimulationConfiguration()
                 .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
