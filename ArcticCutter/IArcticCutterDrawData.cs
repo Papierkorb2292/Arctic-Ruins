@@ -1,6 +1,6 @@
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
-    public interface IDropCutterDrawData : IBuildingCustomDrawData
+    public interface IArcticCutterDrawData : IBuildingCustomDrawData
     {
         IBeltLaneRendererDefinition InputLaneRenderingDefinition { get; }
         IBeltLaneRendererDefinition LeftOutputLaneRenderingDefinition { get; }

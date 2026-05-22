@@ -3,13 +3,13 @@ using Game.Core.Coordinates;
 using Game.Core.Simulation;
 using JetBrains.Annotations;
 
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
     [UsedImplicitly]
-    public class DropCutterSimulationRenderer
-        : StatelessBuildingSimulationRenderer<DropCutterSimulation, IDropCutterDrawData>
+    public class ArcticCutterSimulationRenderer
+        : StatelessBuildingSimulationRenderer<ArcticCutterSimulation, IArcticCutterDrawData>
     {
-        public DropCutterSimulationRenderer(
+        public ArcticCutterSimulationRenderer(
             IMapModel map,
             IBuildingSoundManager soundManager,
             IShapeRegistry shapeRegistry) : base(map)
@@ -18,7 +18,7 @@ namespace DiagonalCutter.DropCutter
 
         public override void OnDrawDynamic(in Entity entity, FrameDrawOptions options)
         {
-            DropCutterSimulation simulation = entity.Simulation;
+            ArcticCutterSimulation simulation = entity.Simulation;
 
             DrawBeltItem(entity.Transform, options, simulation.InputLane, entity.DrawData.InputLaneRenderingDefinition);
             DrawBeltItem(entity.Transform, options, simulation.LeftOutputLane,

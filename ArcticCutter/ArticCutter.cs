@@ -13,25 +13,25 @@ using ShapezShifter.Textures;
 using UnityEngine;
 using ILogger = Core.Logging.ILogger;
 
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
-    public static class DropCutter
+    public static class ArticCutter
     {
         //TODO: Remove/fix sound
         public static void Register(ILogger logger, DiagonalCuttersMod mod)
         { 
-            BuildingDefinitionGroupId groupId = new("DropCutterGroup");
-            BuildingDefinitionId definitionId = new("DropCutter");
+            BuildingDefinitionGroupId groupId = new("ArcticCutterGroup");
+            BuildingDefinitionId definitionId = new("ArcticCutter");
 
-            string titleId = "building-variant.drop-cutter.title";
-            string titleDescription = "building-variant.drop-cutter.description";
+            string titleId = "building-variant.arctic-cutter.title";
+            string titleDescription = "building-variant.arctic-cutter.description";
             
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<DiagonalCuttersMod>("Resources/DiagonalCutter");
 
             string iconPath = mod.resources.SubPath("DiagonalCutter_Icon.png");
 
-            IBuildingGroupBuilder dropCutterGroup = BuildingGroup.Create(groupId)
+            IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(groupId)
                .WithTitle(titleId.T())
                .WithDescription(titleDescription.T())
                .WithIcon(FileTextureLoader.LoadTextureAsSprite(iconPath, out _))
@@ -56,9 +56,9 @@ namespace DiagonalCutter.DropCutter
                 dimensions
             );
 
-            IBuildingBuilder dropCutterBuilder = Building.Create(definitionId)
+            IBuildingBuilder arcticCutterBuilder = Building.Create(definitionId)
                .WithConnectorData(connectorData)
-               .DynamicallyRendering<DropCutterSimulationRenderer, DropCutterSimulation, IDropCutterDrawData>(new DropCutterDrawData())
+               .DynamicallyRendering<ArcticCutterSimulationRenderer, ArcticCutterSimulation, IArcticCutterDrawData>(new ArcticCutterDrawData())
                .WithStaticDrawData(CreateDrawData(mod.resources))
                .WithoutSound()
                .WithoutSimulationConfiguration()
@@ -66,13 +66,13 @@ namespace DiagonalCutter.DropCutter
 
             AtomicBuildings.Extend()
                .SpecificScenarios(DiagonalCuttersMod.ArcticRuinsScenarioSelector)
-               .WithBuilding(dropCutterBuilder, dropCutterGroup)
+               .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
                .UnlockedAtMilestone(new MilestoneSelector())
                .WithDefaultPlacement()
                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(0).Replace()) // Replace normal cutter
-               .WithSimulation(new DropCutterFactoryBuilder(), logger)
+               .WithSimulation(new ArcticCutterFactoryBuilder(), logger)
                .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
-               .WithPrediction(new DropCutterPredictionFactoryBuilder(), logger)
+               .WithPrediction(new ArcticCutterPredictionFactoryBuilder(), logger)
                .Build();
         }
         
@@ -103,7 +103,7 @@ namespace DiagonalCutter.DropCutter
                 baseModLod.LODClose,
                 new LODEmptyMesh(),
                 BoundingBoxHelper.CreateBasicCollider(baseMesh),
-                new DropCutterDrawData(),
+                new ArcticCutterDrawData(),
                 false,
                 null,
                 false);

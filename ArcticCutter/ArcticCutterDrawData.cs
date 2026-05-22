@@ -1,8 +1,8 @@
 using Game.Core.Coordinates;
 
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
-    internal class DropCutterDrawData : IDropCutterDrawData
+    internal class ArcticCutterDrawData : IArcticCutterDrawData
     {
         public IBeltLaneRendererDefinition InputLaneRenderingDefinition => new MyBeltLaneRenderingDefinition(
             new LocalVector(-0.5f, 0.0f, 1.0f),

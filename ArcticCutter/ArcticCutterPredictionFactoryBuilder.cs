@@ -3,9 +3,9 @@ using Game.Content.Features.Predictions.Processing;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack.Predictions;
 
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
-    internal class DropCutterPredictionFactoryBuilder
+    internal class ArcticCutterPredictionFactoryBuilder
         : IBuildingPredictionFactoryBuilder<Processing1In2OutPredictionSimulation>
     {
         public IFactory<Processing1In2OutPredictionSimulation> BuildFactory(PredictionSystemsDependencies dependencies)

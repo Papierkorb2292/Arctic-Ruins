@@ -1,14 +1,14 @@
 using Core.Factory;
 
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
-    public class DropCutterSimulationFactory: IFactory<FullCutterSimulationState, DropCutterSimulation>
+    public class ArcticCutterSimulationFactory: IFactory<FullCutterSimulationState, ArcticCutterSimulation>
     {
         public readonly ICutterConfiguration CutterConfiguration;
         public IShapeRegistry ShapeIdRegistry;
         public ShapeOperationCut CutOperation;
 
-        public DropCutterSimulationFactory(
+        public ArcticCutterSimulationFactory(
             ICutterConfiguration dropCutterConfiguration,
             IShapeRegistry shapeIdRegistry,
             ShapeOperationCut cutOperation)
@@ -18,9 +18,9 @@ namespace DiagonalCutter.DropCutter
             this.CutOperation = cutOperation;
         }
 
-        public DropCutterSimulation Produce(FullCutterSimulationState state)
+        public ArcticCutterSimulation Produce(FullCutterSimulationState state)
         {
-            return new DropCutterSimulation(state, CutterConfiguration, ShapeIdRegistry, CutOperation);
+            return new ArcticCutterSimulation(state, CutterConfiguration, ShapeIdRegistry, CutOperation);
         }
     }
 }

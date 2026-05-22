@@ -2,13 +2,13 @@
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack;
 
-namespace DiagonalCutter.DropCutter
+namespace DiagonalCutter.ArcticCutter
 {
-    internal class DropCutterFactoryBuilder
-        : IBuildingSimulationFactoryBuilder<DropCutterSimulation, FullCutterSimulationState,
+    internal class ArcticCutterFactoryBuilder
+        : IBuildingSimulationFactoryBuilder<ArcticCutterSimulation, FullCutterSimulationState,
             ICutterConfiguration>
     {
-        public IFactory<FullCutterSimulationState, DropCutterSimulation> BuildFactory(
+        public IFactory<FullCutterSimulationState, ArcticCutterSimulation> BuildFactory(
             SimulationSystemsDependencies dependencies,
             out ICutterConfiguration config)
         {
@@ -36,7 +36,7 @@ namespace DiagonalCutter.DropCutter
                 dependencies.ShapeRegistry,
                 dependencies.ShapeIdManager);
 
-            return new DropCutterSimulationFactory(config, dependencies.ShapeRegistry, cut);
+            return new ArcticCutterSimulationFactory(config, dependencies.ShapeRegistry, cut);
         }
     }
 }

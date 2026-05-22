@@ -2,7 +2,7 @@
 using System.Linq;
 using Core.Collections;
 using Core.Localization;
-using DiagonalCutter.DropCutter;
+using DiagonalCutter.ArcticCutter;
 using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Research;
 using JetBrains.Annotations;
@@ -36,7 +36,7 @@ public class DiagonalCuttersMod : IMod
         
         resources = ModDirectoryLocator.CreateLocator<DiagonalCuttersMod>().SubLocator("Resources");
         
-        DropCutter.Register(logger, this);
+        ArticCutter.Register(logger, this);
         
         BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
         BuildingDefinitionId definitionId = new("DiagonalCutter");
