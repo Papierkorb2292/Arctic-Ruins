@@ -27,6 +27,8 @@ namespace ArcticRuins
     {
         public static readonly ScenarioSelector ArcticRuinsScenarioSelector =
             scenario => scenario.UniqueId.Id.StartsWith("arctic-ruins");
+        
+        public static ILogger Logger { get; private set; }
 
         public ModFolderLocator Resources { get; }
 
@@ -34,11 +36,14 @@ namespace ArcticRuins
 
         public ArcticRuinsMod(ILogger logger)
         {
+            Logger = logger;
+            
             GameModeHook = CreateGameModeHook();
 
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
 
-            ArticCutter.Register(logger, this);
+            VortexReverser.Register(this);
+            ArticCutter.Register(this);
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");
@@ -119,6 +124,7 @@ namespace ArcticRuins
         public void Dispose()
         {
             GameModeHook.Dispose();
+            VortexReverser.Dispose();
         }
 
         private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)

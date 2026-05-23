@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>disable</Nullable>
         <RunPostBuildEvent>Always</RunPostBuildEvent>
-        <LangVersion>9</LangVersion>
+        <LangVersion>14</LangVersion>
         <RootNamespace>ArcticRuins</RootNamespace>
     </PropertyGroup>
 
@@ -45,6 +45,18 @@
             <Private>False</Private>
         </Reference>
 
+        <Reference Include="Game.Core.Map">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Map.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Core.Map.Layout">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Map.Layout.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Core.Map.Layout.Model">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Map.Layout.Model.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="Game.Core.Map.Model">
             <HintPath>$(SPZ2_PATH)\Game.Core.Map.Model.dll</HintPath>
             <Private>False</Private>
@@ -73,10 +85,6 @@
             <HintPath>$(SPZ2_PATH)\Core.Localization.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Game.Core.Map.Layout.Model">
-            <HintPath>$(SPZ2_PATH)\Game.Core.Map.Layout.Model.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="Game.Orchestration">
             <HintPath>$(SPZ2_PATH)\Game.Orchestration.dll</HintPath>
             <Private>False</Private>
@@ -84,10 +92,6 @@
 
         <Reference Include="Game.Interaction">
             <HintPath>$(SPZ2_PATH)\Game.Interaction.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Game.Content.Features">
-            <HintPath>$(SPZ2_PATH)\Game.Content.Features.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Game.Core.Coordinates">
@@ -104,6 +108,18 @@
         </Reference>
         <Reference Include="Game.Core.Map.Simulation">
             <HintPath>$(SPZ2_PATH)\Game.Core.Map.Simulation.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Hud">
+            <HintPath>$(SPZ2_PATH)\Game.Hud.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Hud.View">
+            <HintPath>$(SPZ2_PATH)\Game.Hud.View.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Hud.View.Model">
+            <HintPath>$(SPZ2_PATH)\Game.Hud.View.Model.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">

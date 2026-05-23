@@ -18,7 +18,7 @@ namespace ArcticRuins.ArcticCutter
     public static class ArticCutter
     {
         //TODO: Remove/fix sound
-        public static void Register(ILogger logger, ArcticRuinsMod mod)
+        public static void Register(ArcticRuinsMod mod)
         { 
             BuildingDefinitionGroupId groupId = new("ArcticCutterGroup");
             BuildingDefinitionId definitionId = new("ArcticCutter");
@@ -70,9 +70,9 @@ namespace ArcticRuins.ArcticCutter
                .UnlockedAtMilestone(new MilestoneSelector())
                .WithDefaultPlacement()
                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(0).Replace()) // Replace normal cutter
-               .WithSimulation(new ArcticCutterFactoryBuilder(), logger)
+               .WithSimulation(new ArcticCutterFactoryBuilder(), ArcticRuinsMod.Logger)
                .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
-               .WithPrediction(new ArcticCutterPredictionFactoryBuilder(), logger)
+               .WithPrediction(new ArcticCutterPredictionFactoryBuilder(), ArcticRuinsMod.Logger)
                .Build();
         }
         
