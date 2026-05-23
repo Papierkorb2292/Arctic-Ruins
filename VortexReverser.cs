@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading;
+using System.Runtime.CompilerServices;
+using ArcticRuins.ReceiverFromHub;
+using Core.Collections;
 using Core.Events;
-using Core.Logging;
+using Core.Events.Logging;
 using Game.Core.Coordinates;
 using Game.Core.Rendering.MeshGeneration;
-using Game.Placement.Data;
-using Game.Placement.Processing;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack;
@@ -18,9 +20,12 @@ namespace ArcticRuins
     public static class VortexReverser
     {
         private static Hook _hubSystemIsAtInputPositionHook;
+        private static Hook _hubSystemCreateSimulationHook;
+
+        private static ConditionalWeakTable<HubSystem, ReversedHubData> _reversedHubData = new();
+
         public static void Register(ArcticRuinsMod mod)
         {
-            
             _hubSystemIsAtInputPositionHook = DetourHelper.CreatePrefixHook<HubSystem, BuildingInstance, IslandInstance, bool>(
                 (hubSystem, building, island) =>
                     hubSystem.IsAtInputPosition(building, island),
@@ -35,6 +40,21 @@ namespace ArcticRuins
                     return (rotatedBuilding, island);
                 }
             );
+            _hubSystemCreateSimulationHook = new Hook(
+                DetourHelper.GetRuntimeMethod((Expression<Action<HubSystem, BuildingInstance>>)((hubSystem, building) => hubSystem.CreateSimulation(building))),
+                (Action<Action<HubSystem,BuildingInstance>, HubSystem,BuildingInstance>)((orig, hubSystem, building) => 
+                {
+                    if(_reversedHubData.TryGetValue(hubSystem, out var hubData))
+                    {
+                        BeltPortReceiverFromHubSimulation receiverFromHubSimulation = new(building.State.New<BeltPortReceiverFromHubSimulationState>(), hubSystem.ConveyorSpeed, hubSystem.ConveyorSpeed, hubData.ShapeSourceProvider);
+                        ConnectableBuildingSimulation buildingSimulation = new(building, receiverFromHubSimulation);
+                        hubSystem.SimulationsByPosition.Add(buildingSimulation.Transform.Position, buildingSimulation);
+                        hubSystem.OnSimulationCreated.InvokeSafe(buildingSimulation, hubSystem.Logger);                        
+                        return;
+                    }
+                    orig(hubSystem, building);
+                }));
+            
             
             RewireSenderReceiverPlacements();
             GameRewirers.AddRewirer<ISimulationSystemsRewirer>(new HubSystemRewirer());
@@ -43,7 +63,8 @@ namespace ArcticRuins
 
         public static void Dispose()
         {
-            _hubSystemIsAtInputPositionHook.Dispose();   
+            _hubSystemIsAtInputPositionHook.Dispose();
+            //_hubSystemCreateSimulationHook.Dispose();
         }
 
         private static void RewireSenderReceiverPlacements()
@@ -104,9 +125,21 @@ namespace ArcticRuins
                 if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(dependencies.Mode.Scenario))
                     return;
                 var hubSystem = (HubSystem)simulationSystems.First(system => system is HubSystem);
-                typeof(HubSystem)
-                    .GetField("BeltPortSenderBuildingId", BindingFlags.Instance | BindingFlags.NonPublic)!
-                    .SetValue(hubSystem, dependencies.Mode.Buildings.BeltPortReceiver.Id);
+                hubSystem.Set(
+                    system => system.BeltPortSenderBuildingId,
+                    dependencies.Mode.Buildings.BeltPortReceiver.Id
+                );
+                var shapeFactory = new StrictShapeDefinitionFactory(
+                    dependencies.Mode.ShapesConfiguration.PartCount,
+                    dependencies.Mode.ShapesConfiguration.Parts,
+                    dependencies.Mode.ShapeColorScheme.Colors,
+                    new ShapeHashParser(),
+                    dependencies.ShapeIdManager
+                    );
+                // TODO: Replace with proper shape provider
+                _reversedHubData.Add(hubSystem, new ReversedHubData(() => {
+                    return new TileExtractionShapeProvider(new ShapeMiningStream(new ShapeItem(shapeFactory.CreateShapeDefinition("RuRuRuRu")).AsEnumerable()));
+                }));
             }
 
             public bool Equals(IRewirer other) => this == other;
@@ -119,6 +152,19 @@ namespace ArcticRuins
                 HubSlots hubSlots = StaticGameCoreAccessor.G.HubObserver.HubSlots;
                 var transform = building.Transform.Rotate(GridRotation.Rotate180);
                 return !hubSlots.IsCoordinateInHubChunk(building.Transform.Position) || hubSlots.IsValidBeltPortInput(in transform);
+            }
+        }
+
+        private class ReversedHubData(Func<IShapeSourceProvider> shapeSourceProviderFunc)
+        {
+            // Create lazily
+            public IShapeSourceProvider ShapeSourceProvider
+            {
+                get
+                {
+                    field ??= shapeSourceProviderFunc();
+                    return field;
+                }
             }
         }
     }
