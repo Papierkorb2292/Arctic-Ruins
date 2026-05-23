@@ -4,7 +4,7 @@ using Game.Core.Simulation;
 
 namespace ArcticRuins.ReceiverFromHub;
 
-[SyncableIdentifier("ArticRuinsBeltPortReceiverFromHubState")]
+[SyncableIdentifier("ArcticRuinsBeltPortReceiverFromHubState")]
 public class BeltPortReceiverFromHubSimulationState : ISimulationState
 {
     private const short MaxVortexItems = 50; //TODO: Shorten the time it takes to arrive at the receiver
