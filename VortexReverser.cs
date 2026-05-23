@@ -31,13 +31,13 @@ namespace ArcticRuins
                     hubSystem.IsAtInputPosition(building, island),
                 (hubSystem, building, island) =>
                 {
-                    var rotatedBuilding = new BuildingInstance(
+                    if (!_reversedHubData.TryGetValue(hubSystem, out _)) return (building, island);
+                    return (new BuildingInstance(
                         building.Definition,
                         building.Transform.Rotate(GridRotation.Rotate180),
                         building.State,
                         building.Configuration
-                        );
-                    return (rotatedBuilding, island);
+                    ), island);
                 }
             );
             _hubSystemCreateSimulationHook = new Hook(
