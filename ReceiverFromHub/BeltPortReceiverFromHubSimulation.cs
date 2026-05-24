@@ -8,10 +8,12 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
   public readonly BeltLane OutputLane;
   public readonly FastBeltPathLane VortexLane;
   private readonly IShapeSourceProvider _shapeSourceProvider;
-
+  
   public int NumItemReceivers => 0;
 
   public int NumItemProviders => 1;
+  
+  public int ItemDeliveryCount { get; private set; }
 
   public BeltPortReceiverFromHubSimulation(
     BeltPortReceiverFromHubSimulationState state,
@@ -40,6 +42,9 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
     if(!_shapeSourceProvider.TryPeek(out var shape) || !VortexLane.CanAcceptItem(shape))
       return;
     TryCreateItemOnVortexLane(deltaTicks);
+    // Make sure that the renderer creates animations for items that were already on the belt when it was loaded
+    if(VortexLane.ItemCount > ItemDeliveryCount)
+      ItemDeliveryCount = VortexLane.ItemCount;
   }
 
   private void TryCreateItemOnVortexLane(Ticks progress_T)
@@ -47,6 +52,7 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
     if (!_shapeSourceProvider.TryConsume(out var shape))
       return;
     VortexLane.HandOverItem(shape, progress_T);
+    ItemDeliveryCount++;
   }
 
   public void ClearContent()

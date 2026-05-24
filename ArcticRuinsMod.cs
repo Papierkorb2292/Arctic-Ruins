@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
+using ArcticRuins.ReceiverFromHub;
 using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Research;
 using JetBrains.Annotations;
@@ -32,13 +34,15 @@ namespace ArcticRuins
 
         public ModFolderLocator Resources { get; }
 
-        public readonly Hook GameModeHook;
+        private readonly Hook _gameModeHook;
+        private readonly Hook _createSimulationRenderersHook;
 
         public ArcticRuinsMod(ILogger logger)
         {
             Logger = logger;
             
-            GameModeHook = CreateGameModeHook();
+            _gameModeHook = CreateGameModeHook();
+            _createSimulationRenderersHook = CreateCustomRenderersHook();
 
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
 
@@ -121,9 +125,26 @@ namespace ArcticRuins
                 }));
         }
 
+        private static Hook CreateCustomRenderersHook()
+        {
+            return DetourHelper.CreatePostfixHook<GameSessionOrchestrator, IEnumerable<ISimulationRenderer>>(
+                orchestrator => orchestrator.CreateSimulationRenderers(),
+                (orchestrator, renderers) =>
+                {
+                    var renderersList = renderers.ToList();
+                    var spacePathReceiverRenderer = (BeltPortTransferSimulationRenderer)renderersList.First(renderer => renderer is BeltPortTransferSimulationRenderer);
+                    return renderersList.Concat([
+                        new BeltPortReceiverFromHubSimulationRenderer(orchestrator.MapModel,
+                            spacePathReceiverRenderer.DrawData, spacePathReceiverRenderer.StopperRenderer,
+                            orchestrator.SimulationSpeed, orchestrator._AudioManager.BuildingSound)
+                    ]);
+                });
+        }
+
         public void Dispose()
         {
-            GameModeHook.Dispose();
+            _gameModeHook.Dispose();
+            _createSimulationRenderersHook.Dispose();
             VortexReverser.Dispose();
         }
 
