@@ -7,7 +7,7 @@ namespace ArcticRuins.ReceiverFromHub;
 [SyncableIdentifier("ArcticRuinsBeltPortReceiverFromHubState")]
 public class BeltPortReceiverFromHubSimulationState : ISimulationState
 {
-    private const short MaxVortexItems = 50; //TODO: Shorten the time it takes to arrive at the receiver
+    private const short MaxVortexItems = 25;
     public readonly BeltLaneState OutputLaneState = new();
     public readonly FastBeltPathLaneState VortexLaneState = new(MaxVortexItems);
 
