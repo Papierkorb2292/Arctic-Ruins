@@ -13,7 +13,7 @@ public class LayerDetacherSimulationRenderer
     : StatelessBuildingSimulationRenderer<LayerDetacherSimulation, ILayerDetacherDrawData>
 {
     private readonly IShapeRegistry _shapeRegistry;
-    private static float _rotationOvershootDegrees = 20;
+    private static float _rotationOvershootDegrees = 13;
     
     public LayerDetacherSimulationRenderer(
         IMapModel map,
@@ -28,8 +28,7 @@ public class LayerDetacherSimulationRenderer
         LayerDetacherSimulation simulation = entity.Simulation;
 
         DrawBeltItem(entity.Transform, options, simulation.InputLane, entity.DrawData.InputLaneRenderingDefinition);
-        DrawBeltItem(entity.Transform, options, simulation.LeftOutputLane,
-            entity.DrawData.LeftOutputLaneRenderingDefinition);
+        DrawLeftOutputLane(entity,  options, simulation.LeftOutputLane);
         DrawBeltItem(entity.Transform, options, simulation.RightOutputLane,
             entity.DrawData.RightOutputLaneRenderingDefinition);
 
@@ -43,11 +42,28 @@ public class LayerDetacherSimulationRenderer
         DrawProcessingLane(entity, options, simulation.RightProcessingLane, true, lowerLayerCount);
     }
 
+    private void DrawLeftOutputLane(in Entity entity, FrameDrawOptions options, BeltLane lane)
+    {
+        if (!lane.HasItem)
+            return;
+        var overshootDuration = Ticks.FromMilliSeconds(200);
+        var progressTicks = lane.Progress_S / (LaneConstants.ItemSpacing / lane.Duration_T);
+        if (progressTicks > overshootDuration)
+            progressTicks = overshootDuration;
+        var overshootProgress = Ticks.Ratio(progressTicks, overshootDuration);
+        var angle = Mathf.Sin(overshootProgress * Mathf.PI) * -_rotationOvershootDegrees;
+        var beltItems = options.Renderers.BeltItems;
+        var pos_L = entity.DrawData.LeftOutputLaneRenderingDefinition.GetPosFromProgress(lane.Progress) + new LocalVector(0.0f, 0.0f, beltItems.BeltShapeHeight)
+            + /*0.33f*/ 0.5f * 0.5f * new LocalVector(0, Mathf.Cos(Mathf.Deg2Rad * angle) - 1, -Mathf.Sin(Mathf.Deg2Rad * angle));
+        var translation = (pos_L ) * entity.Transform;
+        options.Renderers.Shapes.Add(beltItems.GetDrawData(lane.Item, options.LOD.ShapeLOD), CalculateFlyingShapeMatrix(translation, entity.Transform.Rotation, angle, 1));
+    }
+
     private void DrawProcessingLane(in Entity entity, FrameDrawOptions options, DelayBeltLane lane, bool isLowerLayers, int lowerLayerCount)
     {
         if (!lane.HasItem)
             return;
-        var fallDuration = Ticks.FromMilliSeconds(800);
+        var fallDuration = Ticks.FromMilliSeconds(600);
         var progressTicks = lane.Progress_T;
         var durationTicks = lane.Duration_T;
         var remainingTicks = durationTicks - progressTicks;
@@ -62,8 +78,8 @@ public class LayerDetacherSimulationRenderer
 
         var totalProgress = 1 - Ticks.Ratio(remainingTicks, fallDuration);
 
-        // Up until 0.2f, the top layer is drawn as part of the lower layers (unless it's the only layer), because otherwise the gap between the shape contents would suddenly change 
-        if (totalProgress < 0.2f && !isLowerLayers && lowerLayerCount != 0) return;
+        // Up until 0.25f, the top layer is drawn as part of the lower layers (unless it's the only layer), because otherwise the gap between the shape contents would suddenly change 
+        if (totalProgress < 0.25f && !isLowerLayers && lowerLayerCount != 0) return;
         
         var progress = AdjustLowerLayersProgress(totalProgress, isLowerLayers);
         var beltItems = options.Renderers.BeltItems;
@@ -74,28 +90,23 @@ public class LayerDetacherSimulationRenderer
         MeshMaterialCombination meshMaterial;
         if (!isLowerLayers)
         {
-            var topLayerGrowthProgress = progress <= 0.2f ? 0 : progress >= 0.75f ? 1 : (progress - 0.2f) / 0.55f; 
+            var topLayerGrowthProgress = progress <= 0.25f ? 0 : (progress - 0.25f) / 0.75f; 
             translation += pivotRotationVert * Mathf.Lerp(beltItems.ShapeRenderer.GetShapeLayerHeight(lowerLayerCount), -2 * beltItems.BeltShapeHeight, topLayerGrowthProgress);
             translation.z += 2 * (topLayerGrowthProgress * -topLayerGrowthProgress + topLayerGrowthProgress); // Add a quadratic function with roots 0 and 1 to the height
             scale = Mathf.Lerp(beltItems.ShapeRenderer.GetShapeLayerScale(lowerLayerCount), 1, topLayerGrowthProgress);
-            if (progress >= 0.75f)
-            {
-                // Overshoot translation
-                translation += 0.33f * 0.5f * (CalculateRotationAroundPivot((progress >= 0.875 ? 1 - progress : (progress - 0.75f)) / 0.25f * 0.2f / 45 * _rotationOvershootDegrees) + LocalVector.North);
-            }
             // Without baseplate
             meshMaterial = beltItems.ShapeRenderer.GetDrawData(((ShapeItem)lane.Item).Definition, options.LOD.ShapeLOD);
             translation.z += beltItems.ShapeRenderer.SupportMeshHeight;
         }
         else
         {
-            meshMaterial = beltItems.GetDrawData(totalProgress < 0.2f ? entity.Simulation.State.LastProcessedShape : lane.Item, options.LOD.ShapeLOD);
+            meshMaterial = beltItems.GetDrawData(totalProgress < 0.25f ? entity.Simulation.State.LastProcessedShape : lane.Item, options.LOD.ShapeLOD);
         }
 
         var matrixTransform = CalculateFlyingShapeMatrix(translation * entity.Transform, entity.Transform.Rotation, CalculateRotationAroundSelfDeg(progress), scale);
         
         options.Renderers.Shapes.Add(meshMaterial, matrixTransform);
-        if (!isLowerLayers && progress > 0.2f)
+        if (!isLowerLayers && progress > 0.25f)
         {
             // Render a second inverted shape, because shapes don't have a bottom
             options.Renderers.Shapes.Add( beltItems.ShapeRenderer.GetDrawData(FlipShape(((ShapeItem)lane.Item).Definition), options.LOD.ShapeLOD), CalculateBottomDuplicateMatrix(matrixTransform, options));
@@ -105,16 +116,15 @@ public class LayerDetacherSimulationRenderer
     private static float AdjustLowerLayersProgress(float progress, bool isLowerLayers)
     {
         // Lower layers slowly rotate back into place
-        return isLowerLayers && progress > 0.2f ? (1 - progress) / 0.80f * 0.2f : progress;
+        return isLowerLayers && progress > 0.25f ? (1 - progress) / 3 : progress;
     }
 
     private static LocalVector CalculateRotationAroundPivot(float progress)
     {
         var angle = progress switch
         {
-            <= 0.2f => Mathf.Lerp(0, 0.25f * Mathf.PI, progress / 0.2f),
-            <= 0.75f => Mathf.Lerp(0.25f * Mathf.PI, Mathf.PI, (progress - 0.2f) / 0.55f),
-            _ => Mathf.PI
+            <= 0.25f => Mathf.Lerp(0, 0.25f * Mathf.PI, progress / 0.25f),
+            _ => Mathf.Lerp(0.25f * Mathf.PI, Mathf.PI, (progress - 0.25f) / 0.75f),
         };
         return new LocalVector(0, Mathf.Cos(angle), Mathf.Sin(angle));
     }
@@ -123,10 +133,8 @@ public class LayerDetacherSimulationRenderer
     {
         return progress switch
         {
-            <= 0.2f => (progress / 0.2f) * -45,
-            <= 0.75f => Mathf.Lerp(-45, -360, (progress - 0.2f) / 0.55f),
-            <= 0.875f => Mathf.Lerp(-360, -360 - _rotationOvershootDegrees, (progress - 0.75f) / 0.125f),
-            _ => Mathf.Lerp(-360 - _rotationOvershootDegrees, -360, (progress - 0.875f) / 0.125f)
+            <= 0.25f => (progress / 0.25f) * -45,
+            _ => Mathf.Lerp(-45, -360, (progress - 0.25f) / 0.75f),
         };
     }
 
