@@ -2,13 +2,15 @@
   "en-US": {
     "building-variant.cutter-diagonal.title": "Diagonal Destroyer",
     "building-variant.cutter-diagonal.description": "<gl>Destroys</gl> the <gl>Even Parts</gl> of a shape.",
-    "building-variant.drop-cutter.title": "Cutter",
-    "building-variant.drop-cutter.description": "<gl>Cuts</gl> the shape down the middle",
+    "building-variant.arctic-cutter.title": "Cutter",
+    "building-variant.arctic-cutter.description": "<gl>Cuts</gl> the shape down the middle",
+    "building-variant.asteroid-stabilizer.title": "Stabilizer",
+    "building-variant.asteroid-stabilizer.description": "<gl>Stores</gl> base shapes inside an asteroid to stabilize it and push away the storm. Will consume any item, but only the correct item for the asteroid counts towards the total.",
     "game-mode.ArcticRuins.title": "Arctic Ruins",
     "game-mode.ArcticRuins.description": "TODO: Description",
     "scenario.arctic-ruins.title": "Normal",
     "scenario.arctic-ruins.description": "TODO: Description",
     "scenario-preset.artic-ruins.title": "Arctic Ruins Preset",
-    "scenario-preset.artic-ruins.description": "TODO: Description"
+    "scenario-preset.artic-ruins.description": "TODO: Description",
   }
 }

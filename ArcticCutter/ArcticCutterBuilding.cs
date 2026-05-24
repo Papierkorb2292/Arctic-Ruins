@@ -15,14 +15,13 @@ using ILogger = Core.Logging.ILogger;
 
 namespace ArcticRuins.ArcticCutter
 {
-    public static class ArticCutter
+    public static class ArcticCutterBuilding
     {
+        public static BuildingDefinitionGroupId GroupId = new("ArcticCutterGroup");
+        public static BuildingDefinitionId DefinitionId = new("ArcticCutter");
         //TODO: Remove/fix sound
         public static void Register(ArcticRuinsMod mod)
         { 
-            BuildingDefinitionGroupId groupId = new("ArcticCutterGroup");
-            BuildingDefinitionId definitionId = new("ArcticCutter");
-
             string titleId = "building-variant.arctic-cutter.title";
             string titleDescription = "building-variant.arctic-cutter.description";
             
@@ -31,7 +30,7 @@ namespace ArcticRuins.ArcticCutter
 
             string iconPath = mod.Resources.SubPath("DiagonalCutter_Icon.png");
 
-            IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(groupId)
+            IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(GroupId)
                .WithTitle(titleId.T())
                .WithDescription(titleDescription.T())
                .WithIcon(FileTextureLoader.LoadTextureAsSprite(iconPath, out _))
@@ -44,19 +43,18 @@ namespace ArcticRuins.ArcticCutter
             LocalVector tileBoundsCenter = LocalVector.Lerp((LocalVector) tileBounds.Min, (LocalVector) tileBounds.Max, 0.5f);
             
             IBuildingConnectorData connectorData = new BuildingConnectorData(
-                new IBuildingIO[]
-                {
+                [
                     new ShapeConnectorConfig(TileDirection.West).ToInput(TileVector.Up),
                     new ShapeConnectorConfig(TileDirection.East).ToOutput(),
                     new ShapeConnectorConfig(TileDirection.North).ToOutput()
-                },
-                new[] { TileVector.Zero, TileVector.Up },
+                ],
+                [TileVector.Zero, TileVector.Up],
                 tileBounds,
                 tileBoundsCenter,
                 dimensions
             );
 
-            IBuildingBuilder arcticCutterBuilder = Building.Create(definitionId)
+            IBuildingBuilder arcticCutterBuilder = Building.Create(DefinitionId)
                .WithConnectorData(connectorData)
                .DynamicallyRendering<ArcticCutterSimulationRenderer, ArcticCutterSimulation, IArcticCutterDrawData>(new ArcticCutterDrawData())
                .WithStaticDrawData(CreateDrawData(mod.Resources))

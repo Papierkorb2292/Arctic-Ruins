@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
+using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
 using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Research;
@@ -47,7 +48,8 @@ namespace ArcticRuins
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
 
             VortexReverser.Register(this);
-            ArticCutter.Register(this);
+            ArcticCutterBuilding.Register(this);
+            ShapeAsteroidStabilizerBuilding.Register(this);
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");
