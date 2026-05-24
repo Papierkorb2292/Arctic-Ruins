@@ -72,7 +72,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithBuilding(asteroidStabilizerBuilder, asteroidStabilizerGroup)
                 .UnlockedAtMilestone(new MilestoneSelector())
                 .WithDefaultPlacement()
-                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).Replace())
+                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).Replace()) // Replace extractor
                 .WithSimulation(new ShapeAsteroidStabilizerFactoryBuilder(), ArcticRuinsMod.Logger)
                 // Use custom module, because ShapezShifter measures ByOutput by default, which causes errors when highlighting the building and the entire world won't render 
                 .WithCustomModules(new ItemSimulationBuildingModuleDataProvider(BuiltinResearchSpeed.BeltSpeed, BuiltinResearchSpeed.BeltSpeed, 2.0f, 0, ItemSimulationEfficiencyMeasurementMode.ByInput))
