@@ -129,8 +129,6 @@ public class BeltPortReceiverFromHubSimulationRenderer(
     in Entity entity,
     FrameDrawOptions options)
   {
-    ArcticRuinsMod.Logger.Info!.LogFormat("Height: {0}", drawData.JumpLaneCurves[2].HeightCurve.Evaluate(0.65f));
-    ArcticRuinsMod.Logger.Info!.LogFormat("Rot: {0}", drawData.JumpLaneCurves[2].RotationCurve.Evaluate(0.65f));
     var transform = entity.LocalizedSimulation.Transform;
     SyncAnimationWithSimulation(entity.Data.AnimationData, _animationParameters, entity);
     DrawJumpItems(entity.Simulation, in transform, options, drawData.JumpLaneCurves[2], out var stopperRotation);
