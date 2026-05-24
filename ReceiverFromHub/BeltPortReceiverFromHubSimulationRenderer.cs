@@ -54,7 +54,7 @@ public class BeltPortReceiverFromHubSimulationRenderer(
           foreach (HubSlotAnimationData slotAnimationData in vortexData.AnimationsByTile.Values)
           {
             if (!slotAnimationData.SimulationIsPresent)
-              SyncAnimationWithSimulation(slotAnimationData, _animationParameters, null);
+              SyncAnimationWithSimulation(slotAnimationData, null, _animationParameters, null);
             HubItemAnimationDrawer.DrawAnimations(slotAnimationData, _animationParameters, _cachedDrawOptions, simulationTimeG);
           }
         }
@@ -104,7 +104,7 @@ public class BeltPortReceiverFromHubSimulationRenderer(
 
       animationData.SimulationIsPresent = true;
       animationData.LastItemDeliveryCount = simulation.ItemDeliveryCount;
-      return new Data(animationData);
+      return new Data(animationData, new TimeScaleTracker());
     }
     catch (Exception e)
     {
@@ -130,7 +130,7 @@ public class BeltPortReceiverFromHubSimulationRenderer(
     FrameDrawOptions options)
   {
     var transform = entity.LocalizedSimulation.Transform;
-    SyncAnimationWithSimulation(entity.Data.AnimationData, _animationParameters, entity);
+    SyncAnimationWithSimulation(entity.Data.AnimationData, entity.Data.TimeScaleTracker, _animationParameters, entity);
     DrawJumpItems(entity.Simulation, in transform, options, drawData.JumpLaneCurves[2], out var stopperRotation);
     stopperRenderer.DrawStoppers(in transform, options, stopperRotation);
   }
@@ -160,6 +160,7 @@ public class BeltPortReceiverFromHubSimulationRenderer(
   }
   private void SyncAnimationWithSimulation(
     HubSlotAnimationData animations,
+    TimeScaleTracker timeScaleTracker,
     MetaHubInputAnimationParameters animParams,
     Entity entity)
   {
@@ -168,8 +169,8 @@ public class BeltPortReceiverFromHubSimulationRenderer(
       if (!animations.SimulationIsPresent)
         return;
       RemoveExpiredAnimations(animations, entity);
-      AddPendingAnimations(animations, animParams, entity);
-      UpdateAnimationTime(animations, entity);
+      AddPendingAnimations(animations, timeScaleTracker, animParams, entity);
+      UpdateAnimationTime(animations, timeScaleTracker, entity);
     }
   }
 
@@ -180,6 +181,7 @@ public class BeltPortReceiverFromHubSimulationRenderer(
   }
   private void AddPendingAnimations(
     HubSlotAnimationData animations,
+    TimeScaleTracker timeScaleTracker,
     MetaHubInputAnimationParameters animParams,
     Entity entity)
   {
@@ -199,7 +201,7 @@ public class BeltPortReceiverFromHubSimulationRenderer(
       var seed = _random.NextFloatRange(-1000f, 1000f);
       var forwardAnimation = HubItemAnimation.From(itemOnBelt.Item, seed, animParams, 0);
       // Set added time to when the item will arrive at the receiver and use negative timescale to make the item go in reverse
-      var backwardAnimation = new HubItemAnimation(forwardAnimation.Item, forwardAnimation.Seed, -1 * forwardAnimation.TimeScale, forwardAnimation.PosOffset, 0);
+      var backwardAnimation = new HubItemAnimation(forwardAnimation.Item, forwardAnimation.Seed, -1 * forwardAnimation.TimeScale * timeScaleTracker.Scale, forwardAnimation.PosOffset, 0);
       collection.Add(backwardAnimation);
     }
     animations.Items.InsertRange(0, collection);
@@ -207,11 +209,27 @@ public class BeltPortReceiverFromHubSimulationRenderer(
 
   private void UpdateAnimationTime(
     HubSlotAnimationData animations,
+    TimeScaleTracker timeScaleTracker,
     Entity entity)
   {
-    // Predict the arrival time of each item and use it as `addedTime`. Continuously updating the animations prevents any desync with the belt that could otherwise occur. 
     var simulation = entity.Simulation;
     var vortexLane = simulation.VortexLane;
+    // Update the timescale of each animation in accordance with the lane
+    if (timeScaleTracker.NeedsUpdate(vortexLane.BeltSpeed.StepsPerTick, out var multiplier))
+    {
+      for (int index = 0; index < animations.Items.Count; ++index)
+      {
+        var animation = animations.Items[index];
+        animations.Items[index] = new HubItemAnimation(
+          animation.Item,
+          animation.Seed,
+          animation.TimeScale * multiplier,
+          animation.PosOffset,
+          animation.AddedTime
+        );
+      }
+    }
+    // Predict the arrival time of each item and use it as `addedTime`. Continuously updating the animations prevents any desync with the belt that could otherwise occur. 
     var simulationTimeG = simulationSpeed.SimulationTime_G;
     var num1 = math.min(animations.Items.Count, vortexLane.ItemCount);
     var accumSteps = vortexLane.FirstItemDistance_S;
@@ -225,14 +243,35 @@ public class BeltPortReceiverFromHubSimulationRenderer(
     }
   }
 
-  public class Data(HubSlotAnimationData animationData) : StateData
+  public class Data(HubSlotAnimationData animationData, TimeScaleTracker timeScaleTracker) : StateData
   {
     public readonly HubSlotAnimationData AnimationData = animationData;
+    public readonly TimeScaleTracker TimeScaleTracker = timeScaleTracker;
   }
 
   private class VortexData(WorldCoordinate vortexCenter)
   {
     public readonly WorldCoordinate VortexCenter = vortexCenter;
     public readonly Dictionary<GlobalTileCoordinate, HubSlotAnimationData> AnimationsByTile = new();
+  }
+
+  public class TimeScaleTracker
+  {
+    private static StepRate _initialRate = new(25200);
+    private StepRate currentRate = _initialRate;
+    
+    public float Scale => (float)currentRate.Value / _initialRate.Value;
+
+    public bool NeedsUpdate(StepRate newRate, out float multiplier)
+    {
+      if(currentRate == newRate)
+      {
+        multiplier = 1;
+        return false;
+      }
+      multiplier = (float)newRate.Value / currentRate.Value;
+      currentRate = newRate;
+      return true;
+    }
   }
 }
