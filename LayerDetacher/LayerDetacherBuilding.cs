@@ -13,17 +13,17 @@ using ShapezShifter.Textures;
 using UnityEngine;
 using ILogger = Core.Logging.ILogger;
 
-namespace ArcticRuins.ArcticCutter
+namespace ArcticRuins.LayerDetacher
 {
-    public static class ArcticCutterBuilding
+    public static class LayerDetacherBuilding
     {
-        public static BuildingDefinitionGroupId GroupId = new("ArcticCutterGroup");
-        public static BuildingDefinitionId DefinitionId = new("ArcticCutter");
-        //TODO: Remove/fix sound
+        public static BuildingDefinitionGroupId GroupId = new("LayerDetacherGroup");
+        public static BuildingDefinitionId DefinitionId = new("LayerDetacher");
+        
         public static void Register(ArcticRuinsMod mod)
         { 
-            string titleId = "building-variant.arctic-cutter.title";
-            string titleDescription = "building-variant.arctic-cutter.description";
+            string titleId = "building-variant.layer-detacher.title";
+            string titleDescription = "building-variant.layer-detacher.description";
             
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
@@ -38,25 +38,24 @@ namespace ArcticRuins.ArcticCutter
                .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
                .WithDefaultStructureOverview();
 
-            var tileBounds = new LocalTileBounds(TileVector.Zero, TileVector.Up);
+            var tileBounds = new LocalTileBounds(TileVector.North, TileVector.Zero);
             TileDimensions dimensions = tileBounds.Dimensions;
             LocalVector tileBoundsCenter = LocalVector.Lerp((LocalVector) tileBounds.Min, (LocalVector) tileBounds.Max, 0.5f);
             
             IBuildingConnectorData connectorData = new BuildingConnectorData(
                 [
-                    new ShapeConnectorConfig(TileDirection.West).ToInput(TileVector.Up),
+                    new ShapeConnectorConfig(TileDirection.West).ToInput(),
+                    new ShapeConnectorConfig(TileDirection.East).ToOutput(TileVector.North),
                     new ShapeConnectorConfig(TileDirection.East).ToOutput(),
-                    new ShapeConnectorConfig(TileDirection.North).ToOutput()
                 ],
-                [TileVector.Zero, TileVector.Up],
+                [TileVector.Zero, TileVector.North],
                 tileBounds,
                 tileBoundsCenter,
                 dimensions
             );
-
             IBuildingBuilder arcticCutterBuilder = Building.Create(DefinitionId)
                .WithConnectorData(connectorData)
-               .DynamicallyRendering<ArcticCutterSimulationRenderer, ArcticCutterSimulation, IArcticCutterDrawData>(new ArcticCutterDrawData())
+               .DynamicallyRendering<LayerDetacherSimulationRenderer, LayerDetacherSimulation, ILayerDetacherDrawData>(new LayerDetacherDrawData())
                .WithStaticDrawData(CreateDrawData(mod.Resources))
                .WithoutSound()
                .WithoutSimulationConfiguration()
@@ -67,10 +66,10 @@ namespace ArcticRuins.ArcticCutter
                .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
                .UnlockedAtMilestone(new MilestoneSelector())
                .WithDefaultPlacement()
-               .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(0).Replace()) // Replace normal cutter
-               .WithSimulation(new ArcticCutterFactoryBuilder(), ArcticRuinsMod.Logger)
+               .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(3).ChildAt(^1).InsertAfter()) // At the end of the stacker section
+               .WithSimulation(new LayerDetacherFactoryBuilder(), ArcticRuinsMod.Logger)
                .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
-               .WithPrediction(new ArcticCutterPredictionFactoryBuilder(), ArcticRuinsMod.Logger)
+               .WithPrediction(new LayerDetacherPredictionFactoryBuilder(), ArcticRuinsMod.Logger)
                .Build();
         }
 
@@ -89,7 +88,7 @@ namespace ArcticRuins.ArcticCutter
                 baseModLod.LODClose,
                 new LODEmptyMesh(),
                 BoundingBoxHelper.CreateBasicCollider(baseMesh),
-                new ArcticCutterDrawData(),
+                new LayerDetacherDrawData(),
                 false,
                 null,
                 false);

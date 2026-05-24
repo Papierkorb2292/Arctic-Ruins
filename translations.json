@@ -6,6 +6,8 @@
     "building-variant.arctic-cutter.description": "<gl>Cuts</gl> the shape down the middle",
     "building-variant.asteroid-stabilizer.title": "Stabilizer",
     "building-variant.asteroid-stabilizer.description": "<gl>Stores</gl> base shapes inside an asteroid to stabilize it and push away the storm. Will consume any item, but only the correct item for the asteroid counts towards the total.",
+    "building-variant.layer-detacher.title": "Layer Detacher",
+    "building-variant.layer-detacher.description": "<gl>Detaches</gl> the <gl>top layer</gl> of a shape and puts it on a separate belt",
     "game-mode.ArcticRuins.title": "Arctic Ruins",
     "game-mode.ArcticRuins.description": "TODO: Description",
     "scenario.arctic-ruins.title": "Normal",
