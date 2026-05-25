@@ -24,7 +24,7 @@ namespace ArcticRuins
 
         private static ConditionalWeakTable<HubSystem, ReversedHubData> _reversedHubData = new();
 
-        public static void Register(ArcticRuinsMod mod)
+        public static void Register()
         {
             _hubSystemIsAtInputPositionHook = DetourHelper.CreatePrefixHook<HubSystem, BuildingInstance, IslandInstance, bool>(
                 (hubSystem, building, island) =>

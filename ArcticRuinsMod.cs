@@ -33,7 +33,8 @@ namespace ArcticRuins
             scenario => scenario.UniqueId.Id.StartsWith("arctic-ruins");
         
         public static ILogger Logger { get; private set; }
-
+        public static ArcticRuinsMod Instance;
+        
         public ModFolderLocator Resources { get; }
 
         private readonly Hook _gameModeHook;
@@ -42,16 +43,17 @@ namespace ArcticRuins
         public ArcticRuinsMod(ILogger logger)
         {
             Logger = logger;
+            Instance = this;
             
             _gameModeHook = CreateGameModeHook();
             _createSimulationRenderersHook = CreateCustomRenderersHook();
 
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
 
-            VortexReverser.Register(this);
-            ArcticCutterBuilding.Register(this);
-            ShapeAsteroidStabilizerBuilding.Register(this);
-            LayerDetacherBuilding.Register(this);
+            VortexReverser.Register();
+            ArcticCutterBuilding.Register();
+            ShapeAsteroidStabilizerBuilding.Register();
+            LayerDetacherBuilding.Register();
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");

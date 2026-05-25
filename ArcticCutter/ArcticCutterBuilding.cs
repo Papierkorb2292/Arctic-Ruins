@@ -20,7 +20,7 @@ namespace ArcticRuins.ArcticCutter
         public static BuildingDefinitionGroupId GroupId = new("ArcticCutterGroup");
         public static BuildingDefinitionId DefinitionId = new("ArcticCutter");
         //TODO: Remove/fix sound
-        public static void Register(ArcticRuinsMod mod)
+        public static void Register()
         { 
             string titleId = "building-variant.arctic-cutter.title";
             string titleDescription = "building-variant.arctic-cutter.description";
@@ -28,7 +28,7 @@ namespace ArcticRuins.ArcticCutter
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
 
-            string iconPath = mod.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(GroupId)
                .WithTitle(titleId.T())
@@ -57,7 +57,7 @@ namespace ArcticRuins.ArcticCutter
             IBuildingBuilder arcticCutterBuilder = Building.Create(DefinitionId)
                .WithConnectorData(connectorData)
                .DynamicallyRendering<ArcticCutterSimulationRenderer, ArcticCutterSimulation, IArcticCutterDrawData>(new ArcticCutterDrawData())
-               .WithStaticDrawData(CreateDrawData(mod.Resources))
+               .WithStaticDrawData(CreateDrawData(ArcticRuinsMod.Instance.Resources))
                .WithoutSound()
                .WithoutSimulationConfiguration()
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));

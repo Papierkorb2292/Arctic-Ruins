@@ -20,7 +20,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
         public static BuildingDefinitionGroupId GroupId = new("ShapeAsteroidStabilizerGroup");
         public static BuildingDefinitionId DefinitionId = new("ShapeAsteroidStabilizer");
 
-        public static void Register(ArcticRuinsMod mod)
+        public static void Register()
         {
             string titleId = "building-variant.asteroid-stabilizer.title";
             string titleDescription = "building-variant.asteroid-stabilizer.description";
@@ -28,7 +28,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
 
-            string iconPath = mod.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder asteroidStabilizerGroup = BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())
@@ -62,7 +62,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithConnectorData(connectorData)
                 .DynamicallyRendering<ShapeAsteroidStabilizerSimulationRenderer, ShapeAsteroidStabilizerSimulation,
                     IShapeAsteroidStabilizerDrawData>(new ShapeShapeAsteroidStabilizerDrawData())
-                .WithStaticDrawData(CreateDrawData(mod.Resources))
+                .WithStaticDrawData(CreateDrawData(ArcticRuinsMod.Instance.Resources))
                 .WithoutSound()
                 .WithoutSimulationConfiguration()
                 .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));

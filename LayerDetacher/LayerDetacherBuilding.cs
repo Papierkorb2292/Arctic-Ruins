@@ -20,7 +20,7 @@ namespace ArcticRuins.LayerDetacher
         public static BuildingDefinitionGroupId GroupId = new("LayerDetacherGroup");
         public static BuildingDefinitionId DefinitionId = new("LayerDetacher");
         
-        public static void Register(ArcticRuinsMod mod)
+        public static void Register()
         { 
             string titleId = "building-variant.layer-detacher.title";
             string titleDescription = "building-variant.layer-detacher.description";
@@ -28,7 +28,7 @@ namespace ArcticRuins.LayerDetacher
             using var assetBundleHelper =
                 AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
 
-            string iconPath = mod.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(GroupId)
                .WithTitle(titleId.T())
@@ -56,7 +56,7 @@ namespace ArcticRuins.LayerDetacher
             IBuildingBuilder arcticCutterBuilder = Building.Create(DefinitionId)
                .WithConnectorData(connectorData)
                .DynamicallyRendering<LayerDetacherSimulationRenderer, LayerDetacherSimulation, ILayerDetacherDrawData>(new LayerDetacherDrawData())
-               .WithStaticDrawData(CreateDrawData(mod.Resources))
+               .WithStaticDrawData(CreateDrawData(ArcticRuinsMod.Instance.Resources))
                .WithoutSound()
                .WithoutSimulationConfiguration()
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
