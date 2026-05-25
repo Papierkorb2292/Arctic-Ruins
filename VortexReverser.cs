@@ -64,7 +64,7 @@ namespace ArcticRuins
         public static void Dispose()
         {
             _hubSystemIsAtInputPositionHook.Dispose();
-            //_hubSystemCreateSimulationHook.Dispose();
+            _hubSystemCreateSimulationHook.Dispose();
         }
 
         private static void RewireSenderReceiverPlacements()
@@ -90,7 +90,7 @@ namespace ArcticRuins
         {
             private readonly MultiRegisterEvent _afterExtensionApplied = new();
             
-            public bool Equals(IRewirer other) => this == other;
+            public bool Equals(IRewirer other) => other is SenderReceiverPlacementSwapper;
 
             public GameBuildings ModifyGameBuildings(MetaGameModeBuildings metaBuildings, GameBuildings gameBuildings,
                 IMeshCache meshCache, VisualThemeBaseResources theme)
@@ -142,7 +142,7 @@ namespace ArcticRuins
                 }));
             }
 
-            public bool Equals(IRewirer other) => this == other;
+            public bool Equals(IRewirer other) => other is HubSystemRewirer;
         }
         
         private class CatcherOnHubBorderRequirement : IBuildingPlacementRequirement

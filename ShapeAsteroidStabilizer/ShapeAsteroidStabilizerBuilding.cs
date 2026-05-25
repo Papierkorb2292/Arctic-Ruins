@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Core.Events;
 using Core.Localization;
 using Game.Core.Coordinates;
@@ -73,7 +74,17 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .UnlockedAtMilestone(new MilestoneSelector())
                 .WithDefaultPlacement()
                 .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).Replace()) // Replace extractor
-                .WithSimulation(new ShapeAsteroidStabilizerFactoryBuilder(), ArcticRuinsMod.Logger)
+                .WithCustomSimulationSystem<IShapeAsteroidStabilizerConfiguration>((systems, dependencies, building, out config) =>
+                {
+                    config = new ShapeShapeAsteroidStabilizerConfiguration(
+                        BuffableBeltSpeed.DiscreteSpeed.OneSecondPerTile,
+                        BuffableBeltDelay.DiscreteDuration.OnePointFiveSeconds,
+                        new ResearchSpeedId("BeltSpeed"));
+                    systems.Remove(systems.First(system => system is ShapeMiningSystem));
+                    var asteroidProgressSystem = (AsteroidProgressSystem)systems.First(system => system is AsteroidProgressSystem);
+                    return new ShapeStabilizingSystem(config, building, dependencies.ResourcesMap, dependencies.ShapeRegistry, asteroidProgressSystem,
+                        dependencies.Mode, ArcticRuinsMod.Logger);
+                })
                 // Use custom module, because ShapezShifter measures ByOutput by default, which causes errors when highlighting the building and the entire world won't render 
                 .WithCustomModules(new ItemSimulationBuildingModuleDataProvider(BuiltinResearchSpeed.BeltSpeed, BuiltinResearchSpeed.BeltSpeed, 2.0f, 0, ItemSimulationEfficiencyMeasurementMode.ByInput))
                 .WithPrediction(new ShapeAsteroidStabilizerPredictionFactoryBuilder(), ArcticRuinsMod.Logger)

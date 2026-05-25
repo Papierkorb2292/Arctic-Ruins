@@ -7,6 +7,7 @@ using ArcticRuins.ArcticCutter;
 using ArcticRuins.LayerDetacher;
 using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
+using Core.Factory;
 using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Research;
 using JetBrains.Annotations;
@@ -15,6 +16,7 @@ using ShapezShifter.Flow;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Flow.Research;
 using ShapezShifter.Flow.Toolbar;
+using ShapezShifter.Hijack;
 using ShapezShifter.Kit;
 using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
@@ -36,7 +38,8 @@ namespace ArcticRuins
         public static ArcticRuinsMod Instance;
         
         public ModFolderLocator Resources { get; }
-
+        public SaveData SaveData { get; private set; }
+        
         private readonly Hook _gameModeHook;
         private readonly Hook _createSimulationRenderersHook;
 
@@ -50,7 +53,10 @@ namespace ArcticRuins
 
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
 
+            RegisterSaveData();
+            
             VortexReverser.Register();
+            AsteroidProgressSystem.Register();
             ArcticCutterBuilding.Register();
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
@@ -103,6 +109,26 @@ namespace ArcticRuins
                 .Build();
         }
 
+        private void RegisterSaveData()
+        {
+            var key = this.ResolveId<SaveData.RawSaveData>();
+            var rewirer = new ModSaveDataRewirer<SaveData.RawSaveData>(key + ".json", new LambdaFactory<SaveData.RawSaveData>(() =>
+            {
+                SaveData = new SaveData();
+                return new SaveData.RawSaveData();
+            }), Logger);
+            rewirer.AfterSaveDataDeserialized.Register(data =>
+            {
+                SaveData = new SaveData(data);
+            });
+            rewirer.BeforeSaveDataSerialized.Register(data =>
+            {
+                data.CopyFrom(SaveData);
+            });
+            var activeRewirer = new ModSaveDataExtensions.ActiveRewirer(GameRewirers.AddRewirer(rewirer), rewirer);
+            ModSaveDataExtensions.Rewirers.Add(key, activeRewirer);
+        }
+
         //TODO: Find a better place to hook into
         private static Hook CreateGameModeHook()
         {
@@ -152,6 +178,7 @@ namespace ArcticRuins
             _gameModeHook.Dispose();
             _createSimulationRenderersHook.Dispose();
             VortexReverser.Dispose();
+            AsteroidProgressSystem.Dispose();
         }
 
         private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)

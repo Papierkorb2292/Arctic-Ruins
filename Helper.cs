@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Collections.Scoped;
+using Core.Events;
 using Game.Core.Coordinates;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Flow.Toolbar;
+using ShapezShifter.Hijack;
 using UnityEngine;
 
 namespace ArcticRuins
@@ -37,6 +40,13 @@ namespace ArcticRuins
         public static IToolbarEntryInsertLocation Replace(this IToolbarElementLocator elementLocator)
         {
             return new ToolbarEntryReplaceLocation(elementLocator);
+        }
+
+        public static IAtomicBuildingExtender WithCustomSimulationSystem<TConfig>(this IDefinedPlaceableAccessibleBuildingExtender extenderAbstract, CustomSimulationSystemFactory<TConfig> systemFactory)
+        {
+            var extender = (AtomicBuildingExtender)extenderAbstract;
+            extender.LazySimulationExtender = new BuildingSimulationSystemsExtender<TConfig>(systemFactory);
+            return extender;
         }
 
         private class ToolbarEntryReplaceLocation : IToolbarEntryInsertLocation
@@ -73,5 +83,38 @@ namespace ArcticRuins
 
             public override string ToString() => $"Replace \n{ElementLocator}";
         }
+
+        public delegate ISimulationSystem CustomSimulationSystemFactory<TConfig>(ICollection<ISimulationSystem> simulationSystems, SimulationSystemsDependencies dependencies, BuildingDefinition building, out TConfig config);
+        
+        private class BuildingSimulationSystemsExtender<TConfig>(CustomSimulationSystemFactory<TConfig> simulationSystemFactory) : AtomicBuildingExtender.ISimulationExtender
+        {
+            public RewirerChainLink ContinueAfter(
+                RewirerChainLink<BuildingDefinition> rewirerChainLink)
+            {
+                return rewirerChainLink.ThenContinueRewiringWith(building => new BuildingSimulationExtender<TConfig>(building, simulationSystemFactory))
+                    .ThenContinueRewiringWith(config => new BuffablesExtender<TConfig>(config));
+            }
+        }
+
+        private class BuildingSimulationExtender<TConfig>(BuildingDefinition building, CustomSimulationSystemFactory<TConfig> simulationSystemFactory) : ISimulationSystemsRewirer, IChainableRewirer<TConfig>
+        {
+            private readonly CustomSimulationSystemFactory<TConfig> _simulationSystemFactory = simulationSystemFactory;
+            
+            private readonly MultiRegisterEvent<TConfig> _afterExtensionApplied = new();
+            public IEvent<TConfig> AfterHijack => _afterExtensionApplied;
+            public bool Equals(IRewirer other)
+            {
+                return other is BuildingSimulationExtender<TConfig> extender &&
+                       _simulationSystemFactory == extender._simulationSystemFactory;
+            }
+
+            public void ModifySimulationSystems(ICollection<ISimulationSystem> simulationSystems, SimulationSystemsDependencies dependencies)
+            {
+                var simulationSystem = _simulationSystemFactory(simulationSystems, dependencies, building, out var config);
+                simulationSystems.Add(simulationSystem);
+                _afterExtensionApplied.Invoke(config);
+            }
+        }
+
     }
 }
