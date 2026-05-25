@@ -14,19 +14,19 @@ namespace ArcticRuins.LayerDetacher
         public int NumItemReceivers => 1;
         public int NumItemProviders => 2;
         
-        public LayerDetacherSimulation(LayerDetacherSimulationState state, ILayerDetacherConfiguration cutterConfiguration, IShapeRegistry shapeRegistry, ShapeOperationLayerDetach detachOp) : base(state)
+        public LayerDetacherSimulation(LayerDetacherSimulationState state, ILayerDetacherConfiguration configuration, IShapeRegistry shapeRegistry, ShapeOperationLayerDetach detachOp) : base(state)
         {
-            LeftOutputLane = new BeltLane(cutterConfiguration.BeltSpeed, state.LeftOutputLaneState);
-            RightOutputLane = new BeltLane(cutterConfiguration.BeltSpeed, state.RightOutputLaneState);
+            LeftOutputLane = new BeltLane(configuration.BeltSpeed, state.LeftOutputLaneState);
+            RightOutputLane = new BeltLane(configuration.BeltSpeed, state.RightOutputLaneState);
             LeftProcessingLane = new DelayBeltLane(
-                cutterConfiguration.ProcessingDelay,
+                configuration.ProcessingDelay,
                 state.LeftProcessingLaneState,
                 LeftOutputLane);
             RightProcessingLane = new DelayBeltLane(
-                cutterConfiguration.ProcessingDelay,
+                configuration.ProcessingDelay,
                 state.RightProcessingLaneState,
                 RightOutputLane);
-            InputLane = new BeltLane(cutterConfiguration.BeltSpeed, state.InputLaneState, RightProcessingLane);
+            InputLane = new BeltLane(configuration.BeltSpeed, state.InputLaneState, RightProcessingLane);
             
             InputLane.MaxStepClampHook = (_, maxStep_S) =>
             { 
