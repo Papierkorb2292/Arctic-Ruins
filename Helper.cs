@@ -49,6 +49,14 @@ namespace ArcticRuins
             return extender;
         }
 
+        public static IMaterialReference Copy(this IMaterialReference material)
+        {
+            return new MaterialReference
+            {
+                _Material = new Material(material.GetMaterialInternal())
+            };
+        }
+
         private class ToolbarEntryReplaceLocation : IToolbarEntryInsertLocation
         {
             public readonly IToolbarElementLocator ElementLocator;

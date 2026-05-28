@@ -1,0 +1,10 @@
+*.csproj
+*.so
+build
+build_Data
+Temp
+UserSettings
+Logs
+.vscode
+.idea
+Library

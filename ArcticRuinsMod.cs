@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
@@ -8,6 +9,7 @@ using ArcticRuins.LayerDetacher;
 using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
 using Core.Factory;
+using Game.Core.Coordinates;
 using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Research;
 using JetBrains.Annotations;
@@ -20,6 +22,7 @@ using ShapezShifter.Hijack;
 using ShapezShifter.Kit;
 using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
+using Unity.Mathematics;
 using UnityEngine;
 using ILogger = Core.Logging.ILogger;
 using Renderer = DiagonalCutterSimulationRenderer;
@@ -38,20 +41,26 @@ namespace ArcticRuins
         public static ArcticRuinsMod Instance;
         
         public ModFolderLocator Resources { get; }
+        public AssetBundle AssetBundle { get; }
         public SaveData SaveData { get; private set; }
         
         private readonly Hook _gameModeHook;
         private readonly Hook _createSimulationRenderersHook;
+        private readonly Hook _customMapRenderersHook;
+
+        private StormRenderer _stormRenderer;
 
         public ArcticRuinsMod(ILogger logger)
         {
             Logger = logger;
             Instance = this;
             
-            _gameModeHook = CreateGameModeHook();
-            _createSimulationRenderersHook = CreateCustomRenderersHook();
-
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
+            AssetBundle = AssetBundle.LoadFromFile(Resources.SubPath("Windows/assets.bundle")); //TODO(opt): Multiplatform
+            
+            _gameModeHook = CreateGameModeHook();
+            _createSimulationRenderersHook = CreateCustomSimulationRenderersHook();
+            _customMapRenderersHook = CreateCustomMapRenderersHook();
 
             RegisterSaveData();
             
@@ -60,6 +69,8 @@ namespace ArcticRuins
             ArcticCutterBuilding.Register();
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
+            
+            
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");
@@ -130,6 +141,7 @@ namespace ArcticRuins
         }
 
         //TODO: Find a better place to hook into
+
         private static Hook CreateGameModeHook()
         {
             return DetourHelper
@@ -157,7 +169,7 @@ namespace ArcticRuins
                 }));
         }
 
-        private static Hook CreateCustomRenderersHook()
+        private static Hook CreateCustomSimulationRenderersHook()
         {
             return DetourHelper.CreatePostfixHook<GameSessionOrchestrator, IEnumerable<ISimulationRenderer>>(
                 orchestrator => orchestrator.CreateSimulationRenderers(),
@@ -173,10 +185,21 @@ namespace ArcticRuins
                 });
         }
 
+        private Hook CreateCustomMapRenderersHook()
+        {
+            return DetourHelper.CreatePostfixHook<GameSessionOrchestrator, IGameData>(
+                (orchestrator, gameData) => orchestrator.Init_7_Rendering(gameData),
+                (orchestrator, _) =>
+                {
+                    StormRenderer.Hook(orchestrator);
+                });
+        }
+
         public void Dispose()
         {
             _gameModeHook.Dispose();
             _createSimulationRenderersHook.Dispose();
+            _customMapRenderersHook.Dispose();
             VortexReverser.Dispose();
             AsteroidProgressSystem.Dispose();
         }
