@@ -47,6 +47,7 @@ namespace ArcticRuins
         private readonly Hook _gameModeHook;
         private readonly Hook _createSimulationRenderersHook;
         private readonly Hook _customMapRenderersHook;
+        private readonly Hook _customHUDRenderersHook;
 
         private StormRenderer _stormRenderer;
 
@@ -61,6 +62,7 @@ namespace ArcticRuins
             _gameModeHook = CreateGameModeHook();
             _createSimulationRenderersHook = CreateCustomSimulationRenderersHook();
             _customMapRenderersHook = CreateCustomMapRenderersHook();
+            _customHUDRenderersHook = CreateCustomHUDRenderersHook();
 
             RegisterSaveData();
             
@@ -194,12 +196,23 @@ namespace ArcticRuins
                     StormRenderer.Hook(orchestrator);
                 });
         }
+        
+        private Hook CreateCustomHUDRenderersHook()
+        {
+            return DetourHelper.CreatePostfixHook<GameSessionOrchestrator>(
+                (orchestrator) => orchestrator.Init_8_HUD(),
+                (orchestrator) =>
+                {
+                    AsteroidProgressSystem.HookRenderer(orchestrator);
+                });
+        }
 
         public void Dispose()
         {
             _gameModeHook.Dispose();
             _createSimulationRenderersHook.Dispose();
             _customMapRenderersHook.Dispose();
+            _customHUDRenderersHook.Dispose();
             VortexReverser.Dispose();
             AsteroidProgressSystem.Dispose();
         }

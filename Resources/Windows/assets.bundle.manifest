@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1932390438
+CRC: 56245570
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2976d22f7d22ceb957c009f42ca43948
+    Hash: fba21c207d35583a2c0e249bdcb5ae5d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5e762ccb57c4caaabbb5a4199ac82c23
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 2976d22f7d22ceb957c009f42ca43948
+    Hash: fba21c207d35583a2c0e249bdcb5ae5d
 HashAppended: 0
 ClassTypes:
 - Class: 21
@@ -20,6 +20,8 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/AssetBundle/StormChunksMat.mat
 - Assets/AssetBundle/StormNoiseMat.mat
+- Assets/AssetBundle/ProgressBarMat.mat
+- Assets/AssetBundle/ProgressBar.shadergraph
 - Assets/AssetBundle/StormNoise.shadergraph
 - Assets/AssetBundle/StormBackgroundMat.mat
 - Assets/AssetBundle/StormBackground.shadergraph
