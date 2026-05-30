@@ -18,8 +18,8 @@
   "Description": "@scenario.arctic-ruins.description",
   "PreviewImageId": "ScenarioBackground_Classic_Regular",
   "PlayerBadge": {
-    "Title": "@player-badge.classic-regular.title",
-    "ImageId": "OperatorBadgeClassicRegular"
+    "Title": "@player-badge.arctic-ruins.title",
+    "ImageId": "OperatorBadgeArcticRuins"
   },
   "ResearchConfig": {
     "BaseChunkLimitMultiplier": 200,

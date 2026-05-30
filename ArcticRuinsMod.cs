@@ -169,6 +169,9 @@ namespace ArcticRuins
                     mode.TrainSimulationConfiguration = baseMode.TrainSimulationConfiguration;
                     mode.name = "ArcticRuins";
                 }));
+            gameData._Images[new GameImageId("OperatorBadgeArcticRuins")] =
+                FileTextureLoader.LoadTextureAsSprite(Instance.Resources.SubPath("OperatorBadgeArcticRuins.png"),
+                    out _);
         }
 
         private static Hook CreateCustomSimulationRenderersHook()
