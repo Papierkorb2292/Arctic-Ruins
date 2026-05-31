@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Numerics;
+using System.Reflection;
 using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
@@ -11,7 +13,11 @@ using ArcticRuins.ReceiverFromHub;
 using Core.Factory;
 using Game.Core.Coordinates;
 using Game.Core.GameData.GameModeDefinition;
+using Game.Core.Rendering.Islands;
+using Game.Core.Rendering.Islands.Connectors;
+using Game.Core.Rendering.MeshGeneration;
 using Game.Core.Research;
+using Global.Core;
 using JetBrains.Annotations;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.Flow;
@@ -63,7 +69,6 @@ namespace ArcticRuins
             _createSimulationRenderersHook = CreateCustomSimulationRenderersHook();
             _customMapRenderersHook = CreateCustomMapRenderersHook();
             _customHUDRenderersHook = CreateCustomHUDRenderersHook();
-
             RegisterSaveData();
             
             VortexReverser.Register();
@@ -71,6 +76,7 @@ namespace ArcticRuins
             ArcticCutterBuilding.Register();
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
+            MeshRecolorer.Register();
             
             
 
@@ -218,6 +224,7 @@ namespace ArcticRuins
             _customHUDRenderersHook.Dispose();
             VortexReverser.Dispose();
             AsteroidProgressSystem.Dispose();
+            MeshRecolorer.Dispose();
         }
 
         private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)
