@@ -41,8 +41,8 @@ public class ShapeOperationLayerDetach(
             return false;
         }
         var shapeDetachResult = Execute(shapeItem.Definition);
-        output1 = shapeDetachResult.LowerLayers != null ? ShapeRegistry.GetItem(shapeDetachResult.LowerLayers.Shape) : (IItem)null;
-        output2 = shapeDetachResult.TopLayer != null ? ShapeRegistry.GetItem(shapeDetachResult.TopLayer.Shape) : (IItem)null;
+        output2 = shapeDetachResult.LowerLayers != null ? ShapeRegistry.GetItem(shapeDetachResult.LowerLayers.Shape) : (IItem)null;
+        output1 = shapeDetachResult.TopLayer != null ? ShapeRegistry.GetItem(shapeDetachResult.TopLayer.Shape) : (IItem)null;
         return true;
     }
 }
