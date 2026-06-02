@@ -1,0 +1,3 @@
+namespace ArcticRuins.CommunicationRelay;
+
+public class CommunicationRelayConfiguration : ICommunicationRelayConfiguration;

@@ -7,6 +7,7 @@ using System.Reflection;
 using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
+using ArcticRuins.CommunicationRelay;
 using ArcticRuins.LayerDetacher;
 using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
@@ -30,10 +31,15 @@ using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 using ILogger = Core.Logging.ILogger;
+using Object = UnityEngine.Object;
+using Quaternion = UnityEngine.Quaternion;
 using Renderer = DiagonalCutterSimulationRenderer;
 using Simulation = DiagonalCutterSimulation;
 using RendererData = IDiagonalCutterDrawData;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace ArcticRuins
 {
@@ -76,9 +82,8 @@ namespace ArcticRuins
             ArcticCutterBuilding.Register();
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
+            CommunicationRelayBuilding.Register();
             MeshRecolorer.Register();
-            
-            
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");

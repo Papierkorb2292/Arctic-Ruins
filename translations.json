@@ -8,12 +8,18 @@
     "building-variant.asteroid-stabilizer.description": "<gl>Stabilizes</gl> an asteroid and pushes away the storm by storing shapes in it. Will consume any shape, but only the correct shape for the asteroid counts towards the total.",
     "building-variant.layer-detacher.title": "Layer Detacher",
     "building-variant.layer-detacher.description": "<gl>Detaches</gl> the <gl>top layer</gl> of a shape and puts it on a separate belt",
+    "building-variant.communication-relay.title": "Communication Relay",
+    "building-variant.communication-relay.description": "Use the communication relay to declare which <gl>shapes</gl> you want to receive through the <gl>vortex</gl>",
     "game-mode.ArcticRuins.title": "Arctic Ruins",
     "game-mode.ArcticRuins.description": "TODO: Description",
     "scenario.arctic-ruins.title": "Normal",
     "scenario.arctic-ruins.description": "TODO: Description",
     "scenario-preset.artic-ruins.title": "Arctic Ruins Preset",
     "scenario-preset.artic-ruins.description": "TODO: Description",
-    "player-badge.arctic-ruins.title": "Freezing Disassembly"
+    "player-badge.arctic-ruins.title": "Freezing Disassembly",
+    "ui.arctic-ruins.vortex-configuration.north": "North",
+    "ui.arctic-ruins.vortex-configuration.east": "East",
+    "ui.arctic-ruins.vortex-configuration.south": "South",
+    "ui.arctic-ruins.vortex-configuration.west": "West",
   }
 }
