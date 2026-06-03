@@ -7,7 +7,8 @@ public class CommunicationRelayModules : IBuildingModules
     
     public IEnumerable<IHUDSidePanelModuleData> GetInfoModules(IMapModel map, BuildingModel building)
     {
-        yield return new HudSidePanelModuleVortexConfiguration.Data();
+        yield return new HUDSidePanelModuleVortexSideConfiguration.Data();
+        yield return new HUDSidePanelModuleVortexShapeConfiguration.Data();
     }
 
     public IEnumerable<IHUDSidePanelModuleData> GetInfoModules(IBuildingDefinition definition) => [];
