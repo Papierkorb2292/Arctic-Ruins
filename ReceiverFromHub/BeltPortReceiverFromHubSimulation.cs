@@ -39,12 +39,12 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
   {
     VortexLane.Update(deltaTicks);
     OutputLane.Update(deltaTicks);
-    if(!_shapeSourceProvider.TryPeek(out var shape) || !VortexLane.CanAcceptItem(shape))
-      return;
-    TryCreateItemOnVortexLane(deltaTicks);
     // Make sure that the renderer creates animations for items that were already on the belt when it was loaded
     if(VortexLane.ItemCount > ItemDeliveryCount)
       ItemDeliveryCount = VortexLane.ItemCount;
+    if(!_shapeSourceProvider.TryPeek(out var shape) || !VortexLane.CanAcceptItem(shape))
+      return;
+    TryCreateItemOnVortexLane(deltaTicks);
   }
 
   private void TryCreateItemOnVortexLane(Ticks progress_T)
