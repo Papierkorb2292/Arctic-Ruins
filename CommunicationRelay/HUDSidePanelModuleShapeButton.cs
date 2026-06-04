@@ -69,10 +69,15 @@ public class HUDSidePanelModuleShapeButton : HUDComponent
         highlight.enabled = highlighted;
     }
 
-    public void UpdateButton(IText title, Action action, [CanBeNull] ShapeItem shapeItem)
+    public void ConfigureButton(IText title, Action action, [CanBeNull] ShapeItem shapeItem)
     {
         button.UIButton.TooltipTitle = title;
         _currentAction = action;
+        UpdateShape(shapeItem);
+    }
+
+    public void UpdateShape([CanBeNull] ShapeItem shapeItem)
+    {
         _currentItem = shapeItem;
         var texture = shapeItem == null ? Texture2D.whiteTexture : (Texture2D)_beltItemRenderer.RenderToTexture(shapeItem);
         button.UIButton.Icon = Sprite.Create(texture, new Rect(0.2f * texture.width, 0.2f * texture.height, 0.6f * texture.width, 0.6f * texture.height), new Vector2(texture.width / 2f, texture.height / 2f));

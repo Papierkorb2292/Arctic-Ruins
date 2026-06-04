@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core.Localization;
 using ShapezShifter.Textures;
 using Unity.Core.View;
@@ -11,32 +12,12 @@ namespace ArcticRuins.CommunicationRelay;
 public class HUDSidePanelModuleVortexSideConfiguration : HUDSidePanelModule
 {
     private static readonly PrefabViewReference<HUDSidePanelModule> Prefab = new(GeneratePrefab());
-    private static readonly (PlacementKeybindingHintData, Vector2)[] Buttons =
-    [
-        (new PlacementKeybindingHintData
-        {
-            OverrideTitle = "ui.arctic-ruins.vortex-configuration.north".T(),
-            Handler = () => { ArcticRuinsMod.Logger.Info!.Log("North"); }
-        }, new Vector2(0.5f, 0.9f)),
-        (new PlacementKeybindingHintData
-            {
-            OverrideTitle = "ui.arctic-ruins.vortex-configuration.east".T(),
-            Handler = () => { ArcticRuinsMod.Logger.Info!.Log("East"); }
-        }, new Vector2(0.9f, 0.5f)),
-        (new PlacementKeybindingHintData
-            {
-            OverrideTitle = "ui.arctic-ruins.vortex-configuration.south".T(),
-            Handler = () => { ArcticRuinsMod.Logger.Info!.Log("South"); }
-        }, new Vector2(0.5f, 0.1f)),
-        (new PlacementKeybindingHintData
-        {
-            OverrideTitle = "ui.arctic-ruins.vortex-configuration.west".T(),
-            Handler = () => { ArcticRuinsMod.Logger.Info!.Log("West"); }
-        },new Vector2(0.1f, 0.5f))
-    ];
 
     public GameObject vortexPanel;
     public GameObject vortex;
+
+    private Action<TileDirection> _onDirectionSelected;
+    private List<(TileDirection, HUDSidePanelModuleShapeButton)> _buttons = [];
 
     private IShapeIdManager _shapeIdManager;
     private IShapeRegistry _shapeRegistry;
@@ -51,19 +32,47 @@ public class HUDSidePanelModuleVortexSideConfiguration : HUDSidePanelModule
     {
         _shapeIdManager = shapeIdManager;
         _shapeRegistry = shapeRegistry;
-        foreach (var (action, anchor) in Buttons)
+        AddButton("ui.arctic-ruins.vortex-configuration.north", new Vector2(0.5f, 0.9f), TileDirection.North);
+        AddButton("ui.arctic-ruins.vortex-configuration.east", new Vector2(0.9f, 0.5f), TileDirection.East);
+        AddButton("ui.arctic-ruins.vortex-configuration.south", new Vector2(0.5f, 0.1f), TileDirection.South);
+        AddButton("ui.arctic-ruins.vortex-configuration.west", new Vector2(0.1f, 0.5f), TileDirection.West);
+        UpdateSelectedShapes();
+    }
+
+    private void AddButton(string title, Vector2 anchor, TileDirection direction)
+    {
+        var button = RequestChildView(HUDSidePanelModuleShapeButton.Prefab).PlaceAt(vortexPanel.transform);
+        _buttons.Add((direction, button));
+        var buttonTransform = (RectTransform)button.transform;
+        buttonTransform.anchorMin = buttonTransform.anchorMax = anchor;
+        if(direction == TileDirection.North)
+            button.SetHighlighted(true);
+        button.ConfigureButton(title.T(), () =>
         {
-            var button = RequestChildView(HUDSidePanelModuleShapeButton.Prefab).PlaceAt(vortexPanel.transform);
-            var buttonTransform = (RectTransform)button.transform;
-            buttonTransform.anchorMin = buttonTransform.anchorMax = anchor;
-            button.UpdateButton(action.OverrideTitle, action.Handler, null);
-        }
+            foreach (var (_, createdButton) in _buttons)
+            {
+                createdButton.SetHighlighted(createdButton == button);
+            }
+            _onDirectionSelected(direction);
+        }, null);
     }
 
     public override void InitFromData(IHUDSidePanelModuleData rawData)
     {
         if (rawData is not Data data)
             throw new Exception("Invalid data");
+        _onDirectionSelected = data.OnDirectionSelected;
+        data.ShapeUpdatedCallbackConsumer(UpdateSelectedShapes);
+        _onDirectionSelected(TileDirection.North);
+    }
+
+    public void UpdateSelectedShapes()
+    {
+        foreach (var (dir, button) in _buttons)
+        {
+            var hash = ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(dir);
+            button.UpdateShape(hash == null ? null : _shapeRegistry.GetItem(_shapeIdManager.Resolve(hash)));
+        }
     }
 
     public void Update()
@@ -126,8 +135,11 @@ public class HUDSidePanelModuleVortexSideConfiguration : HUDSidePanelModule
         compassTransform.localRotation = Quaternion.identity;
     }
 
-    public class Data : IHUDSidePanelModuleData
+    public class Data(Action<TileDirection> onDirectionSelected, Action<Action> shapeUpdatedCallbackConsumer) : IHUDSidePanelModuleData
     {
+        public Action<TileDirection> OnDirectionSelected { get; set; } = onDirectionSelected;
+        public Action<Action> ShapeUpdatedCallbackConsumer => shapeUpdatedCallbackConsumer;
+        
         public PrefabViewReference<HUDSidePanelModule> GetViewPrefabReference()
         {
             return Prefab;

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Core.Localization;
 using Game.Core.Localization;
+using JetBrains.Annotations;
 using Unity.Core.View;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,28 +12,56 @@ namespace ArcticRuins.CommunicationRelay;
 public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
 {
     private static readonly PrefabViewReference<HUDSidePanelModule> Prefab = new(GeneratePrefab());
+
+    private List<(string, HUDSidePanelModuleShapeButton)> _shapeButtons = [];
+    private Action<string> _onShapeSelected;
     
     public override void OnDispose()
     {
-        
-        
     }
 
     [Core.Dependency.Construct]
-    public void Construct(IShapeRegistry shapeRegistry, IShapeIdManager shapeIdManager)
+    public void Construct(IShapeRegistry shapeRegistry, IShapeIdManager shapeIdManager, ResearchLevelManager researchLevelManager)
     {
         var layout = gameObject.AddComponent<GridLayoutGroup>();
         layout.cellSize = new Vector2(73f, 73f);
         var fitter = gameObject.AddComponent<ContentSizeFitter>();
         fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        for(int i = 0; i < 10; i++)
+        var shapeNumber = 0;
+        foreach(var researchLevel in researchLevelManager.Progression.Levels)
         {
-            //TODO: Add available belt count
-            var button = RequestChildView(HUDSidePanelModuleShapeButton.Prefab).PlaceAt(transform);
-            button.UpdateButton(new CombinedText([
-                "ui.arctic-ruins.vortex-configuration.shape".T(),
-                new GenericFormattedNumberText(new GenericIntegerFormatter(i + 1))
-            ]), () => { }, shapeRegistry.GetItem(shapeIdManager.Resolve("RuRuRuRu")));
+            foreach (var line in researchLevel.Lines)
+            {
+                foreach (var shape in line.Costs)
+                {
+                    //TODO: Add available belt count
+                    var button = RequestChildView(HUDSidePanelModuleShapeButton.Prefab).PlaceAt(transform);
+                    button.ConfigureButton(
+                        new CombinedText(
+                            "ui.arctic-ruins.vortex-configuration.shape".T(),
+                            new GenericFormattedNumberText(new GenericIntegerFormatter(++shapeNumber))
+                        ),
+                        () =>
+                        {
+                            SetSelected(shape.ShapeHash);
+                            _onShapeSelected(shape.ShapeHash);
+                        },
+                        shapeRegistry.GetItem(shapeIdManager.Resolve(shape.ShapeHash))
+                    );
+                    _shapeButtons.Add((shape.ShapeHash, button));
+                }
+            }
+
+            if (researchLevel == researchLevelManager.CurrentLevel)
+                break;
+        }
+    }
+
+    public void SetSelected([CanBeNull] string shapeHash)
+    {
+        foreach (var (hash, button) in _shapeButtons)
+        {
+            button.SetHighlighted(shapeHash == hash);
         }
     }
 
@@ -39,6 +69,8 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
     {
         if (rawData is not Data data)
             throw new Exception("Invalid data");
+        _onShapeSelected = data.OnShapeSelected;
+        data.ShapeChangeCallbackConsumer(SetSelected);
     }
     
     private static HUDSidePanelModule GeneratePrefab()
@@ -47,8 +79,11 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
         return gameObject.AddComponent<HUDSidePanelModuleVortexShapeConfiguration>();
     }
 
-    public class Data : IHUDSidePanelModuleData
+    public class Data(Action<string> onShapeSelected, Action<Action<string>> shapeChangeCallbackConsumer) : IHUDSidePanelModuleData
     {
+        public Action<string> OnShapeSelected => onShapeSelected;
+        public Action<Action<string>> ShapeChangeCallbackConsumer => shapeChangeCallbackConsumer;
+        
         public PrefabViewReference<HUDSidePanelModule> GetViewPrefabReference()
         {
             return Prefab;
