@@ -239,7 +239,7 @@ namespace ArcticRuins
 
                 RewirerChain.BeginRewiringWith(new BuffablesExtender<BuffableBeltSpeed>(beltSpeed));
                 
-                _reversedHubData.Add(hubSystem, new ReversedHubData(shapeFactory, beltSpeed, dependencies.Mode.MaxBuildingLayer, false));
+                _reversedHubData.Add(hubSystem, new ReversedHubData(shapeFactory, beltSpeed, dependencies.Mode.MaxBuildingLayer + 1, false));
             }
 
             public bool Equals(IRewirer other) => other is HubSystemRewirer;
@@ -268,7 +268,7 @@ namespace ArcticRuins
                     dependencies.ShapeIdManager
                 );
                 ((List<ISimulationSystem>)simulationSystems).Insert(0, hubSystem); // Make sure to take priority
-                _reversedHubData.Add(hubSystem, new ReversedHubData(shapeFactory, null, dependencies.Mode.MaxBuildingLayer, true));
+                _reversedHubData.Add(hubSystem, new ReversedHubData(shapeFactory, null, dependencies.Mode.MaxBuildingLayer + 1, true));
             }
         }
 
