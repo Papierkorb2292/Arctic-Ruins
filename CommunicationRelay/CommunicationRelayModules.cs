@@ -14,7 +14,7 @@ public class CommunicationRelayModules : IBuildingModules
         {
             selectedDirection = direction;
             var selectedShape = ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(direction);
-            shapeSelector?.Invoke(selectedShape);
+            shapeSelector?.Invoke(selectedShape?.ShapeHash);
         }, action =>
         {
             sideConfigurationUpdater = action;
@@ -25,7 +25,7 @@ public class CommunicationRelayModules : IBuildingModules
             sideConfigurationUpdater();
         }, action =>
         {
-            action(ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(selectedDirection!.Value));
+            action(ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(selectedDirection!.Value)?.ShapeHash);
             shapeSelector = action;
         });
     }

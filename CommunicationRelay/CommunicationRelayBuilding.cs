@@ -39,8 +39,8 @@ namespace ArcticRuins.CommunicationRelay
                 .AsNonTransportableBuilding()
                 .WithPreferredPlacement(DefaultPreferredPlacementMode.Single)
                 .WithDefaultStructureOverview()
-                .NotBuildable() // Note: The names in ShapezShifter are currently wrong. This is actually NotRemovable() and NotBuildable() respectively
-                .NotSelectable(); // Don't forget to change this back once ShapezShifter is fixed
+                .NotBuildable(); // Note: The names in ShapezShifter are currently wrong. This is actually NotRemovable() and NotBuildable() respectively
+                //.NotSelectable(); // Don't forget to change this back once ShapezShifter is fixed
 
 
             var tileBounds = new LocalTileBounds(new TileVector(-1, -1, 0), new TileVector(1, 1, 2));

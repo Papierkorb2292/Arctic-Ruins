@@ -14,7 +14,7 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
     private static readonly PrefabViewReference<HUDSidePanelModule> Prefab = new(GeneratePrefab());
 
     private List<(string, HUDSidePanelModuleShapeButton)> _shapeButtons = [];
-    private Action<string> _onShapeSelected;
+    private Action<ResearchCostShapes> _onShapeSelected;
     
     public override void OnDispose()
     {
@@ -44,7 +44,7 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
                         () =>
                         {
                             SetSelected(shape.ShapeHash);
-                            _onShapeSelected(shape.ShapeHash);
+                            _onShapeSelected(shape);
                         },
                         shapeRegistry.GetItem(shapeIdManager.Resolve(shape.ShapeHash))
                     );
@@ -79,9 +79,9 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
         return gameObject.AddComponent<HUDSidePanelModuleVortexShapeConfiguration>();
     }
 
-    public class Data(Action<string> onShapeSelected, Action<Action<string>> shapeChangeCallbackConsumer) : IHUDSidePanelModuleData
+    public class Data(Action<ResearchCostShapes> onShapeSelected, Action<Action<string>> shapeChangeCallbackConsumer) : IHUDSidePanelModuleData
     {
-        public Action<string> OnShapeSelected => onShapeSelected;
+        public Action<ResearchCostShapes> OnShapeSelected => onShapeSelected;
         public Action<Action<string>> ShapeChangeCallbackConsumer => shapeChangeCallbackConsumer;
         
         public PrefabViewReference<HUDSidePanelModule> GetViewPrefabReference()

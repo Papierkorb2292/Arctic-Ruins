@@ -70,7 +70,7 @@ public class HUDSidePanelModuleVortexSideConfiguration : HUDSidePanelModule
     {
         foreach (var (dir, button) in _buttons)
         {
-            var hash = ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(dir);
+            var hash = ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(dir)?.ShapeHash;
             button.UpdateShape(hash == null ? null : _shapeRegistry.GetItem(_shapeIdManager.Resolve(hash)));
         }
     }

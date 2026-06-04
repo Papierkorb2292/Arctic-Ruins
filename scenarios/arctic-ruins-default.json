@@ -154,15 +154,15 @@
                 "Shapes": [
                   {
                     "Shape": "CrCr----",
-                    "Amount": 1200
+                    "Amount": 1
                   },
                   {
                     "Shape": "CrCrCrCr",
-                    "Amount": 2000
+                    "Amount": 2
                   },
                   {
                     "Shape": "RbRbRbRb:CrCrCrCr",
-                    "Amount": 8000
+                    "Amount": 3
                   }
                 ]
               },

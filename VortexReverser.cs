@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,10 +13,10 @@ using Game.Buildings.Extractor.Prediction;
 using Game.Content.BuildingPath.Simulation;
 using Game.Content.Features.Predictions;
 using Game.Core.Coordinates;
+using Game.Core.GameMode;
 using Game.Core.Map.Simulation;
 using Game.Core.Rendering.MeshGeneration;
 using Game.Core.Simulation;
-using JetBrains.Annotations;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack;
@@ -28,8 +29,12 @@ namespace ArcticRuins
     {
         private static Hook _hubSystemIsAtInputPositionHook;
         private static Hook _hubSystemCreateSimulationHook;
+        private static Hook _hubSystemUpdateHook;
+        private static Hook _skipApplyGameBalancingParametersHook;
 
         private static ConditionalWeakTable<HubSystem, ReversedHubData> _reversedHubData = new();
+
+        private static bool _skipApplyGameBalancingParameters;
 
         public static void Register()
         {
@@ -54,26 +59,51 @@ namespace ArcticRuins
                     if(_reversedHubData.TryGetValue(hubSystem, out var hubData))
                     {
                         var buildingSimulation = hubData.IsPrediction
-                                ? new ConnectableSimulationPredictionAdapter(building, new ExtractorPredictionSimulation(hubData.ShapeSourceProvider))
-                                : new ConnectableBuildingSimulation(building, new BeltPortReceiverFromHubSimulation(building.State.New<BeltPortReceiverFromHubSimulationState>(), hubSystem.ConveyorSpeed, hubSystem.ConveyorSpeed, hubData.ShapeSourceProvider));
+                                ? new ConnectableSimulationPredictionAdapter(building, new ExtractorPredictionSimulation(hubData.GetSourceProvider(building.Transform.Rotation.ToTileDirection())))
+                                : new ConnectableBuildingSimulation(building, new BeltPortReceiverFromHubSimulation(building.State.New<BeltPortReceiverFromHubSimulationState>(), hubSystem.ConveyorSpeed, hubSystem.ConveyorSpeed));
                         hubSystem.SimulationsByPosition.Add(buildingSimulation.Transform.Position, buildingSimulation);
                         hubSystem.OnSimulationCreated.InvokeSafe(buildingSimulation, hubSystem.Logger);                        
                         return;
                     }
                     orig(hubSystem, building);
                 }));
-            
+            _hubSystemUpdateHook = DetourHelper.CreatePostfixHook<HubSystem, Ticks, Ticks>
+            ((hubSystem, time, delta) => hubSystem.Update(time, delta),
+                (hubSystem, _, delta) => 
+                {
+                    SupplyShapes(hubSystem, delta);
+                });
+            _skipApplyGameBalancingParametersHook = new Hook(
+                DetourHelper.GetRuntimeMethod((Expression<Action<ResearchProgressionBalancer, ResearchProgression, ResearchPlayerLevelConfig>>)((balancer, progression, config) => balancer.ApplyGameBalancingParameters(progression, config))),
+                (Action<Action<ResearchProgressionBalancer, ResearchProgression, ResearchPlayerLevelConfig>, ResearchProgressionBalancer, ResearchProgression, ResearchPlayerLevelConfig>)((orig, balancer, progression, config) => 
+                {
+                    if (_skipApplyGameBalancingParameters)
+                    {
+                        ArcticRuinsMod.Logger.Info!.Log("Skipping!!");
+                        _skipApplyGameBalancingParameters = false;
+                        return;
+                    }
+                    ArcticRuinsMod.Logger.Info!.Log("Not Skipping??");
+                    orig(balancer, progression, config);
+                }));
             
             RewireSenderReceiverPlacements();
             GameRewirers.AddRewirer<ISimulationSystemsRewirer>(new HubSystemRewirer());
             GameRewirers.AddRewirer<IPredictionSystemsRewirer>(new HubPredictionSystemRewirer());
-            
+            // Skip ApplyGameBalancingParameters for custom game mode to not mess with shape count
+            var skipGameBalancingParametersRewireFilter = new GameScenarioBuildingExtender(
+                scenarioFilter: ArcticRuinsMod.ArcticRuinsScenarioSelector,
+                progressionExtender: NoopProgressionExtender.Instance,
+                groupId: new());
+            skipGameBalancingParametersRewireFilter.AfterHijack.Register(() => _skipApplyGameBalancingParameters = true);
+            GameRewirers.AddRewirer(skipGameBalancingParametersRewireFilter);
         }
 
         public static void Dispose()
         {
             _hubSystemIsAtInputPositionHook.Dispose();
             _hubSystemCreateSimulationHook.Dispose();
+            _hubSystemUpdateHook.Dispose();
         }
 
         private static void RewireSenderReceiverPlacements()
@@ -92,6 +122,61 @@ namespace ArcticRuins
             {
                 aggregatedChain.AfterHijack.Unregister(OnApplyPlacementSwapper);
                 RewireSenderReceiverPlacements();
+            }
+        }
+
+        private static void SupplyShapes(HubSystem system, Ticks deltaTicks)
+        {
+            if (!_reversedHubData.TryGetValue(system, out var data) || data.IsPrediction)
+                return;
+            var saveData = ArcticRuinsMod.Instance.SaveData;
+            if (system._HubIslands.Count == 0)
+                return;
+            var island = system._HubIslands.First();
+            var locationCountPerSide = data.LayerCount * 12; 
+            var locationCountTotal = locationCountPerSide * 4;
+            foreach (var shape in saveData.VortexSides.Select(entry => entry.Value.Shape).Distinct())
+            {
+                var supplierData = saveData.GetVortexShapeSupplierData(shape.ShapeHash);
+                
+                var processedLocations = 0;
+                var newProgress = supplierData.progressSteps + (int)shape.Amount * deltaTicks * data.BeltSpeed.StepsPerTick;
+                var newShapes = newProgress / LaneConstants.ItemSpacing;
+                supplierData.progressSteps = newProgress % LaneConstants.ItemSpacing;
+                while (newShapes > 0 && processedLocations <= locationCountTotal)
+                {
+                    var direction = supplierData.roundRobinLocation / locationCountPerSide;
+                    var layer = (supplierData.roundRobinLocation / 12) % data.LayerCount;
+                    var offset = supplierData.roundRobinLocation % 12;
+                    var (tileVector, tileDirection) = direction switch
+                    {
+                        0 => (new TileVector(4 + offset, 0, (short)layer), TileDirection.North),
+                        1 => (new TileVector(19, 4 + offset, (short)layer), TileDirection.East),
+                        2 => (new TileVector(15 - offset, 19, (short)layer), TileDirection.South),
+                        _ => (new TileVector(0, 15 - offset, (short)layer), TileDirection.West),
+                    };
+                    var position = island.Position.ToOrigin_G() + tileVector;
+
+                    if (!data.GetSourceProvider(tileDirection).TryPeek(out var shapeItem) ||
+                        shapeItem.Definition.Hash != shape.ShapeHash)
+                    {
+                        // Skip this side
+                        var nextSideLocation = (direction + 1) * locationCountPerSide;
+                        processedLocations += nextSideLocation - supplierData.roundRobinLocation;
+                        supplierData.roundRobinLocation = nextSideLocation % locationCountTotal;
+                        continue;
+                    }
+                    
+                    if (system.SimulationsByPosition.TryGetValue(position, out var simulation)
+                        && simulation.Simulation is BeltPortReceiverFromHubSimulation receiver
+                        && receiver.OfferItem(shapeItem))
+                    {
+                        newShapes--;
+                    }
+
+                    supplierData.roundRobinLocation = (supplierData.roundRobinLocation + 1) % locationCountTotal;
+                    processedLocations++;
+                }
             }
         }
 
@@ -145,10 +230,16 @@ namespace ArcticRuins
                     new ShapeHashParser(),
                     dependencies.ShapeIdManager
                     );
-                // TODO: Replace with proper shape provider
-                _reversedHubData.Add(hubSystem, new ReversedHubData(() => {
-                    return new TileExtractionShapeProvider(new ShapeMiningStream(new ShapeItem(shapeFactory.CreateShapeDefinition("RuRuRuRu")).AsEnumerable()));
-                }, false));
+                var beltSpeed = new BuffableBeltSpeed()
+                {
+                    BaseSpeed = BuffableBeltSpeed.DiscreteSpeed.OneSecondPerTile,
+                    ResearchId = new ResearchSpeedId("BeltSpeed")
+                };
+                beltSpeed.OnAfterDeserialize();
+
+                RewirerChain.BeginRewiringWith(new BuffablesExtender<BuffableBeltSpeed>(beltSpeed));
+                
+                _reversedHubData.Add(hubSystem, new ReversedHubData(shapeFactory, beltSpeed, dependencies.Mode.MaxBuildingLayer, false));
             }
 
             public bool Equals(IRewirer other) => other is HubSystemRewirer;
@@ -177,10 +268,7 @@ namespace ArcticRuins
                     dependencies.ShapeIdManager
                 );
                 ((List<ISimulationSystem>)simulationSystems).Insert(0, hubSystem); // Make sure to take priority
-                // TODO: Replace with proper shape provider, keep list
-                _reversedHubData.Add(hubSystem, new ReversedHubData(() => {
-                    return new TileExtractionShapeProvider(new ShapeMiningStream(new ShapeItem(shapeFactory.CreateShapeDefinition("RuRuRuRu")).AsEnumerable()));
-                }, true));
+                _reversedHubData.Add(hubSystem, new ReversedHubData(shapeFactory, null, dependencies.Mode.MaxBuildingLayer, true));
             }
         }
 
@@ -194,19 +282,14 @@ namespace ArcticRuins
             }
         }
 
-        private class ReversedHubData(Func<IShapeSourceProvider> shapeSourceProviderFunc, bool isPrediction)
+        private class ReversedHubData(IShapeDefinitionFactory shapeDefinitionFactory, IBeltSpeed beltSpeed, int layerCount, bool isPrediction)
         {
-            // Create lazily
-            public IShapeSourceProvider ShapeSourceProvider
-            {
-                get
-                {
-                    field ??= shapeSourceProviderFunc();
-                    return field;
-                }
-            }
+            public IShapeSourceProvider GetSourceProvider(TileDirection direction) =>
+                new VortexSideConstantShapeSourceProvider(direction, shapeDefinitionFactory);
             
             public bool IsPrediction => isPrediction;
+            public IBeltSpeed BeltSpeed => beltSpeed;
+            public int LayerCount => layerCount;
         }
 
         private class ConnectableSimulationPredictionAdapter : ConnectableBuildingSimulation
@@ -214,11 +297,34 @@ namespace ArcticRuins
             private readonly ConnectableBuildingPredictionSimulation _prediction;
 
             public ConnectableSimulationPredictionAdapter(BuildingInstance building,
-                [NotNull] IItemPredictionSimulation simulation) : base(building, simulation)
+                [JetBrains.Annotations.NotNull] IItemPredictionSimulation simulation) : base(building, simulation)
             {
                 _prediction = new ConnectableBuildingPredictionSimulation(building, simulation);
                 this.Set(connectable => connectable.Connectors, _prediction.Connectors);
             }
+        }
+
+        private class VortexSideConstantShapeSourceProvider(TileDirection direction, IShapeDefinitionFactory shapeFactory) : IShapeSourceProvider
+        {
+            private ShapeItem GetShape()
+            {
+                var researchCostShapes = ArcticRuinsMod.Instance.SaveData.GetShapeForVortexSide(direction);
+                return researchCostShapes == null ? null : new ShapeItem(shapeFactory.CreateShapeDefinition(researchCostShapes.ShapeHash)); 
+            }
+            
+            public bool TryPeek([UnscopedRef] out ShapeItem shape)
+            {
+                shape = GetShape();
+                return shape != null;
+            }
+
+            public bool TryConsume([UnscopedRef] out ShapeItem shape)
+            {
+                shape = GetShape();
+                return shape != null;
+            }
+
+            public IReadOnlyList<ShapeItem> DistinctPossibleShapes => [ GetShape() ];
         }
     }
 }

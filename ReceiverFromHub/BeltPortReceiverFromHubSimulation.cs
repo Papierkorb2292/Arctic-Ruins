@@ -7,7 +7,6 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
 {
   public readonly BeltLane OutputLane;
   public readonly FastBeltPathLane VortexLane;
-  private readonly IShapeSourceProvider _shapeSourceProvider;
   
   public int NumItemReceivers => 0;
 
@@ -18,11 +17,9 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
   public BeltPortReceiverFromHubSimulation(
     BeltPortReceiverFromHubSimulationState state,
     BeltSpeed outputSpeed,
-    BeltSpeed vortexSpeed,
-    IShapeSourceProvider shapeSourceProvider)
+    BeltSpeed vortexSpeed)
     : base(state)
   {
-    _shapeSourceProvider = shapeSourceProvider;
     OutputLane = new BeltLane(outputSpeed, state.OutputLaneState);
     VortexLane = new FastBeltPathLane(vortexSpeed, state.VortexLaneState, OutputLane);
   }
@@ -42,16 +39,15 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
     // Make sure that the renderer creates animations for items that were already on the belt when it was loaded
     if(VortexLane.ItemCount > ItemDeliveryCount)
       ItemDeliveryCount = VortexLane.ItemCount;
-    if(!_shapeSourceProvider.TryPeek(out var shape) || !VortexLane.CanAcceptItem(shape))
+    if(State.BufferedItem is null || !VortexLane.CanAcceptItem(State.BufferedItem))
       return;
     TryCreateItemOnVortexLane(deltaTicks);
   }
 
   private void TryCreateItemOnVortexLane(Ticks progress_T)
   {
-    if (!_shapeSourceProvider.TryConsume(out var shape))
-      return;
-    VortexLane.HandOverItem(shape, progress_T);
+    VortexLane.HandOverItem(State.BufferedItem, progress_T);
+    State.BufferedItem = null;
     ItemDeliveryCount++;
   }
 
@@ -59,5 +55,14 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
   {
     State.VortexLaneState.Clear();
     State.OutputLaneState.Clear();
+    State.BufferedItem = null;
+  }
+
+  public bool OfferItem(ShapeItem item)
+  {
+    if (State.BufferedItem != null) return false;
+    State.BufferedItem = item;
+    return true;
+
   }
 }
