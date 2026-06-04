@@ -34,7 +34,6 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
             {
                 foreach (var shape in line.Costs)
                 {
-                    //TODO: Add available belt count
                     var button = RequestChildView(HUDSidePanelModuleShapeButton.Prefab).PlaceAt(transform);
                     button.ConfigureButton(
                         new CombinedText(
@@ -47,6 +46,10 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
                             _onShapeSelected(shape);
                         },
                         shapeRegistry.GetItem(shapeIdManager.Resolve(shape.ShapeHash))
+                    );
+                    button.button.UIButton.TooltipText = new CombinedText(
+                        new GenericFormattedNumberText(new GenericIntegerFormatter((int)shape.Amount)),
+                        ("ui.arctic-ruins.vortex-configuration.belts." + (shape.Amount == 1 ? "singular" : "plural")).T()
                     );
                     _shapeButtons.Add((shape.ShapeHash, button));
                 }

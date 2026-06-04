@@ -21,6 +21,8 @@
     "ui.arctic-ruins.vortex-configuration.east": "East",
     "ui.arctic-ruins.vortex-configuration.south": "South",
     "ui.arctic-ruins.vortex-configuration.west": "West",
-    "ui.arctic-ruins.vortex-configuration.shape": "Shape "
+    "ui.arctic-ruins.vortex-configuration.shape": "Shape ",
+    "ui.arctic-ruins.vortex-configuration.belts.singular": " Belt",
+    "ui.arctic-ruins.vortex-configuration.belts.plural": " Belts"
   }
 }
