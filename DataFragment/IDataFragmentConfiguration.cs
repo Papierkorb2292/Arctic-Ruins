@@ -1,0 +1,3 @@
+namespace ArcticRuins.DataFragment;
+
+public interface IDataFragmentConfiguration;

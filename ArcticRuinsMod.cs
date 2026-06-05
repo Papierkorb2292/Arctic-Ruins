@@ -8,6 +8,7 @@ using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
 using ArcticRuins.CommunicationRelay;
+using ArcticRuins.DataFragment;
 using ArcticRuins.LayerDetacher;
 using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
@@ -83,6 +84,7 @@ namespace ArcticRuins
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
             CommunicationRelayBuilding.Register();
+            DataFragmentBuilding.Register();
             MeshRecolorer.Register();
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
@@ -230,6 +232,7 @@ namespace ArcticRuins
             VortexReverser.Dispose();
             AsteroidProgressSystem.Dispose();
             MeshRecolorer.Dispose();
+            DataFragmentBuilding.Dispose();
         }
 
         private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)

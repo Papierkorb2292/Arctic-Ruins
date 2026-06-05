@@ -10,6 +10,8 @@
     "building-variant.layer-detacher.description": "<gl>Detaches</gl> the <gl>top layer</gl> of a shape and puts it on a separate belt",
     "building-variant.communication-relay.title": "Communication Relay",
     "building-variant.communication-relay.description": "Use the communication relay to declare which <gl>shapes</gl> you want to receive through the <gl>vortex</gl>",
+    "building-variant.data-fragment.title": "Data Fragment",
+    "building-variant.data-fragment.description": "Contains a piece of technology from a world consumed by an eternal winter",
     "game-mode.ArcticRuins.title": "Arctic Ruins",
     "game-mode.ArcticRuins.description": "TODO: Description",
     "scenario.arctic-ruins.title": "Normal",
@@ -23,6 +25,8 @@
     "ui.arctic-ruins.vortex-configuration.west": "West",
     "ui.arctic-ruins.vortex-configuration.shape": "Shape ",
     "ui.arctic-ruins.vortex-configuration.belts.singular": " Belt",
-    "ui.arctic-ruins.vortex-configuration.belts.plural": " Belts"
+    "ui.arctic-ruins.vortex-configuration.belts.plural": " Belts",
+    "ui.arctic-ruins.data-fragment.tech-info": "You discovered: ",
+    "ui.arctic-ruins.data-fragment.unlock": "Unlock"
   }
 }
