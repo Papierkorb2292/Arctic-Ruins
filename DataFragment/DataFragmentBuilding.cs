@@ -65,7 +65,7 @@ namespace ArcticRuins.DataFragment
             IBuildingBuilder communicationRelayBuilder = Building.Create(DefinitionId)
                 .WithConnectorData(connectorData)
                 .DynamicallyRendering<DataFragmentSimulationRenderer, DataFragmentSimulation,
-                    IDataFragmentDrawData>(new DataFragmentDrawData())
+                    IDataFragmentDrawData>(new DataFragmentDrawData(CreateCubeMesh(ArcticRuinsMod.Instance.Resources)))
                 .WithStaticDrawData(CreateDrawData(ArcticRuinsMod.Instance.Resources))
                 .WithoutSound()
                 .WithoutSimulationConfiguration()
@@ -110,10 +110,17 @@ namespace ArcticRuins.DataFragment
                 baseModLod.LODClose,
                 new LODEmptyMesh(),
                 BoundingBoxHelper.CreateBasicCollider(baseMesh),
-                new DataFragmentDrawData(),
+                new DataFragmentDrawData(CreateCubeMesh(modResourcesLocator)),
                 false,
                 null,
                 false);
+        }
+
+        private static ILODMesh CreateCubeMesh(ModFolderLocator modResourcesLocator)
+        {
+            var cubeMeshPath = modResourcesLocator.SubPath("DataFragmentCube.fbx");
+            var cubeMesh = FileMeshLoader.LoadSingleMeshFromFile(cubeMeshPath);
+            return MeshLod.Create().AddLod0Mesh(cubeMesh).BuildLod6Mesh();
         }
     }
 
