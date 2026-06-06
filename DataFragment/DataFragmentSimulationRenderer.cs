@@ -28,7 +28,7 @@ namespace ArcticRuins.DataFragment
         {
             if (!entity.DrawData.DataCubeMesh.TryGet(options.LOD.BuildingLOD, out var dataCubeMesh)) return;
             var material = options.Theme.BaseResources.BuildingMaterial[options.LOD.BuildingMaterialLOD];
-            options.Renderers.Buildings.Add(dataCubeMesh, material, Matrix4x4.TRS(entity.Transform.Position.ToCenter_W() + new WorldVector(0, 0, 0.5f), Quaternion.AngleAxis(options.AnimationSimulationTime_G * 20, Vector3.up) * BaseCubeRotation, new Vector3(0.14f, 0.14f, 0.14f) ));
+            options.Renderers.Buildings.Add(dataCubeMesh, material, Matrix4x4.TRS(entity.Transform.Position.ToCenter_W() + new WorldVector(0, 0, 0.5f), Quaternion.AngleAxis(options.AnimationSimulationTime_G * 22.5f, Vector3.up) * BaseCubeRotation, new Vector3(0.14f, 0.14f, 0.14f) ));
         }
     }
 }
