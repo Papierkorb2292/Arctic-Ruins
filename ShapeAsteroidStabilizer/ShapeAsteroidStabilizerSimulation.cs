@@ -39,6 +39,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             Steps IItemReceiver.MaxStep_S => LaneConstants.ItemSpacing;
             
             // Convert to hash, because item definitions don't implement Equals
+            // TODO(opt): The proper solution would be ShapeId
             private readonly HashSet<string> _allowedHashes = aggregatedResource.DistinctPossibleShapes.Select(item => item.Definition.Hash).ToHashSet();
 
             public bool CanAcceptItem(IBeltItem itemToTransfer) => true;
