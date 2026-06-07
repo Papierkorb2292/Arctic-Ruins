@@ -79,11 +79,10 @@ namespace ArcticRuins
                 {
                     if (_skipApplyGameBalancingParameters)
                     {
-                        ArcticRuinsMod.Logger.Info!.Log("Skipping!!");
+                        ArcticRuinsMod.Logger.Info!.Log("Skipping game balancing to allow custom ArcticRuins progression");
                         _skipApplyGameBalancingParameters = false;
                         return;
                     }
-                    ArcticRuinsMod.Logger.Info!.Log("Not Skipping??");
                     orig(balancer, progression, config);
                 }));
             
