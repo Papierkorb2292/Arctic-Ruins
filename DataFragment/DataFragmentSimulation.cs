@@ -12,6 +12,6 @@ namespace ArcticRuins.DataFragment
     {
         public ResearchProgression Progression => progression;
         
-        public float RewardUnlockTime = -1;
+        public double RewardUnlockSimulationTime = -1;
     }
 }

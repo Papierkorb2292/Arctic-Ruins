@@ -51,6 +51,7 @@ public class DataFragmentModules : SimulationBasedBuildingModuleDataProvider<Dat
 
             unlockManager.UnlockProgressManager._OnChanged.Invoke();
             actualSimulation.State.UnlockedReward = true;
+            actualSimulation.RewardUnlockSimulationTime = StaticGameCoreAccessor.G.SimulationSpeed.SimulationTime_G;
         });
     }
 }
