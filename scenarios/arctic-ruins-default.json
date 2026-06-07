@@ -150,33 +150,18 @@
           "Lines": {
             "Lines": [
               {
-                
                 "Shapes": [
                   {
-                    "Shape": "CrCr----",
-                    "Amount": 1
-                  },
-                  {
-                    "Shape": "CrCrCrCr",
-                    "Amount": 2
-                  },
-                  {
-                    "Shape": "RbRbRbRb:CrCrCrCr",
-                    "Amount": 3
+                    "Shape": "RuRuRuRu",
+                    "Amount": 0
                   }
                 ]
               },
               {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "Rb------",
-                    "Amount": 1200
-                  },
-                  {
-                    "Shape": "RbRb----",
-                    "Amount": 2000
+                    "Shape": "CuCuCuCu",
+                    "Amount": 0
                   }
                 ]
               }
@@ -219,30 +204,16 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "RgRgRgRg",
-                    "Amount": 3000
-                  },
-                  {
-                    "Shape": "RuRgRuRg",
-                    "Amount": 4000
-                  },
-                  {
                     "Shape": "RuRgRuRg:SbSbSbSb",
-                    "Amount": 14000
+                    "Amount": 0
                   }
                 ]
               },
               {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "SuSuSuSu",
-                    "Amount": 3000
-                  },
-                  {
                     "Shape": "SbSbSbSb",
-                    "Amount": 4000
+                    "Amount": 0
                   }
                 ]
               }
@@ -293,30 +264,16 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "--Wr--Wr",
-                    "Amount": 4000
-                  },
-                  {
-                    "Shape": "WgWrWgWr",
-                    "Amount": 5000
-                  },
-                  {
                     "Shape": "RbCbCbCb:RuCuCuCu:WgWrWgWr",
-                    "Amount": 20000
+                    "Amount": 0
                   }
                 ]
               },
               {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "RbCbCbCb",
-                    "Amount": 4000
-                  },
-                  {
                     "Shape": "RbCbCbCb:RuCuCuCu",
-                    "Amount": 5000
+                    "Amount": 0
                   }
                 ]
               }
@@ -355,30 +312,16 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "P-P-P-P-:RbRbRbRb",
-                    "Amount": 6000
-                  },
-                  {
-                    "Shape": "Su----Su:P-----P-:Rb----Rb",
-                    "Amount": 8000
-                  },
-                  {
                     "Shape": "SuP-P-Su:P-P-P-P-:RbCgCgRb",
-                    "Amount": 25000
+                    "Amount": 0
                   }
                 ]
               },
               {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "--P-P---:--CgCg--",
-                    "Amount": 6000
-                  },
-                  {
                     "Shape": "--P-P---:--P-P---:--CgCg--",
-                    "Amount": 8000
+                    "Amount": 0
                   }
                 ]
               }
@@ -417,16 +360,8 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "CcCc----",
-                    "Amount": 7000
-                  },
-                  {
-                    "Shape": "CcCcP-P-:----CcCc",
-                    "Amount": 10000
-                  },
-                  {
                     "Shape": "CcCcP-P-:WwWwCcCc:----WwWw",
-                    "Amount": 30000
+                    "Amount": 0
                   }
                 ]
               },
@@ -435,12 +370,8 @@
                 "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "WyWyWyWy",
-                    "Amount": 7000
-                  },
-                  {
                     "Shape": "WwWw----",
-                    "Amount": 10000
+                    "Amount": 0
                   }
                 ]
               }
@@ -479,30 +410,16 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "Ry--Ry--",
-                    "Amount": 9000
-                  },
-                  {
-                    "Shape": "RyP-RyP-:--Ru--Ru",
-                    "Amount": 12000
-                  },
-                  {
                     "Shape": "RyP-RyP-:SwRuSwRu",
-                    "Amount": 40000
+                    "Amount": 0
                   }
                 ]
               },
               {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "Sb--Sb--",
-                    "Amount": 9000
-                  },
-                  {
                     "Shape": "Sm--Sm--",
-                    "Amount": 12000
+                    "Amount": 0
                   }
                 ]
               }
@@ -541,30 +458,16 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "Rr--Wr--",
-                    "Amount": 10000
-                  },
-                  {
-                    "Shape": "RrcrWrcr",
-                    "Amount": 12000
-                  },
-                  {
                     "Shape": "RrcrWrcr:CwcwCwcw",
-                    "Amount": 50000
+                    "Amount": 0
                   }
                 ]
               },
               {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
                 "Shapes": [
                   {
-                    "Shape": "Cy--Cy--",
-                    "Amount": 10000
-                  },
-                  {
                     "Shape": "Cw--Cw--",
-                    "Amount": 12000
+                    "Amount": 0
                   }
                 ]
               }
@@ -950,12 +853,7 @@
                   "BuildingDefinitionGroupId": "PainterDefaultVariant"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 6
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBFluids_Mixer",
@@ -977,12 +875,7 @@
                   "MechanicId": "RUColorMixing"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 12
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBSpecial_PinPusher",
@@ -1004,12 +897,7 @@
                   "MechanicId": "RUPinPushing"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 12
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBSpecial_Crystals",
@@ -1033,12 +921,7 @@
                   "MechanicId": "RUCrystals"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 18
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBCutting_FullCutter",
@@ -1621,12 +1504,7 @@
                   "BuildingDefinitionGroupId": "FluidPortReceiverVariant"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 8
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBSpecial_SpaceFloor3",
@@ -1652,12 +1530,7 @@
                   "GroupId": "RailLiftDown1X1X3Group"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 50
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBPlatformPack_Small",
@@ -1888,12 +1761,7 @@
                   "GroupId": "ShapeCargoFactoriesGroup"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 20
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBTrains_FluidTransport",
@@ -2000,12 +1868,7 @@
                   "GroupId": "TrainQuickStationsGroup"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 24
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBTrains_TransferStations",
@@ -2084,12 +1947,7 @@
                   "GroupId": "RedRailGroup"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 6
-                }
-              ]
+              "Costs": [ ]
             },
             {
               "Id": "CBTrains_LinePackPrimary",
@@ -2260,12 +2118,7 @@
                   "MechanicId": "RUTrainHubDelivery"
                 }
               ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 200
-                }
-              ]
+              "Costs": [ ]
             }
           ]
         }

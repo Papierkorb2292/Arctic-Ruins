@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Core.Coordinates;
 using Game.Core.Simulation;
 using JetBrains.Annotations;
+using Unity.Mathematics;
+using Random = UnityEngine.Random;
 
 namespace ArcticRuins;
 
@@ -11,6 +14,7 @@ public class SaveData
     public readonly Dictionary<GlobalChunkCoordinate, AsteroidData> Asteroids = new();
     public readonly Dictionary<TileDirection, VortexSide> VortexSides = new();
     private readonly Dictionary<string, ShapeSupplierData> VortexShapeSupplier = new();
+    public readonly TechTracker Tech = new();
     
     public SaveData() {}
     public SaveData(RawSaveData rawSaveData)
@@ -29,6 +33,8 @@ public class SaveData
         {
             VortexShapeSupplier[shape] = data;
         }
+
+        Tech = rawSaveData.Tech;
     }
 
     [CanBeNull]
@@ -71,17 +77,56 @@ public class SaveData
         public ResearchCostShapes Shape { get; set; }
     }
 
+    public class TechTracker
+    {
+        public List<TechReference> QueuedRewards = null;
+        public HashSet<TechReference> UnlockedRewards = [];
+    }
+
     public class RawSaveData
     {
         public List<(GlobalChunkCoordinate, AsteroidData)> Asteroids = [];
         public List<(TileDirection, VortexSide)> VortexSides = [];
         public List<(string, ShapeSupplierData)> VortexShapeSupplier = [];
+        public TechTracker Tech;
         
         public void CopyFrom(SaveData saveData)
         {
             Asteroids = saveData.Asteroids.Select(entry => (entry.Key, entry.Value)).ToList();
             VortexSides = saveData.VortexSides.Select(entry => (entry.Key, entry.Value)).ToList();
             VortexShapeSupplier = saveData.VortexShapeSupplier.Select(entry => (entry.Key, entry.Value)).ToList();
+            Tech = saveData.Tech;
+        }
+    }
+
+    public readonly struct TechReference(int level, int index) : IEquatable<TechReference>
+    {
+        public int Level => level;
+        public int Index => index;
+
+        public override bool Equals(object obj)
+        {
+            return obj is TechReference other && Equals(other);
+        }
+
+        public bool Equals(TechReference other)
+        {
+            return Level == other.Level && Index == other.Index;
+        }
+
+        public override int GetHashCode()
+        {
+            return 31 * Level.GetHashCode() + Index.GetHashCode();
+        }
+        
+        public static bool operator ==(TechReference left, TechReference right)
+        {
+            return left.Equals(right);
+        }
+        
+        public static bool operator !=(TechReference left, TechReference right)
+        {
+            return !left.Equals(right);
         }
     }
 }

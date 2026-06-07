@@ -7,8 +7,11 @@ using JetBrains.Annotations;
 
 namespace ArcticRuins.DataFragment
 {
-    public class DataFragmentSimulation([NotNull] DataFragmentSimulationState state)
+    public class DataFragmentSimulation([NotNull] DataFragmentSimulationState state, ResearchProgression progression)
         : Simulation<DataFragmentSimulationState>(state)
     {
+        public ResearchProgression Progression => progression;
+        
+        public float RewardUnlockTime = -1;
     }
 }

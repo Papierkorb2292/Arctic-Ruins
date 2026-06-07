@@ -27,6 +27,7 @@
     "ui.arctic-ruins.vortex-configuration.belts.singular": " Belt",
     "ui.arctic-ruins.vortex-configuration.belts.plural": " Belts",
     "ui.arctic-ruins.data-fragment.tech-info": "You discovered: ",
+    "ui.arctic-ruins.data-fragment.unlocked-tech-info": "Already unlocked: ",
     "ui.arctic-ruins.data-fragment.unlock": "Unlock"
   }
 }

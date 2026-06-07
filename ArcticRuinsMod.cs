@@ -79,6 +79,7 @@ namespace ArcticRuins
             RegisterSaveData();
             
             VortexReverser.Register();
+            MilestoneReverser.Register();
             AsteroidProgressSystem.Register();
             ArcticCutterBuilding.Register();
             ShapeAsteroidStabilizerBuilding.Register();
@@ -230,6 +231,7 @@ namespace ArcticRuins
             _customMapRenderersHook.Dispose();
             _customHUDRenderersHook.Dispose();
             VortexReverser.Dispose();
+            MilestoneReverser.Dispose();
             AsteroidProgressSystem.Dispose();
             MeshRecolorer.Dispose();
             DataFragmentBuilding.Dispose();

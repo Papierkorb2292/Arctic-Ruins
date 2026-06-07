@@ -12,7 +12,7 @@ namespace ArcticRuins.DataFragment
             out IDataFragmentConfiguration config)
         {
             config = new DataFragmentConfiguration();
-            return new DataFragmentSimulationFactory();
+            return new DataFragmentSimulationFactory(dependencies.Mode.ResearchLayout);
         }
     }
 }

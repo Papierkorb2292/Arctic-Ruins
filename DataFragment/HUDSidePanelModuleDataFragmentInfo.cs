@@ -14,6 +14,7 @@ public class HUDSidePanelModuleDataFragmentInfo : HUDSidePanelModule
     private static readonly PrefabViewReference<HUDSidePanelModule> Prefab = new(GeneratePrefab());
 
     private HUDGenericIconWithLabel _label;
+    private HUDSidePanelModule _text;
     private IGameData _gameData;
     private GameMode _mode;
     private ResearchManager _research;
@@ -29,9 +30,7 @@ public class HUDSidePanelModuleDataFragmentInfo : HUDSidePanelModule
         _mode = mode;
         _research = research;
         var layout = gameObject.AddComponent<VerticalLayoutGroup>();
-        var textData = new HUDSidePanelModuleInfoText.Data("ui.arctic-ruins.data-fragment.tech-info".T());
-        var text = RequestChildView(textData.GetViewPrefabReference()).PlaceAt(transform);
-        text.InitFromData(textData);
+        _text = RequestChildView(Globals.Resources.HUDSidePanelModulesResources.InfoText).PlaceAt(transform);
         _label = RequestChildView(DataFragmentBuilding.UIRewardPrefab).PlaceAt(transform);
         //((RectTransform)transform).SetHeight(((RectTransform)_label.transform).sizeDelta.y);
     }
@@ -40,6 +39,9 @@ public class HUDSidePanelModuleDataFragmentInfo : HUDSidePanelModule
     {
         if (rawData is not Data data)
             throw new Exception("Invalid data");
+        _text.InitFromData(new HUDSidePanelModuleInfoText.Data((
+            "ui.arctic-ruins.data-fragment." + (data.IsUnlocked ? "unlocked-tech-info" : "tech-info")).T()
+        ));
         var icons = Globals.Resources.Icons;
         using var rewards = ScopedList.Get<IResearchReward>();
         rewards.Add(data.Tech);
@@ -61,9 +63,10 @@ public class HUDSidePanelModuleDataFragmentInfo : HUDSidePanelModule
         return gameObject.AddComponent<HUDSidePanelModuleDataFragmentInfo>();
     }
 
-    public class Data(IResearchReward tech) : IHUDSidePanelModuleData
+    public class Data(IResearchReward tech, bool isUnlocked) : IHUDSidePanelModuleData
     {
         public IResearchReward Tech => tech;
+        public bool IsUnlocked => isUnlocked;
         
         public PrefabViewReference<HUDSidePanelModule> GetViewPrefabReference()
         {
