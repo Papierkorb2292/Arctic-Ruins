@@ -32,7 +32,7 @@ public class DataFragmentModules : SimulationBasedBuildingModuleDataProvider<Dat
                 return;
             var unlockManager = StaticGameCoreAccessor.G.Research.UnlockManager;
             if (techReference != null)
-                MilestoneReverser.MarkTechUnlocked(techReference.Value);
+                MilestoneReverser.MarkTechUnlocked(techReference.Value, actualSimulation.Progression);
             ArcticRuinsMod.Logger.Info!.LogFormat("Unlocking data fragment: {0} at {1}", reward, techReference);
             switch (reward)
             {

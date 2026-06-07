@@ -7,6 +7,7 @@ using Game.Content.BuildingPath.Prediction;
 using Game.Core.Research;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.SharpDetour;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace ArcticRuins;
@@ -16,6 +17,9 @@ public static class MilestoneReverser
     private static Hook _milestoneCanUnlockHook;
     private static Hook _milestoneTryUnlockHook;
     private static Hook _includeUnlockedChunkLimitInRecomputationHook;
+    private static Hook _markCompletedMilestoneRewardsHook;
+
+    private static HUDResearchTabLevels _tabLevels;
     
     public static void Register()
     {
@@ -42,6 +46,17 @@ public static class MilestoneReverser
                     .Select(techReference => manager.Progression.Levels[techReference.Level].Rewards[techReference.Index])
                     .OfType<ResearchRewardChunkLimit>());
             });
+        _markCompletedMilestoneRewardsHook = DetourHelper.CreatePostfixHook<HUDResearchTabLevels, ResearchManager, GameMode>(
+            (tabLevels, research, mode) => tabLevels.Construct(research, mode),
+            (tabLevels, research, _) =>
+            {
+                // Color all unlocked rewards and save hud instance to add new unlocked rewards later 
+                _tabLevels = tabLevels;
+                foreach (var tech in ArcticRuinsMod.Instance.SaveData.Tech.UnlockedRewards)
+                {
+                    MarkMilestoneRewardUnlocked(tech, research.Layout);
+                }
+            });
     }
 
     public static void Dispose()
@@ -49,6 +64,7 @@ public static class MilestoneReverser
         _milestoneCanUnlockHook.Dispose();
         _milestoneTryUnlockHook.Dispose();
         _includeUnlockedChunkLimitInRecomputationHook.Dispose();
+        _markCompletedMilestoneRewardsHook.Dispose();
     }
 
     private static bool HasUnlockedLevelRewards(ResearchLevel level, ResearchUnlockManager unlockManager)
@@ -84,10 +100,40 @@ public static class MilestoneReverser
         return result;
     }
 
-    public static void MarkTechUnlocked(SaveData.TechReference techReference)
+    public static void MarkTechUnlocked(SaveData.TechReference techReference, ResearchProgression layout)
     {
         var techTracker = ArcticRuinsMod.Instance.SaveData.Tech;
         techTracker.UnlockedRewards.Add(techReference);
+        MarkMilestoneRewardUnlocked(techReference, layout);
+    }
+
+    private static void MarkMilestoneRewardUnlocked(SaveData.TechReference techReference, ResearchProgression layout)
+    {
+        // Calculate the index at which HudResearchRewardsDisplay.Level placed the reward
+        var rewards = layout.Levels[techReference.Level].Rewards; 
+        var reward = rewards[techReference.Index];
+        int labelIndex;
+        switch (reward)
+        {
+            case ResearchRewardBuildingGroup or ResearchRewardIslandGroup or ResearchRewardMechanic
+                or ResearchRewardSideUpgrade:
+                labelIndex = rewards.GetRange(0, techReference.Index)
+                                 .Count(entry => entry is ResearchRewardBuildingGroup or ResearchRewardIslandGroup
+                                     or ResearchRewardMechanic or ResearchRewardSideUpgrade);
+                break;
+            case ResearchRewardResearchPoints or ResearchRewardBlueprintCurrency
+                or ResearchRewardChunkLimit:
+                labelIndex = rewards.Count(entry => entry is ResearchRewardBuildingGroup or ResearchRewardIslandGroup
+                                 or ResearchRewardMechanic or ResearchRewardSideUpgrade)
+                             + rewards.GetRange(0, techReference.Index)
+                                 .Count(entry => entry is ResearchRewardResearchPoints or ResearchRewardBlueprintCurrency
+                                     or ResearchRewardChunkLimit);
+                break;
+            default:
+                return;
+        }
+
+        _tabLevels.Instances[techReference.Level].UIRewardsDisplay.Instances[labelIndex].UITitle.Color = Color.green;
     }
 
     private class LevelWrapper(ResearchLevel level) : IResearchUpgrade
