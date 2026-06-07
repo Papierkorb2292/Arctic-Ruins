@@ -849,6 +849,10 @@
               "RequiredMechanicIds": [],
               "Rewards": [
                 {
+                  "$type": "MechanicReward",
+                  "MechanicId": "RUFluids"
+                },
+                {
                   "$type": "BuildingReward",
                   "BuildingDefinitionGroupId": "PainterDefaultVariant"
                 }
@@ -1749,6 +1753,10 @@
               "RequiredMechanicIds": [],
               "Rewards": [
                 {
+                  "$type": "MechanicReward",
+                  "MechanicId": "RUTrains"
+                },
+                {
                   "$type": "IslandGroupReward",
                   "GroupId": "TrainShapeLoadersGroup"
                 },
@@ -1859,10 +1867,12 @@
               "Category": "Trains",
               "ShopDisplayMode": 1,
               "RequiredUpgradeIds": [],
-              "RequiredMechanicIds": [
-                "RUTrains"
-              ],
+              "RequiredMechanicIds": [],
               "Rewards": [
+                {
+                  "$type": "MechanicReward",
+                  "MechanicId": "RUTrains"
+                },
                 {
                   "$type": "IslandGroupReward",
                   "GroupId": "TrainQuickStationsGroup"
@@ -1938,6 +1948,10 @@
               "RequiredUpgradeIds": [],
               "RequiredMechanicIds": [],
               "Rewards": [
+                {
+                  "$type": "MechanicReward",
+                  "MechanicId": "RUTrains"
+                },
                 {
                   "$type": "IslandGroupReward",
                   "GroupId": "RedTrainProducerGroup"
