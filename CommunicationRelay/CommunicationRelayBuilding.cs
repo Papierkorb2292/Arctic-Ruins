@@ -70,7 +70,7 @@ namespace ArcticRuins.CommunicationRelay
                 .WithBuilding(communicationRelayBuilder, communicationRelayGroup)
                 .UnlockedAtMilestone(new MilestoneSelector())
                 .WithDefaultPlacement()
-                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).InsertAfter())
+                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(5).InsertAfter())
                 .WithSimulation(new CommunicationRelayFactoryBuilder(), ArcticRuinsMod.Logger)
                 .WithCustomModules(new CommunicationRelayModules())
                 .WithoutPrediction()

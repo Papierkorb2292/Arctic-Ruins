@@ -76,7 +76,7 @@ namespace ArcticRuins.DataFragment
                 .WithBuilding(communicationRelayBuilder, communicationRelayGroup)
                 .UnlockedAtMilestone(new MilestoneSelector())
                 .WithDefaultPlacement()
-                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).InsertAfter())
+                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(5).InsertAfter())
                 .WithSimulation(new DataFragmentFactoryBuilder(), ArcticRuinsMod.Logger)
                 .WithCustomModules(new DataFragmentModules())
                 .WithoutPrediction()
