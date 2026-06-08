@@ -20,6 +20,7 @@ public static class MilestoneReverser
     private static Hook _includeUnlockedChunkLimitInRecomputationHook;
     private static Hook _markCompletedMilestoneRewardsHook;
     private static Hook _shapeCostTextHook;
+    private static Hook _hideMilestoneSummaryHook;
 
     private static HUDResearchTabLevels _tabLevels;
     private static readonly ConditionalWeakTable<HUDResearchShapeCostDisplay, object> CostDisplaysWithBeltText = new();
@@ -119,6 +120,13 @@ public static class MilestoneReverser
                          (amount == 1 ? "singular" : "plural")).T()
                     );
                 });
+        _hideMilestoneSummaryHook = DetourHelper.CreatePostfixHook<HUDMilestoneSummaryDisplay>(
+            display => display.RebuildView(),
+            display =>
+            {
+                display.ReleaseChildViews(display.Instances);
+                display.Instances.Clear();
+            });
     }
 
     public static void Dispose()
@@ -128,6 +136,7 @@ public static class MilestoneReverser
         _includeUnlockedChunkLimitInRecomputationHook.Dispose();
         _markCompletedMilestoneRewardsHook.Dispose();
         _shapeCostTextHook.Dispose();
+        _hideMilestoneSummaryHook.Dispose();
     }
 
     private static bool HasUnlockedLevelRewards(ResearchLevel level, ResearchUnlockManager unlockManager)
