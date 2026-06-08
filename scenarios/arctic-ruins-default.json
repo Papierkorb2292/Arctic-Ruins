@@ -86,7 +86,16 @@
             "IconId": "building.BeltDefaultVariant"
           },
           "Lines": {
-            "Lines": []
+            "Lines": [
+              {
+                "Shapes": [
+                  {
+                    "Shape": "RuRuRuRu",
+                    "Amount": 1
+                  }
+                ]
+              }
+            ]
           },
           "Rewards": {
             "Rewards": [
@@ -152,16 +161,8 @@
               {
                 "Shapes": [
                   {
-                    "Shape": "RuRuRuRu",
-                    "Amount": 0
-                  }
-                ]
-              },
-              {
-                "Shapes": [
-                  {
                     "Shape": "CuCuCuCu",
-                    "Amount": 0
+                    "Amount": 2
                   }
                 ]
               }
@@ -205,7 +206,7 @@
                 "Shapes": [
                   {
                     "Shape": "RuRgRuRg:SbSbSbSb",
-                    "Amount": 0
+                    "Amount": 4
                   }
                 ]
               },
@@ -213,7 +214,7 @@
                 "Shapes": [
                   {
                     "Shape": "SbSbSbSb",
-                    "Amount": 0
+                    "Amount": 4
                   }
                 ]
               }
@@ -265,7 +266,7 @@
                 "Shapes": [
                   {
                     "Shape": "RbCbCbCb:RuCuCuCu:WgWrWgWr",
-                    "Amount": 0
+                    "Amount": 8
                   }
                 ]
               },
@@ -273,7 +274,7 @@
                 "Shapes": [
                   {
                     "Shape": "RbCbCbCb:RuCuCuCu",
-                    "Amount": 0
+                    "Amount": 8
                   }
                 ]
               }
@@ -313,7 +314,7 @@
                 "Shapes": [
                   {
                     "Shape": "SuP-P-Su:P-P-P-P-:RbCgCgRb",
-                    "Amount": 0
+                    "Amount": 16
                   }
                 ]
               },
@@ -321,7 +322,7 @@
                 "Shapes": [
                   {
                     "Shape": "--P-P---:--P-P---:--CgCg--",
-                    "Amount": 0
+                    "Amount": 16
                   }
                 ]
               }
@@ -361,7 +362,7 @@
                 "Shapes": [
                   {
                     "Shape": "CcCcP-P-:WwWwCcCc:----WwWw",
-                    "Amount": 0
+                    "Amount": 32
                   }
                 ]
               },
@@ -371,7 +372,7 @@
                 "Shapes": [
                   {
                     "Shape": "WwWw----",
-                    "Amount": 0
+                    "Amount": 32
                   }
                 ]
               }
@@ -411,7 +412,7 @@
                 "Shapes": [
                   {
                     "Shape": "RyP-RyP-:SwRuSwRu",
-                    "Amount": 0
+                    "Amount": 64
                   }
                 ]
               },
@@ -419,7 +420,7 @@
                 "Shapes": [
                   {
                     "Shape": "Sm--Sm--",
-                    "Amount": 0
+                    "Amount": 64
                   }
                 ]
               }
@@ -459,7 +460,7 @@
                 "Shapes": [
                   {
                     "Shape": "RrcrWrcr:CwcwCwcw",
-                    "Amount": 0
+                    "Amount": 128
                   }
                 ]
               },
@@ -467,7 +468,7 @@
                 "Shapes": [
                   {
                     "Shape": "Cw--Cw--",
-                    "Amount": 0
+                    "Amount": 128
                   }
                 ]
               }

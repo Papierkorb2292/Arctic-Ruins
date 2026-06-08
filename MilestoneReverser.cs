@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using Core.Localization;
-using Game.Content.BuildingPath.Prediction;
+using Game.Core.Localization;
 using Game.Core.Research;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.SharpDetour;
+using ShapezShifter.Textures;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace ArcticRuins;
 
@@ -18,12 +19,15 @@ public static class MilestoneReverser
     private static Hook _milestoneTryUnlockHook;
     private static Hook _includeUnlockedChunkLimitInRecomputationHook;
     private static Hook _markCompletedMilestoneRewardsHook;
+    private static Hook _shapeCostTextHook;
 
     private static HUDResearchTabLevels _tabLevels;
+    private static readonly ConditionalWeakTable<HUDResearchShapeCostDisplay, object> CostDisplaysWithBeltText = new();
     
     public static void Register()
     {
-        //TODO: Filter scenario
+        //TODO: Filter scenario, test if everything works like normal
+        //TODO: Don't pin milestone shapes
         _milestoneCanUnlockHook = new Hook(DetourHelper.GetRuntimeMethod<ResearchUnlockManager>(
             (Expression<Func<ResearchUnlockManager, IResearchUpgrade, bool>>)((unlockManager, upgrade) => unlockManager.CanUnlock(upgrade))),
                 (Func<Func<ResearchUnlockManager, IResearchUpgrade, bool>, ResearchUnlockManager, IResearchUpgrade, bool>)((orig, unlockManager, upgrade) =>
@@ -50,13 +54,71 @@ public static class MilestoneReverser
             (tabLevels, research, mode) => tabLevels.Construct(research, mode),
             (tabLevels, research, _) =>
             {
+                tabLevels.Instances[0].UIProgressConnectorCompletedInitial =
+                    FileTextureLoader.LoadTextureAsSprite(
+                        ArcticRuinsMod.Instance.Resources.SubPath("HUDResearchConnectorInitialWithCost.png"), out var _);
+                tabLevels.Instances[0].SetViewToState(tabLevels.Instances[0].State); // Update with new sprite
+                
+                foreach (var level in tabLevels.Instances)
+                {
+                    // Rebuild reward list to exclude computed rewards, since they aren't unlocked through data fragments
+                    level.UIRewardsDisplay.Rewards = level.Level.Rewards;
+                    
+                    // Swap location of rewards and costs. Honestly didn't expect this to work so well
+                    var costs = (RectTransform)((HUDComponent)level.UICostsOverviewView).transform;
+                    var rewards = (RectTransform)level.UIRewardsDisplay.transform;
+                    
+                    var rewardsParent = rewards.parent;
+                    rewards.SetParent(costs.parent, false);
+                    costs.SetParent(rewardsParent, false);
+                    
+                    (rewards.anchorMin, costs.anchorMin) = (costs.anchorMin, rewards.anchorMin);
+                    (rewards.anchorMax, costs.anchorMax) = (costs.anchorMax, rewards.anchorMax);
+                    (rewards.anchoredPosition, costs.anchoredPosition) =
+                        (costs.anchoredPosition, rewards.anchoredPosition);
+                    (rewards.sizeDelta, costs.sizeDelta) = (costs.sizeDelta, rewards.sizeDelta);
+                    rewards.sizeDelta -= new Vector2(25, 70);
+                    
+                    // Save all shape cost displays where the text should be changed
+                    // Change shape cost text to belt count
+                    var shapeCostDisplays = ((HUDResearchLevelCostsOverview)level.UICostsOverviewView)
+                        .UILineInstances.SelectMany(line => line.UICostInstances)
+                        .OfType<HUDResearchShapeCostDisplay>();
+                    foreach (var shapeCostDisplay in shapeCostDisplays)
+                    {
+                        if (!shapeCostDisplay.UIHasProgressText) continue;
+                        CostDisplaysWithBeltText.Add(shapeCostDisplay, shapeCostDisplay);
+                        shapeCostDisplay.SetState(shapeCostDisplay.State); // Update
+                    }
+                }
+                
                 // Color all unlocked rewards and save hud instance to add new unlocked rewards later 
                 _tabLevels = tabLevels;
                 foreach (var tech in ArcticRuinsMod.Instance.SaveData.Tech.UnlockedRewards)
                 {
                     MarkMilestoneRewardUnlocked(tech, research.Layout);
                 }
+                // Initial rewards are always unlocked
+                foreach (var label in tabLevels.Instances[0].UIRewardsDisplay.Instances)
+                {
+                    label.UITitle.Color = Color.green;
+                }
             });
+        _shapeCostTextHook = DetourHelper
+            .CreatePostfixHook<HUDResearchShapeCostDisplay, HUDResearchShapeCostDisplay.DeliveryState>(
+                (display, state) => display.SetState(state),
+                (display, _) =>
+                {
+                    if (!CostDisplaysWithBeltText.TryGetValue(display, out var _))
+                        return;
+                    display.UIProgressText!.gameObject.SetActiveSelfExt(true);
+                    var amount = ((ResearchCostShapes)display.Cost).Amount;
+                    display.UIProgressText!.Text = new CombinedText(
+                        new GenericFormattedNumberText(new GenericIntegerFormatter((int)amount)),
+                        ("ui.arctic-ruins.vortex-configuration.belts." +
+                         (amount == 1 ? "singular" : "plural")).T()
+                    );
+                });
     }
 
     public static void Dispose()
@@ -65,6 +127,7 @@ public static class MilestoneReverser
         _milestoneTryUnlockHook.Dispose();
         _includeUnlockedChunkLimitInRecomputationHook.Dispose();
         _markCompletedMilestoneRewardsHook.Dispose();
+        _shapeCostTextHook.Dispose();
     }
 
     private static bool HasUnlockedLevelRewards(ResearchLevel level, ResearchUnlockManager unlockManager)

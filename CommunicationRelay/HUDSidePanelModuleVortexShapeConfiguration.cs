@@ -30,6 +30,8 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
         var shapeNumber = 0;
         foreach(var researchLevel in researchLevelManager.Progression.Levels)
         {
+            if (researchLevel == researchLevelManager.CurrentLevel)
+                break;
             foreach (var line in researchLevel.Lines)
             {
                 foreach (var shape in line.Costs)
@@ -54,9 +56,6 @@ public class HUDSidePanelModuleVortexShapeConfiguration : HUDSidePanelModule
                     _shapeButtons.Add((shape.ShapeHash, button));
                 }
             }
-
-            if (researchLevel == researchLevelManager.CurrentLevel)
-                break;
         }
     }
 
