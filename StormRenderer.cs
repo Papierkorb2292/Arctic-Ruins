@@ -15,6 +15,8 @@ public class StormRenderer
     private static readonly int ScaleId = Shader.PropertyToID("_Scale");
     private static readonly int TimeScaleId = Shader.PropertyToID("_TimeScale");
     private static readonly int RotationId = Shader.PropertyToID("_Rotation");
+    private static readonly int HeightsId = Shader.PropertyToID("_Heights");
+    private static readonly MaterialPropertyBlock HeightsBlock = new();
     private const int StormChunkSize = 16;
     private const int StormTileSize = StormChunkSize * CoordinateConstants.TILES_PER_CHUNK;
     private const int StormChunksPerSuperChunk = CoordinateConstants.CHUNKS_PER_SUPER_CHUNK / StormChunkSize;
@@ -64,14 +66,29 @@ public class StormRenderer
                 var chunkCoord = superChunk.Origin_GC + new ChunkVector(x * StormChunkSize + StormChunkSize / 2,
                     y * StormChunkSize + StormChunkSize / 2, 1);
                 WorldCoordinate pos = chunkCoord.ToOrigin_W() + 50 * WorldVector.Up;
+                
+                // The height component of each vertex is selected by computing the dot product with the 4d uv (is that still called uv?)
+                HeightsBlock.SetVector(HeightsId, new Vector4(
+                    CalcStormHeight(chunkCoord + new ChunkVector(StormChunkSize, StormChunkSize, 0)),
+                    CalcStormHeight(chunkCoord + new ChunkVector(StormChunkSize, 0, 0)),
+                    CalcStormHeight(chunkCoord + new ChunkVector(0, 0, 0)),
+                    CalcStormHeight(chunkCoord + new ChunkVector(0, StormChunkSize, 0))
+                ));
 
                 for (int i = 0; i < layers.Length; i++)
                 {
                     var layer = layers[i];
-                    options.Renderers.RegularNonInstanced.DrawMesh(layer.Mesh, layer.Material, FastMatrix.TranslateScale(pos + layer.Offset, StormTileSize), RenderCategory.Misc);
+                    options.Renderers.RegularNonInstanced.DrawMesh(layer.Mesh, layer.Material, FastMatrix.TranslateScale(pos + layer.Offset, StormTileSize), RenderCategory.Misc, HeightsBlock);
                 }
             }
         }
+    }
+
+    private static float CalcStormHeight(GlobalChunkCoordinate cornerPos)
+    {
+        var dx = cornerPos.x / 100f;
+        var dy = cornerPos.y / 100f;
+        return -2 + Mathf.Clamp(Mathf.Sqrt(dx * dx + dy * dy), 0, 2);
     }
 
     private static StormLayer CreateLayer(IMaterialReference material, float angleRad, float scaleMultiplier, float timeScaleMultiplier, int index)
@@ -107,6 +124,14 @@ public class StormRenderer
         extents.y = 64;
         bounds.extents = extents;
         mesh._Mesh.bounds = bounds;
+        // Set uv that is used to select the height of the storm
+        mesh._Mesh.SetUVs(0, new Vector4[]
+        {
+            new(1, 0, 0, 0),
+            new(0, 1, 0, 0),
+            new(0, 0, 1, 0),
+            new(0, 0, 0, 1)
+        });
         return mesh;
     }
 

@@ -7,6 +7,7 @@ using Core.Localization;
 using Game.Core.Localization;
 using Game.Core.Research;
 using MonoMod.RuntimeDetour;
+using ShapezShifter.Hijack;
 using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
 using UnityEngine;
@@ -24,16 +25,15 @@ public static class MilestoneReverser
 
     private static HUDResearchTabLevels _tabLevels;
     private static readonly ConditionalWeakTable<HUDResearchShapeCostDisplay, object> CostDisplaysWithBeltText = new();
+    private static readonly ConditionalWeakTable<ResearchProgression, GameScenario> CustomProgressions = new();
     
     public static void Register()
     {
-        //TODO: Filter scenario, test if everything works like normal
-        //TODO: Don't pin milestone shapes
         _milestoneCanUnlockHook = new Hook(DetourHelper.GetRuntimeMethod<ResearchUnlockManager>(
             (Expression<Func<ResearchUnlockManager, IResearchUpgrade, bool>>)((unlockManager, upgrade) => unlockManager.CanUnlock(upgrade))),
                 (Func<Func<ResearchUnlockManager, IResearchUpgrade, bool>, ResearchUnlockManager, IResearchUpgrade, bool>)((orig, unlockManager, upgrade) =>
                 {
-                    if(upgrade is not ResearchLevel level)
+                    if(!IsCustomProgression(unlockManager.Layout) || upgrade is not ResearchLevel level)
                         return orig(unlockManager, upgrade);
                     return orig(unlockManager, new LevelWrapper(level)) && HasUnlockedLevelRewards(level, unlockManager);
                 })
@@ -41,20 +41,23 @@ public static class MilestoneReverser
         _milestoneTryUnlockHook = new Hook(DetourHelper.GetRuntimeMethod<ResearchUnlockManager>(
                 (Expression<Func<ResearchUnlockManager, IResearchUpgrade, bool, bool>>)((unlockManager, upgrade, force) => unlockManager.TryUnlock(upgrade, force))), 
             (Func<Func<ResearchUnlockManager, IResearchUpgrade, bool, bool>, ResearchUnlockManager, IResearchUpgrade, bool, bool>)
-            ((orig, unlockManager, upgrade, force) => orig(unlockManager, upgrade is not ResearchLevel level ? upgrade : new LevelWrapper(level), force))
+            ((orig, unlockManager, upgrade, force) => orig(unlockManager, !IsCustomProgression(unlockManager.Layout) || upgrade is not ResearchLevel level ? upgrade : new LevelWrapper(level), force))
         );
         _includeUnlockedChunkLimitInRecomputationHook = DetourHelper.CreatePostfixHook<ResearchUnlockProgressManager>(
             manager => manager.RecomputeUnlocks(),
             manager =>
             {
+                if (!IsCustomProgression(manager.Progression)) return;
                 manager._CachedUnlockedRewards.UnionWith(ArcticRuinsMod.Instance.SaveData.Tech.UnlockedRewards
                     .Select(techReference => manager.Progression.Levels[techReference.Level].Rewards[techReference.Index])
                     .OfType<ResearchRewardChunkLimit>());
             });
         _markCompletedMilestoneRewardsHook = DetourHelper.CreatePostfixHook<HUDResearchTabLevels, ResearchManager, GameMode>(
             (tabLevels, research, mode) => tabLevels.Construct(research, mode),
-            (tabLevels, research, _) =>
+            (tabLevels, research, mode) =>
             {
+                if (!IsCustomProgression(research.Layout)) return;
+                
                 tabLevels.Instances[0].UIProgressConnectorCompletedInitial =
                     FileTextureLoader.LoadTextureAsSprite(
                         ArcticRuinsMod.Instance.Resources.SubPath("HUDResearchConnectorInitialWithCost.png"), out var _);
@@ -124,9 +127,12 @@ public static class MilestoneReverser
             display => display.RebuildView(),
             display =>
             {
+                if (!IsCustomProgression(display.ResearchManager.Layout)) return;
                 display.ReleaseChildViews(display.Instances);
                 display.Instances.Clear();
             });
+        
+        GameRewirers.AddRewirer(new CustomProgressionDiscoverer());
     }
 
     public static void Dispose()
@@ -137,6 +143,11 @@ public static class MilestoneReverser
         _markCompletedMilestoneRewardsHook.Dispose();
         _shapeCostTextHook.Dispose();
         _hideMilestoneSummaryHook.Dispose();
+    }
+
+    private static bool IsCustomProgression(ResearchProgression progression)
+    {
+        return CustomProgressions.TryGetValue(progression, out _);
     }
 
     private static bool HasUnlockedLevelRewards(ResearchLevel level, ResearchUnlockManager unlockManager)
@@ -206,6 +217,20 @@ public static class MilestoneReverser
         }
 
         _tabLevels.Instances[techReference.Level].UIRewardsDisplay.Instances[labelIndex].UITitle.Color = Color.green;
+    }
+
+    public class CustomProgressionDiscoverer : IGameScenarioRewirer
+    {
+        public bool Equals(IRewirer other) => other is CustomProgressionDiscoverer;
+
+        public GameScenario ModifyGameScenario(GameScenario gameScenario)
+        {
+            if (ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(gameScenario))
+            {
+                CustomProgressions.Add(gameScenario.Progression, gameScenario);
+            }
+            return gameScenario;
+        }
     }
 
     private class LevelWrapper(ResearchLevel level) : IResearchUpgrade
