@@ -56,6 +56,11 @@ namespace ArcticRuins
                 _Material = new Material(material.GetMaterialInternal())
             };
         }
+        
+        public static System.Numerics.Vector2 RotateCCW90(this System.Numerics.Vector2 v)
+        {
+            return new System.Numerics.Vector2(-v.Y, v.X);
+        }
 
         private class ToolbarEntryReplaceLocation : IToolbarEntryInsertLocation
         {
