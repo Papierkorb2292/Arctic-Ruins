@@ -7,6 +7,9 @@ namespace ArcticRuins;
 
 public class DelaunayHelper(DelaunayHelper.PointProvider points)
 {
+    private Dictionary<Vector2, List<Vector2>> _surroundingPolygonCache = new();
+    private Dictionary<Vector2, List<Circle>> _surroundingCircleCache = new();
+    
     /**
      * Returns all neighbors of the given point on the Delaunay triangulation
      * as a polygon in CCW order, starting with the closest point.
@@ -14,7 +17,9 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
      */
     public List<Vector2> DelaunayPolygonAroundPoint(Vector2 point)
     {
-        List<Vector2> polygon = [];
+        if (_surroundingPolygonCache.TryGetValue(point, out var polygon))
+            return polygon;
+        polygon = [];
         // Find closest point first, which is known to be a vertex of the surrounding polygon
         var closestDistSqr = float.MaxValue;
         Vector2? nextVortex = null;
@@ -50,9 +55,26 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
             }
         } while (nextVortex != null && nextVortex != polygon[0]);
 
+        _surroundingPolygonCache[point] = polygon;
         return polygon;
     }
 
+    public List<Circle> GetCirclesAroundPoint(Vector2 point)
+    {
+        if(_surroundingCircleCache.TryGetValue(point, out var circles))
+            return circles;
+        circles = [];
+        var polygon = DelaunayPolygonAroundPoint(point);
+        for (int i = 0; i < polygon.Count; i++)
+        {
+            var v1 = polygon[i];
+            var v2 = polygon[(i + 1) % polygon.Count];
+            circles.Add(GetCircumcircle(point, v1, v2));
+        }
+        _surroundingCircleCache[point] = circles;
+        return circles;
+    }
+    
     //TODO(opt): Filter points that are known to be too far away
     public delegate IEnumerable<Vector2> PointProvider();
 
@@ -96,11 +118,24 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
         return new Circle(center, (center - a).LengthSquared());
     }
 
-    public readonly struct Circle(Vector2 center, float radiusSqr)
+    public static float GetDistanceSqrToLineSegment(Vector2 point, Vector2 a, Vector2 b)
     {
+        var dir = Vector2.Normalize(b - a);
+        var projection =  a + dir * Vector2.Dot(point - a, dir);
+        // Clamp projection
+        var max = Vector2.Max(a, b);
+        var min = Vector2.Min(a, b);
+        var projClamped = new Vector2(Mathf.Clamp(projection.X, min.X, max.X), Mathf.Clamp(projection.Y, min.Y, max.Y));
+        return Vector2.DistanceSquared(projClamped, point);
+    }
+
+    public readonly struct Circle(Vector2 center, float radiusSqr, float radius)
+    {
+        public Circle(Vector2 center, float radiusSqr) : this(center, radiusSqr, Mathf.Sqrt(radiusSqr)) { }
+        
         public Vector2 Center => center;
         public float RadiusSqr => radiusSqr;
-        public readonly float Radius = Mathf.Sqrt(radiusSqr);
+        public readonly float Radius => radius;
 
         public bool ContainsPoint(Vector2 point) =>
             (Center - point).LengthSquared() <= RadiusSqr;

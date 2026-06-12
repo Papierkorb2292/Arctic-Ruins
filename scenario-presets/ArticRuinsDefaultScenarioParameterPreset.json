@@ -5,7 +5,105 @@
   "Description": "@scenario-preset.artic-ruins.description",
   "Parameters": {
     "ScenarioId": "arctic-ruins-default",
-    "MapGenerationParameters": "#include:Scenarios/SharedData/BaseMapGenerationParameters",
+    "MapGenerationParameters": {
+      "FluidsSpawnPrimaryColors": true,
+      "FluidsSpawnSecondaryColors": true,
+      "FluidsSpawnTertiaryColors": true,
+      "FluidPatchLikelinessPercent": 20,
+      "FluidPatchBaseSize": 6,
+      "FluidPatchSizeGrowPercentPerChunk": 70,
+      "FluidPatchMaxSize": 8,
+      "ShapePatchLikelinessPercent": 20,
+      "ShapePatchBaseSize": 4,
+      "ShapePatchSizeGrowPercentPerChunk": 70,
+      "ShapePatchMaxSize": 11,
+      "ShapePatchShapeColorfulnessPercent": 50,
+      "ShapePatchRareShapeLikelinessPercent": 25,
+      "ShapePatchVeryRareShapeLikelinessPercent": 25,
+
+      "ShapePatchGenerationLikeliness": [
+        {
+          "GenerationType": "TertiaryColorFullShapePure",
+          "MinimumDistanceToOrigin": 40,
+          "Weight": 5
+        },
+        {
+          "GenerationType": "TertiaryColorFullShape",
+          "MinimumDistanceToOrigin": 32,
+          "Weight": 7
+        },
+        {
+          "GenerationType": "TertiaryColorAlmostFullShape",
+          "MinimumDistanceToOrigin": 28,
+          "Weight": 10
+        },
+        {
+          "GenerationType": "TertiaryColorHalfShape",
+          "MinimumDistanceToOrigin": 24,
+          "Weight": 10
+        },
+        {
+          "GenerationType": "SecondaryColorFullShapePure",
+          "MinimumDistanceToOrigin": 20,
+          "Weight": 15
+        },
+        {
+          "GenerationType": "SecondaryColorFullShape",
+          "MinimumDistanceToOrigin": 16,
+          "Weight": 20
+        },
+        {
+          "GenerationType": "SecondaryColorAlmostFullShape",
+          "MinimumDistanceToOrigin": 12,
+          "Weight": 25
+        },
+        {
+          "GenerationType": "SecondaryColorHalfShape",
+          "MinimumDistanceToOrigin": 10,
+          "Weight": 30
+        },
+        {
+          "GenerationType": "PrimaryColorFullShapePure",
+          "MinimumDistanceToOrigin": 8,
+          "Weight": 35
+        },
+        {
+          "GenerationType": "PrimaryColorFullShape",
+          "MinimumDistanceToOrigin": 6,
+          "Weight": 40
+        },
+        {
+          "GenerationType": "PrimaryColorAlmostFullShape",
+          "MinimumDistanceToOrigin": 4,
+          "Weight": 45
+        },
+        {
+          "GenerationType": "PrimaryColorHalfShape",
+          "MinimumDistanceToOrigin": 3,
+          "Weight": 50
+        },
+        {
+          "GenerationType": "UncoloredFullShapePure",
+          "MinimumDistanceToOrigin": 2,
+          "Weight": 100
+        },
+        {
+          "GenerationType": "UncoloredFullShape",
+          "MinimumDistanceToOrigin": 1,
+          "Weight": 300
+        },
+        {
+          "GenerationType": "UncoloredAlmostFullShape",
+          "MinimumDistanceToOrigin": 1,
+          "Weight": 500
+        },
+        {
+          "GenerationType": "UncoloredHalfShape",
+          "MinimumDistanceToOrigin": 0,
+          "Weight": 1000
+        }
+      ]
+    },
     "GameRuleParameters": {
       "RuleIds": []
     }

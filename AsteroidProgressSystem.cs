@@ -26,12 +26,9 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
     private static readonly MaterialPropertyBlock MaterialPropertyBlock = new();
     private static Hook _generateResourcesHook;
 
-    //TODO: Idea for uncovering map:
-    //1. The starting patches are visible
-    //2. If a patch is complete, the three closest patches of all further patches are visible
-    //3. A chunk is visible iff the closest patch is visible
-
     private ConcurrentDictionary<GlobalChunkCoordinate, int> _queuedUpdates = new();
+    
+    public MultiRegisterEvent<GlobalChunkCoordinate, SaveData.AsteroidData> OnAsteroidProgressUpdate = new();
 
     public void OnShapeReceived(GlobalChunkCoordinate originCoordinate)
     {
@@ -97,11 +94,8 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
                 saveData.Asteroids.TryGetValue(coord, out var asteroid))
             {
                 if (asteroid.IsComplete()) return;
-                asteroid.SuppliedShapes += increment;
-                if (asteroid.IsComplete())
-                {
-                    //TODO: Unlock map                    
-                }
+                asteroid.SuppliedShapes = Math.Min(asteroid.SuppliedShapes + increment, asteroid.TotalRequirement);
+                OnAsteroidProgressUpdate.Invoke(coord, asteroid);
             }
         }
     }
