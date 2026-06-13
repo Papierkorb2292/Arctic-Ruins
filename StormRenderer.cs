@@ -88,7 +88,6 @@ public class StormRenderer
                 WorldCoordinate pos = chunkCoord.ToOrigin_W() + 50 * WorldVector.Up;
                 
                 // The height component of each vertex is selected by computing the dot product with the 4d uv (is that still called uv?)
-                //ArcticRuinsMod.Logger.Info!.LogFormat("ChunkCoord: {0} {1} {2}", cornerCoord.x, cornerCoord.y, cornerCoord.z);
                 var heights = new Vector4(
                     _heights.GetValueOrDefault(cornerCoord + new ChunkVector(StormChunkSize, StormChunkSize, 0), 0),
                     _heights.GetValueOrDefault(cornerCoord + new ChunkVector(StormChunkSize, 0, 0), 0),
@@ -108,7 +107,7 @@ public class StormRenderer
                 for (int i = 0; i < layers.Length; i++)
                 {
                     var layer = layers[i];
-                    options.Renderers.RegularNonInstanced.DrawMesh(layer.Mesh, layer.Material, FastMatrix.TranslateScale(pos + layer.Offset, StormTileSize), RenderCategory.Misc, HeightsBlock);
+                    options.Renderers.UINonInstanced.DrawMesh(layer.Mesh, layer.Material, FastMatrix.TranslateScale(pos + layer.Offset, StormTileSize), RenderCategory.Misc, HeightsBlock);
                 }
             }
         }
@@ -118,10 +117,8 @@ public class StormRenderer
     {
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        //ArcticRuinsMod.Logger.Info!.Log("InitializeStormHeight");
         foreach (var chunk in _gameResourcesMap.SuperChunks)
         {
-            //ArcticRuinsMod.Logger.Info!.LogFormat("Chunk: {0} {1} {2}", chunk.Origin_GC.x, chunk.Origin_GC.y, chunk.Origin_GC.z);
             foreach (var patch in chunk.AllResources)
             {
                 if(ArcticRuinsMod.Instance.SaveData.Asteroids.TryGetValue(patch.Origin_GC, out var data))
