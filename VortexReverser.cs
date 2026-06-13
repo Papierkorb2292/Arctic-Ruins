@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using ArcticRuins.ReceiverFromHub;
 using Core.Collections;
+using Core.Collections.Scoped;
 using Core.Events;
 using Core.Events.Logging;
 using Game.Buildings.Extractor.Prediction;
@@ -135,8 +136,12 @@ namespace ArcticRuins
             var island = system._HubIslands.First();
             var locationCountPerSide = data.LayerCount * 12; 
             var locationCountTotal = locationCountPerSide * 4;
-            foreach (var shape in saveData.VortexSides.Select(entry => entry.Value.Shape).Distinct())
+            using var finishedShapes = ScopedHashSet.Get<string>();
+            foreach (var shape in saveData.VortexSides.Select(entry => entry.Value.Shape))
             {
+                if (!finishedShapes.Add(shape.ShapeHash))
+                    continue;
+                
                 var supplierData = saveData.GetVortexShapeSupplierData(shape.ShapeHash);
                 
                 var processedLocations = 0;
