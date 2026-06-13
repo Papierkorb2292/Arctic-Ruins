@@ -1,10 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using Core.Collections.Scoped;
 using Game.Core.Coordinates;
+using Game.Core.GameMode;
+using MonoMod.RuntimeDetour;
+using ShapezShifter.SharpDetour;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Vector2 = System.Numerics.Vector2;
 
 namespace ArcticRuins;
@@ -22,6 +28,7 @@ public class StormRenderer
     private const int StormChunkSize = 16;
     private const int StormTileSize = StormChunkSize * CoordinateConstants.TILES_PER_CHUNK;
     private const int StormChunksPerSuperChunk = CoordinateConstants.CHUNKS_PER_SUPER_CHUNK / StormChunkSize;
+    private static Hook _cameraControllerUpdateHook;
 
     private readonly StormLayer[] _detailLayers;
     private readonly StormLayer[] _mapLayers;
@@ -64,16 +71,34 @@ public class StormRenderer
         InitializeStormHeight();
     }
 
-    public static void Hook(GameSessionOrchestrator orchestrator)
+    public static void Register()
+    {
+        _cameraControllerUpdateHook = new Hook(
+            DetourHelper.GetRuntimeMethod((Expression<Action<CameraController, float>>)((controller, deltaTime) => controller.Update_ApplyAngleAndZoom(deltaTime))),
+            (Action<Action<CameraController, float>, CameraController, float>)((original, cameraController, deltaTime) =>
+            {
+                ArcticRuinsMod.Instance.StormRenderer?.ZoomCameraOutsideStorm(cameraController);
+                original(cameraController, deltaTime);
+            }));
+    }
+
+    public static void Dispose()
+    {
+        _cameraControllerUpdateHook.Dispose();
+    }
+
+    public static StormRenderer HookRenderer(GameSessionOrchestrator orchestrator)
     {
         if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
-            return;
+            return null;
         var stormRenderer = new StormRenderer(orchestrator);
         orchestrator.Draw.Hooks.OnDrawSuperChunk += stormRenderer.Draw;
         orchestrator.Draw.Hooks.OnDrawMap += (options, _, _) =>
         {
+            stormRenderer.ZoomCameraOutsideStorm(orchestrator.PlayerInteractionOrchestrator.CameraController);
             stormRenderer.UpdateAnimatedHeights(options.DeltaTime);
         };
+        return stormRenderer;
     }
 
     private void Draw(FrameDrawOptionsNoLOD options, MapSuperChunk superChunk)
@@ -244,11 +269,45 @@ public class StormRenderer
             _targetHeights.Remove(coord);
     }
     
-    private static float CalcStormHeightTest(GlobalChunkCoordinate cornerPos)
+    private void ZoomCameraOutsideStorm(CameraController cameraController)
     {
-        var dx = cornerPos.x / 100f;
-        var dy = cornerPos.y / 100f;
-        return -2 + Mathf.Clamp(Mathf.Sqrt(dx * dx + dy * dy), 0, 2);
+        if(!IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.TargetZoom, cameraController.TargetAngle, cameraController.Parent.localRotation)) return;
+
+        if (!IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.Zoom,
+                cameraController.Viewport.Angle, cameraController.Parent.localRotation))
+        {
+            // Just use the previous zoom and angle, so the camera doesn't stutter when getting close towards the storm
+            cameraController.TargetAngle = cameraController.Viewport.Angle;
+            cameraController.Viewport.TargetZoom = cameraController.Viewport.Zoom;
+            return;
+        }
+        
+        do
+        {
+            cameraController.Viewport.TargetZoom *= 1.1f;
+        } while (IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.TargetZoom, cameraController.TargetAngle, cameraController.Parent.localRotation));
+    }
+
+    private bool IsCameraInsideStorm(Vector3 position, float zoom, float angleDeg, Quaternion rotation)
+    {
+        var targetPosition = position;
+        var angle = Mathf.Deg2Rad * Mathf.Max(angleDeg, CameraController.ComputeZoomAdjustedMinAngle(zoom));
+        var localOffset = new Vector3(0, Mathf.Sin(angle) * zoom, -Mathf.Cos(angle) * zoom);
+        targetPosition += rotation * localOffset;
+        var chunk = ((WorldCoordinate)targetPosition).ToGlobalChunkCoordinate();
+        
+        var chunkXFloor = (chunk.x / StormChunkSize) * StormChunkSize;
+        var chunkYFloor = (chunk.y / StormChunkSize) * StormChunkSize;
+        var maxStormHeight = Mathf.Max(
+            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor, 0), 0),
+            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor + StormChunkSize, chunkYFloor, 0), 0),
+            _heights.GetValueOrDefault(
+                new GlobalChunkCoordinate(chunkXFloor + StormChunkSize, chunkYFloor + StormChunkSize, 0), 0),
+            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor + StormChunkSize, 0), 0));
+        var stormHeightInterpolation = Mathf.InverseLerp(-1, 0, maxStormHeight);
+        var minimumCamHeight = Mathf.Lerp(-1, 0.5f, stormHeightInterpolation * stormHeightInterpolation) * StormTileSize; // Add 50% to the max storm height to account for the +50 in draw, for the chunk height in draw being 1, and for the layer offset
+        
+        return targetPosition.y < minimumCamHeight;
     }
 
     private static StormLayer CreateLayer(IMaterialReference material, float angleRad, float scaleMultiplier, float timeScaleMultiplier, int index)

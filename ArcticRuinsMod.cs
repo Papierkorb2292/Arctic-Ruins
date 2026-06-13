@@ -56,6 +56,8 @@ namespace ArcticRuins
         public ModFolderLocator Resources { get; }
         public AssetBundle AssetBundle { get; }
         public SaveData SaveData { get; private set; }
+
+        [CanBeNull] public StormRenderer StormRenderer { get; private set; }
         
         private readonly Hook _gameModeHook;
         private readonly Hook _createSimulationRenderersHook;
@@ -87,6 +89,7 @@ namespace ArcticRuins
             CommunicationRelayBuilding.Register();
             DataFragmentBuilding.Register();
             MeshRecolorer.Register();
+            StormRenderer.Register();
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");
@@ -210,7 +213,7 @@ namespace ArcticRuins
                 (orchestrator, gameData) => orchestrator.Init_7_Rendering(gameData),
                 (orchestrator, _) =>
                 {
-                    StormRenderer.Hook(orchestrator);
+                    StormRenderer = StormRenderer.HookRenderer(orchestrator);
                 });
         }
         
@@ -235,6 +238,7 @@ namespace ArcticRuins
             AsteroidProgressSystem.Dispose();
             MeshRecolorer.Dispose();
             DataFragmentBuilding.Dispose();
+            StormRenderer.Dispose();
         }
 
         private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)
