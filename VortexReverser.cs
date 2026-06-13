@@ -103,6 +103,7 @@ namespace ArcticRuins
             _hubSystemIsAtInputPositionHook.Dispose();
             _hubSystemCreateSimulationHook.Dispose();
             _hubSystemUpdateHook.Dispose();
+            _skipApplyGameBalancingParametersHook.Dispose();
         }
 
         private static void RewireSenderReceiverPlacements()
