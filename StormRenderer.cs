@@ -18,6 +18,7 @@ public class StormRenderer
     private static readonly int RotationId = Shader.PropertyToID("_Rotation");
     private static readonly int HeightsId = Shader.PropertyToID("_Heights");
     private static readonly MaterialPropertyBlock HeightsBlock = new();
+    private static Vector4 _lastHeightsParam = Vector4.zero;
     private const int StormChunkSize = 16;
     private const int StormTileSize = StormChunkSize * CoordinateConstants.TILES_PER_CHUNK;
     private const int StormChunksPerSuperChunk = CoordinateConstants.CHUNKS_PER_SUPER_CHUNK / StormChunkSize;
@@ -88,12 +89,21 @@ public class StormRenderer
                 
                 // The height component of each vertex is selected by computing the dot product with the 4d uv (is that still called uv?)
                 //ArcticRuinsMod.Logger.Info!.LogFormat("ChunkCoord: {0} {1} {2}", cornerCoord.x, cornerCoord.y, cornerCoord.z);
-                HeightsBlock.SetVector(HeightsId, new Vector4(
+                var heights = new Vector4(
                     _heights.GetValueOrDefault(cornerCoord + new ChunkVector(StormChunkSize, StormChunkSize, 0), 0),
                     _heights.GetValueOrDefault(cornerCoord + new ChunkVector(StormChunkSize, 0, 0), 0),
                     _heights.GetValueOrDefault(cornerCoord + new ChunkVector(0, 0, 0), 0),
                     _heights.GetValueOrDefault(cornerCoord + new ChunkVector(0, StormChunkSize, 0), 0)
-                ));
+                );
+                if (Mathf.Approximately(heights.ManhattanDistToOrigin(), 4))
+                {
+                    continue; // All corners at lowest height
+                }
+                if (!Mathf.Approximately((heights - _lastHeightsParam).ManhattanDistToOrigin(), 0))
+                {
+                    _lastHeightsParam = heights;
+                    HeightsBlock.SetVector(HeightsId, heights);
+                }
 
                 for (int i = 0; i < layers.Length; i++)
                 {
@@ -116,15 +126,6 @@ public class StormRenderer
             {
                 if(ArcticRuinsMod.Instance.SaveData.Asteroids.TryGetValue(patch.Origin_GC, out var data))
                     RevealPatch(patch.Origin_GC, data, _heights);
-                /*//ArcticRuinsMod.Logger.Info!.LogFormat("Patch: {0} {1} {2}", patch.CenterOfMass_GC.x, patch.CenterOfMass_GC.y, patch.CenterOfMass_GC.z);
-                var dx = patch.CenterOfMass_GC.x % StormChunkSize;
-                var dy = patch.CenterOfMass_GC.y % StormChunkSize;
-                var lowerCorner = patch.CenterOfMass_GC - new ChunkVector(dx, dy, 0);
-                //ArcticRuinsMod.Logger.Info!.LogFormat("Corner: {0} {1} {2}", lowerCorner.x, lowerCorner.y, lowerCorner.z);
-                _heights[lowerCorner] = -2;
-                _heights[lowerCorner + new ChunkVector(StormChunkSize, 0, 0)] = -2;
-                _heights[lowerCorner + new ChunkVector(0, StormChunkSize, 0)] = -2;
-                _heights[lowerCorner + new ChunkVector(StormChunkSize, StormChunkSize, 0)] = -2;*/
             }
         }
         // Technically zero isn't actually part of the graph, but this should work anyway
@@ -280,21 +281,42 @@ public class StormRenderer
     private static IMeshReference CreateStormMesh()
     {
         // A plane with larger bounds, because shader changes the height
-        var mesh = GeometryHelpers.GeneratePlaneMeshUVUncached();
-        var bounds = mesh._Mesh.bounds;
+        // Also add a vortex in the center to make interpolation smoother
+        var mesh = new Mesh
+        {
+            name = "StormRenderer.CreateStormMesh",
+            vertices =
+            [
+                new Vector3(0.5f, 0.0f, -0.5f),
+                new Vector3(0.5f, 0.0f, 0.5f),
+                new Vector3(-0.5f, 0.0f, 0.5f),
+                new Vector3(-0.5f, 0.0f, -0.5f),
+                new Vector3(0, 0.0f, 0),
+            ],
+            triangles =
+            [
+                4, 1, 0,
+                4, 0, 3,
+                4, 3, 2,
+                4, 2, 1
+            ],
+            normals = [Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up]
+        };
+        var bounds = mesh.bounds;
         var extents = bounds.extents;
         extents.y = 64;
         bounds.extents = extents;
-        mesh._Mesh.bounds = bounds;
+        mesh.bounds = bounds;
         // Set uv that is used to select the height of the storm
-        mesh._Mesh.SetUVs(0, new Vector4[]
+        mesh.SetUVs(0, new Vector4[]
         {
             new(1, 0, 0, 0),
             new(0, 1, 0, 0),
             new(0, 0, 1, 0),
-            new(0, 0, 0, 1)
+            new(0, 0, 0, 1),
+            new(0.25f, 0.25f, 0.25f, 0.25f)
         });
-        return mesh;
+        return new TemporaryMeshReference(mesh);
     }
 
     private class StormLayer(IMeshReference mesh, IMaterialReference material, WorldVector offset)

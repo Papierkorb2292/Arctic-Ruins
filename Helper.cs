@@ -62,6 +62,11 @@ namespace ArcticRuins
             return new System.Numerics.Vector2(-v.Y, v.X);
         }
 
+        public static float ManhattanDistToOrigin(this Vector4 v)
+        {
+            return Mathf.Abs(v.x) + Mathf.Abs(v.y) + Mathf.Abs(v.z) + Mathf.Abs(v.w);
+        }
+
         private class ToolbarEntryReplaceLocation : IToolbarEntryInsertLocation
         {
             public readonly IToolbarElementLocator ElementLocator;
