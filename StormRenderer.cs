@@ -10,6 +10,7 @@ using Game.Core.GameMode;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.SharpDetour;
 using UnityEngine;
+using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 using Vector2 = System.Numerics.Vector2;
 
@@ -45,6 +46,7 @@ public class StormRenderer
         var stormChunks = new MaterialReference { _Material = ArcticRuinsMod.Instance.AssetBundle.LoadAsset<Material>("Assets/AssetBundle/StormChunksMat.mat") };
         var stormNoise = new MaterialReference { _Material = ArcticRuinsMod.Instance.AssetBundle.LoadAsset<Material>("Assets/AssetBundle/StormNoiseMat.mat") };
         var stormBackground = new MaterialReference { _Material = ArcticRuinsMod.Instance.AssetBundle.LoadAsset<Material>("Assets/AssetBundle/StormBackgroundMat.mat") };
+        stormBackground._Material.color = new Color(0.9f, 0.95f, 1, 1);
         _detailLayers =
         [
             CreateLayer(stormBackground, 0, 1, 1, 0),
