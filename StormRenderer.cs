@@ -192,9 +192,8 @@ public class StormRenderer
         }
         // Technically zero isn't actually part of the graph, but this should work anyway
         var startCircles = _delaunay.GetCirclesAroundPoint(Vector2.Zero);
-        var startPolygon = _delaunay.DelaunayPolygonAroundPoint(Vector2.Zero); 
         for (int i = 0; i < startCircles.Count; i++)
-            AddCompletedCircle(startCircles[i], Vector2.Zero, startPolygon[i], startPolygon[(i + 1) % startPolygon.Count], _heights);
+            AddCompletedCircle(startCircles[i], _heights);
         ArcticRuinsMod.Logger.Info!.LogFormat("InitializeStormHeight took {0}", stopwatch.Elapsed);
     }
 
@@ -206,10 +205,9 @@ public class StormRenderer
             var patch = _gameResourcesMap.GetResourceAt_GC(patchOrigin);
             var centerOfMass = new Vector2(patch.CenterOfMass_GC.x, patch.CenterOfMass_GC.y);
             var circles = _delaunay.GetCirclesAroundPoint(centerOfMass);
-            var polygon = _delaunay.DelaunayPolygonAroundPoint(centerOfMass);
             for (int i = 0; i < circles.Count; i++)
             {
-                AddCompletedCircle(circles[i], centerOfMass, polygon[i], polygon[(i + 1) % polygon.Count], heightsMap);
+                AddCompletedCircle(circles[i], heightsMap);
             }
         }
         else
@@ -221,7 +219,6 @@ public class StormRenderer
             var patch = _gameResourcesMap.GetResourceAt_GC(patchOrigin);
             var centerOfMass = new Vector2(patch.CenterOfMass_GC.x, patch.CenterOfMass_GC.y);
             var circles = _delaunay.GetCirclesAroundPoint(centerOfMass);
-            var polygon = _delaunay.DelaunayPolygonAroundPoint(centerOfMass);
             for (int i = 0; i < circles.Count; i++)
             {
                 var circle = circles[i];
@@ -233,42 +230,28 @@ public class StormRenderer
                     Vector2.Lerp(centerOfMass, circle.Center, ratio),
                         circle.RadiusSqr * ratio * ratio,
                         circle.Radius * ratio
-                    ), centerOfMass, Vector2.Lerp(centerOfMass, polygon[i], ratio),
-                    Vector2.Lerp(centerOfMass, polygon[(i + 1) % polygon.Count], ratio),
-                    heightsMap);
+                    ), heightsMap);
             }
 
             _lastRevealedRatio[patchOrigin] = ratio;
         }
     }
 
-    private void AddCompletedCircle(DelaunayHelper.Circle circle, Vector2 a, Vector2 b, Vector2 c, Dictionary<GlobalChunkCoordinate, float> heightsMap)
+    private void AddCompletedCircle(DelaunayHelper.Circle circle, Dictionary<GlobalChunkCoordinate, float> heightsMap)
     {
         var centerPoint = new Point(Mathf.RoundToInt(circle.Center.X), Mathf.RoundToInt(circle.Center.Y));
         if (_completedCircles.Add(centerPoint))
-            RevealCircle(circle, a, b, c, heightsMap);
+            RevealCircle(circle, heightsMap);
     }
 
-    private void RevealCircle(DelaunayHelper.Circle circle, Vector2 a, Vector2 b, Vector2 c, Dictionary<GlobalChunkCoordinate, float> heightsMap)
+    private void RevealCircle(DelaunayHelper.Circle circle, Dictionary<GlobalChunkCoordinate, float> heightsMap)
     {
-        var connectingEdge1Half = Vector2.Lerp(a, b, 0.5f);
-        var connectingEdge2Half = Vector2.Lerp(a, c, 0.5f);
-        
         void TryRevealCorner(GlobalChunkCoordinate coord)
         {
             var fadeStart = -1 * StormChunkSize;
             var fadeEnd = 3 * StormChunkSize;
             
             var vector = new Vector2(coord.x, coord.y);
-            // The storm should not be rendered for chunks that are at the edge of the circle but close to the source patch
-            if (DelaunayHelper.GetDistanceSqrToLineSegment(vector, a, connectingEdge1Half) < fadeStart * fadeStart ||
-                DelaunayHelper.GetDistanceSqrToLineSegment(vector, a, connectingEdge2Half) < fadeStart * fadeStart)
-            {
-                /*_heights[coord] = -0.5f;
-                return;*/
-            }
-            
-            
             var distanceToCenter = (circle.Center - vector).Length();
             var distanceToEdge = distanceToCenter - circle.Radius;
             var heightInterpolation = Mathf.Lerp(-0.5f, 0, Mathf.InverseLerp(fadeStart, fadeEnd, distanceToEdge));
