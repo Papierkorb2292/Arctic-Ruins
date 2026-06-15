@@ -6,7 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Core.Collections.Scoped;
 using Game.Core.Coordinates;
-using Game.Core.GameMode;
+using Game.Placement.Data;
+using Game.Placement.Processing;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.SharpDetour;
 using UnityEngine;
@@ -30,6 +31,9 @@ public class StormRenderer
     private const int StormTileSize = StormChunkSize * CoordinateConstants.TILES_PER_CHUNK;
     private const int StormChunksPerSuperChunk = CoordinateConstants.CHUNKS_PER_SUPER_CHUNK / StormChunkSize;
     private static Hook _cameraControllerUpdateHook;
+    private static Hook _drawPendingBuildingSelectionHook;
+    private static Hook _drawPendingIslandSelectionHook;
+    private static Hook _preparePlacementDataHook;
 
     private readonly StormLayer[] _detailLayers;
     private readonly StormLayer[] _mapLayers;
@@ -71,6 +75,7 @@ public class StormRenderer
             .Select(chunkCoord => new Vector2(chunkCoord.x, chunkCoord.y)));
         _progressSystem.OnAsteroidProgressUpdate.Register((coord, data) => RevealPatch(coord, data, _targetHeights));
         InitializeStormHeight();
+        FilterLockedSelections(orchestrator);
     }
 
     public static void Register()
@@ -82,11 +87,44 @@ public class StormRenderer
                 ArcticRuinsMod.Instance.StormRenderer?.ZoomCameraOutsideStorm(cameraController);
                 original(cameraController, deltaTime);
             }));
+        _drawPendingBuildingSelectionHook = DetourHelper.CreatePrefixHook<HUDBuildingMassSelection, FrameDrawOptions, IReadOnlyCollection<BuildingModel>, HUDMassSelectionSelectionType>(
+            (selection, options, buildings, type) => selection.Draw_PendingSelection(options, buildings, type),
+            (_, options, buildings, type) =>
+            {
+                var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
+                if (stormRenderer != null && buildings is HashSet<BuildingModel> set)
+                    set.RemoveWhere(island => stormRenderer.IsChunkLocked(island.Transform.Position.ToChunkCoordinate()));
+                return (options, buildings, type);
+            }
+        );
+        _drawPendingIslandSelectionHook = DetourHelper.CreatePrefixHook<HUDIslandMassSelection, FrameDrawOptions, IReadOnlyCollection<IslandModel>, HUDMassSelectionSelectionType>(
+            (selection, options, islands, type) => selection.Draw_PendingSelection(options, islands, type),
+            (_, options, islands, type) =>
+            {
+                var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
+                if (stormRenderer != null && islands is HashSet<IslandModel> set)
+                    set.RemoveWhere(island => stormRenderer.IsChunkLocked(island.Position));
+                return (options, islands, type);
+            }
+        );
+        _preparePlacementDataHook = DetourHelper.CreatePostfixHook<EntityPlacementRunner, IEntityPlacer>(
+            (runner, placer) => runner.PreparePlacementData(placer),
+            (runner, _) =>
+            {
+                var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
+                if (stormRenderer == null)
+                    return;
+                // Replace placement data to filter out all locked chunks
+                runner.CurrentPlacementData = new FilterLockedPlacementData(stormRenderer, runner.CurrentPlacementData);
+            });
     }
 
     public static void Dispose()
     {
         _cameraControllerUpdateHook.Dispose();
+        _drawPendingBuildingSelectionHook.Dispose();
+        _drawPendingIslandSelectionHook.Dispose();
+        _preparePlacementDataHook.Dispose();
     }
 
     public static StormRenderer HookRenderer(GameSessionOrchestrator orchestrator)
@@ -377,10 +415,76 @@ public class StormRenderer
         return new TemporaryMeshReference(mesh);
     }
 
+    private bool IsChunkLocked(GlobalChunkCoordinate coord)
+    {
+        return true; //TODO
+    }
+
+    private void FilterLockedSelections(GameSessionOrchestrator orchestrator)
+    {
+        var buildingSelection = orchestrator.PlayerInteractionOrchestrator.PlayerInteractionState.BuildingSelection;
+        var islandSelection = orchestrator.PlayerInteractionOrchestrator.PlayerInteractionState.IslandSelection;
+        buildingSelection.OnAdded.Register(buildings =>
+        {
+            buildingSelection.Remove(buildings.Where(building => IsChunkLocked(building.Transform.Position.ToChunkCoordinate())));
+        });
+        islandSelection.OnAdded.Register(islands =>
+        {
+            islandSelection.Remove(islands.Where(island => IsChunkLocked(island.Position)));
+        });
+    }
+    
     private class StormLayer(IMeshReference mesh, IMaterialReference material, WorldVector offset)
     {
         public IMeshReference Mesh => mesh;
         public IMaterialReference Material => material;
         public WorldVector Offset => offset;
+    }
+
+    private class FilterLockedPlacementData(StormRenderer stormRenderer, IPlacementData parent) : IPlacementData
+    {
+        public void GetAllBuildings(ICollection<BuildingPlacement> outBuildings)
+        {
+            using var buildingsFilter = ScopedList.Get<BuildingPlacement>();
+            parent.GetAllBuildings(buildingsFilter);
+            foreach (var building in buildingsFilter.Where(building => building.PlacementAllowability.WillBePlaced() && stormRenderer.IsChunkLocked(building.Descriptor.Transform.Position.ToChunkCoordinate())))
+                parent.InvalidateBuildingAt(building.Descriptor.Transform.Position);
+            parent.GetAllBuildings(outBuildings);
+        }
+
+        public void GetAllIslands(ICollection<IslandPlacement> outIslands)
+        {
+            using var islandsFilter = ScopedList.Get<IslandPlacement>();
+            parent.GetAllIslands(islandsFilter);
+            foreach (var island in islandsFilter.Where(island => island.PlacementAllowability.WillBePlaced() && stormRenderer.IsChunkLocked(island.Descriptor.Transform.Position)))
+                parent.InvalidateIslandAt(island.Descriptor.Transform.Position);
+            parent.GetAllIslands(outIslands);
+        }
+
+        public void AddBuildingPlacement(BuildingPlacement buildingPlacement) => parent.AddBuildingPlacement(buildingPlacement);
+        public void RemoveBuildingPlacement(BuildingPlacement buildingPlacement) => parent.RemoveBuildingPlacement(buildingPlacement);
+        public void ReplaceBuildingPlacement(BuildingPlacement replacement) => parent.ReplaceBuildingPlacement(replacement);
+        public void InvalidateBuildingAt(GlobalTileCoordinate position) => parent.InvalidateBuildingAt(position);
+        public bool HasBuildingPlacementAt(GlobalTileCoordinate position) => parent.HasBuildingPlacementAt(position);
+        public bool TryGetBuildingPlacementsAt(GlobalTileCoordinate position, ICollection<BuildingPlacement> buildings) => parent.TryGetBuildingPlacementsAt(position, buildings);
+        public bool HasIslandPlacementAt(GlobalChunkCoordinate position) => parent.HasIslandPlacementAt(position);
+        public bool TryGetIslandPlacementsAt(GlobalChunkCoordinate position, ICollection<IslandPlacement> islands) => parent.TryGetIslandPlacementsAt(position, islands);
+        public void AddIslandPlacement(IslandPlacement islandPlacement) => parent.AddIslandPlacement(islandPlacement);
+        public void RemoveIslandPlacement(IslandPlacement islandPlacement) => parent.RemoveIslandPlacement(islandPlacement);
+        public void ReplaceIslandPlacement(IslandPlacement replacement) => parent.ReplaceIslandPlacement(replacement);
+        public void InvalidateIslandAt(GlobalChunkCoordinate position) => parent.InvalidateIslandAt(position);
+        public void Clear() => parent.Clear();
+        public ICollection<GlobalTileCoordinate> ExtraBuildingsToRemovePositions => parent.ExtraBuildingsToRemovePositions;
+        public ICollection<GlobalChunkCoordinate> ExtraIslandsToRemovePositions => parent.ExtraIslandsToRemovePositions;
+        public bool CanAffordBlueprintCost { get => parent.CanAffordBlueprintCost; set => parent.CanAffordBlueprintCost = value; }
+        public bool CanFitChunkLimit { get => parent.CanFitChunkLimit; set => parent.CanFitChunkLimit = value; }
+        public IPlacementAdditionalData AdditionalData => parent.AdditionalData;
+        public int MaxBuildingIndex => parent.MaxBuildingIndex;
+        public int MaxIslandIndex => parent.MaxIslandIndex;
+        public bool CostBlueprintPoints { get => parent.CostBlueprintPoints; set => parent.CostBlueprintPoints = value; }
+        public BlueprintCurrency BlueprintCost { get => parent.BlueprintCost; set => parent.BlueprintCost = value; }
+        public ChunkLimitCurrency ChunkCost { get => parent.ChunkCost; set => parent.ChunkCost = value; }
+        public int IslandsCount { get => parent.IslandsCount; }
+        public int BuildingsCount { get => parent.BuildingsCount; }
     }
 }
