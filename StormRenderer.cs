@@ -318,15 +318,8 @@ public class StormRenderer
         var localOffset = new Vector3(0, Mathf.Sin(angle) * zoom, -Mathf.Cos(angle) * zoom);
         targetPosition += rotation * localOffset;
         var chunk = ((WorldCoordinate)targetPosition).ToGlobalChunkCoordinate();
-        
-        var chunkXFloor = (chunk.x / StormChunkSize) * StormChunkSize;
-        var chunkYFloor = (chunk.y / StormChunkSize) * StormChunkSize;
-        var maxStormHeight = Mathf.Max(
-            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor, 0), 0),
-            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor + StormChunkSize, chunkYFloor, 0), 0),
-            _heights.GetValueOrDefault(
-                new GlobalChunkCoordinate(chunkXFloor + StormChunkSize, chunkYFloor + StormChunkSize, 0), 0),
-            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor + StormChunkSize, 0), 0));
+
+        var maxStormHeight = GetMaxStormHeightAtChunk(chunk);
         var stormHeightInterpolation = Mathf.InverseLerp(-1, 0, maxStormHeight);
         var minimumCamHeight = Mathf.Lerp(-1, 0.5f, stormHeightInterpolation * stormHeightInterpolation) * StormTileSize; // Add 50% to the max storm height to account for the +50 in draw, for the chunk height in draw being 1, and for the layer offset
         
@@ -398,9 +391,22 @@ public class StormRenderer
         return new TemporaryMeshReference(mesh);
     }
 
-    private bool IsChunkLocked(GlobalChunkCoordinate coord)
+    private float GetMaxStormHeightAtChunk(GlobalChunkCoordinate chunk)
     {
-        return true; //TODO
+        var chunkXFloor = (chunk.x / StormChunkSize) * StormChunkSize;
+        var chunkYFloor = (chunk.y / StormChunkSize) * StormChunkSize;
+        return Mathf.Max(
+            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor, 0), 0),
+            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor + StormChunkSize, chunkYFloor, 0), 0),
+            _heights.GetValueOrDefault(
+                new GlobalChunkCoordinate(chunkXFloor + StormChunkSize, chunkYFloor + StormChunkSize, 0), 0),
+            _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor + StormChunkSize, 0), 0));
+    }
+
+    private bool IsChunkLocked(GlobalChunkCoordinate chunk)
+    {
+        var stormHeight = GetMaxStormHeightAtChunk(chunk);
+        return stormHeight > -0.2f; // This height is chosen such that the player can interact with unlocked patches, but also the player can fully zoom in on every interactable chunk
     }
 
     private void FilterLockedSelections(GameSessionOrchestrator orchestrator)
