@@ -403,7 +403,7 @@ public class StormRenderer
             _heights.GetValueOrDefault(new GlobalChunkCoordinate(chunkXFloor, chunkYFloor + StormChunkSize, 0), 0));
     }
 
-    private bool IsChunkLocked(GlobalChunkCoordinate chunk)
+    public bool IsChunkLocked(GlobalChunkCoordinate chunk)
     {
         var stormHeight = GetMaxStormHeightAtChunk(chunk);
         return stormHeight > -0.2f; // This height is chosen such that the player can interact with unlocked patches, but also the player can fully zoom in on every interactable chunk
