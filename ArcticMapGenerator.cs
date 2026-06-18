@@ -8,6 +8,7 @@ using ArcticRuins.ArcticPlatform;
 using Core.Collections.Scoped;
 using Core.Randomizing;
 using Game.Core.Coordinates;
+using Game.Core.Map.Simulation;
 using Game.Core.Simulation;
 using Game.Interaction.EntitiesPlacement;
 using Game.Orchestration;
@@ -39,7 +40,7 @@ public static class ArcticMapGenerator
     private static readonly Dictionary<int, int> LatticePointsInCircleCache = new();
 
     private static readonly ConditionalWeakTable<GameSessionOrchestrator, BlueprintCache> BlueprintCaches = new();
-    private static Hook _gameInitializedHook;
+    private static Hook _gameTickHook;
 
     private static readonly HashSet<GlobalChunkCoordinate> PendingSuperChunkGeneration = [];
 
@@ -47,47 +48,43 @@ public static class ArcticMapGenerator
     
     public static void Register()
     {
-        _gameInitializedHook = DetourHelper.CreateStaticPostfixHook<IGameSessionManagers>(
-                managers => StaticGameCoreAccessor.AssignGameSessionManagers(managers),
-                managers =>
+        _gameTickHook = DetourHelper.CreatePrefixHook<GameSessionOrchestrator, Ticks, IReadOnlyList<SimulationLOD>, bool>(
+                (orchestrator, deltaTicks, simulationLODs, doParallelSimulationUpdate) => orchestrator.StartLogicUpdate(deltaTicks, simulationLODs, doParallelSimulationUpdate),
+                (orchestrator, deltaTicks, simulationLODs, doParallelSimulationUpdate) =>
                 {
-                    if (managers == null) return;
-                    // Session is initialized now, generate all the pending chunks
+                    // Generate all the pending chunks. This has to happen delayed, because blueprints can't be placed while the simulation is updated
                     using var pendingChunks = ScopedList.Get(PendingSuperChunkGeneration);
                     foreach (var chunk in pendingChunks)
-                        TryGenerateChunk(globalOrchestrator, chunk);
+                        TryGenerateChunk(orchestrator, chunk);
+                    return (deltaTicks, simulationLODs, doParallelSimulationUpdate);
                 }
             );
     }
 
     public static void Dispose()
     {
-        _gameInitializedHook.Dispose();
+        _gameTickHook.Dispose();
     }
 
-    public static void TryGenerateChunk(GameSessionOrchestrator orchestrator, in GlobalChunkCoordinate pos)
+    public static void QueueChunkGeneration(in GlobalChunkCoordinate pos)
     {
-        globalOrchestrator = orchestrator;
-        
-        if (StaticGameCoreAccessor.G == null)
-        {
-            // Not finished initializing yet
-            PendingSuperChunkGeneration.Add(pos);
-            return;
-        }
-        
+        PendingSuperChunkGeneration.Add(pos);
+    } 
+
+    private static void TryGenerateChunk(GameSessionOrchestrator orchestrator, in GlobalChunkCoordinate pos)
+    {
         PendingSuperChunkGeneration.Remove(pos);
         
-        var blueprintCache = BlueprintCaches.GetValue(globalOrchestrator,
+        var blueprintCache = BlueprintCaches.GetValue(orchestrator,
             orchestrator2 => new BlueprintCache(orchestrator2));
         
-        var seed = globalOrchestrator.Mode.Seed;
+        var seed = orchestrator.Mode.Seed;
         var rng = new ConsistentRandom($"{seed}/{pos.x}/{pos.y}");
         if (!rng.TestPerMille(_islandRuinChunkProbabilityPerMille)) return;
         try
         {
-            globalOrchestrator.MapModel.CreateIsland(
-                globalOrchestrator.Mode.Islands.GetDefinition(ArcticPlatformIsland.ArcticPlatform1x1Id),
+            orchestrator.MapModel.CreateIsland(
+                orchestrator.Mode.Islands.GetDefinition(ArcticPlatformIsland.ArcticPlatform1x1Id),
                 new GlobalChunkTransform(pos, GridRotation.NoRotate),
                 null
             );
@@ -95,7 +92,7 @@ public static class ArcticMapGenerator
                     
             var blueprint = blueprintCache.GetBlueprint("DoubleHalfCutter");
             if (blueprint is BuildingBlueprint buildingBlueprint)
-                PlaceBuildingBlueprint(buildingBlueprint, globalOrchestrator, pos);
+                PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos);
         } catch(MapCannotCreateIslandException) { }
     }
 

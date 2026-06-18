@@ -273,7 +273,7 @@ public class StormRenderer
                     for (int x = 0; x < StormChunkSize; x++)
                     {
                         var chunk = coord + new ChunkVector(x, y, 0);
-                        ArcticMapGenerator.TryGenerateChunk(_orchestrator, in chunk);           
+                        ArcticMapGenerator.QueueChunkGeneration(in chunk);           
                     } 
                 }
             }
