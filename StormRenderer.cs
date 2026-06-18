@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using Core.Collections.Scoped;
 using Game.Core.Coordinates;
+using Game.Interaction.EntitiesPlacement;
 using Game.Placement.Data;
 using Game.Placement.Processing;
 using MonoMod.RuntimeDetour;
@@ -34,6 +37,7 @@ public class StormRenderer
     private static Hook _drawPendingBuildingSelectionHook;
     private static Hook _drawPendingIslandSelectionHook;
     private static Hook _preparePlacementDataHook;
+    private static readonly ConditionalWeakTable<IModularEntityPlacer, object> _patchedPlacers = new();
 
     private readonly StormLayer[] _detailLayers;
     private readonly StormLayer[] _mapLayers;
@@ -116,8 +120,13 @@ public class StormRenderer
                 var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
                 if (stormRenderer == null)
                     return;
-                // Replace placement data to filter out all locked chunks
-                runner.CurrentPlacementData = new FilterLockedPlacementData(stormRenderer, runner.CurrentPlacementData);
+
+                // Add processor that invalidates everything inside the storm
+                if (runner.CurrentPlacer is IModularEntityPlacer placer && !_patchedPlacers.TryGetValue(placer, out var _))
+                {
+                    _patchedPlacers.AddOrUpdate(placer, placer);
+                    ((ICollection<IPlacementProcessor>)placer.PlacementProcessors).Add(new FilterLockedPlacementProcessor(stormRenderer));
+                }
             });
     }
 
@@ -443,53 +452,31 @@ public class StormRenderer
         public WorldVector Offset => offset;
     }
 
-    private class FilterLockedPlacementData(StormRenderer stormRenderer, IPlacementData parent) : IPlacementData
+    private class FilterLockedPlacementProcessor(StormRenderer stormRenderer) : IPlacementProcessor
     {
-        public void GetAllBuildings(ICollection<BuildingPlacement> outBuildings)
+        public void Process(IPlacementData placementData, PlacementInputHolder placementInput, IMapModel realMap,
+            IReadOnlyMapLayoutModel virtualMap, IPlacementErrors placementErrors)
         {
             using var buildingsFilter = ScopedList.Get<BuildingPlacement>();
-            parent.GetAllBuildings(buildingsFilter);
-            foreach (var building in buildingsFilter.Where(building => building.PlacementAllowability.WillBePlaced() && stormRenderer.IsChunkLocked(building.Descriptor.Transform.Position.ToChunkCoordinate())))
-                parent.InvalidateBuildingAt(building.Descriptor.Transform.Position);
-            parent.GetAllBuildings(outBuildings);
-        }
+            placementData.GetAllBuildings(buildingsFilter);
+            foreach (var building in buildingsFilter.Where(building =>
+                         building.PlacementAllowability.WillBePlaced() &&
+                         stormRenderer.IsChunkLocked(building.Descriptor.Transform.Position
+                             .ToChunkCoordinate())))
+            {
+                placementData.InvalidateBuildingAt(building.Descriptor.Transform.Position);
+            }
 
-        public void GetAllIslands(ICollection<IslandPlacement> outIslands)
-        {
             using var islandsFilter = ScopedList.Get<IslandPlacement>();
-            parent.GetAllIslands(islandsFilter);
+            placementData.GetAllIslands(islandsFilter);
             foreach (var island in islandsFilter.Where(island =>
                          island.PlacementAllowability.WillBePlaced() &&
                          (stormRenderer.IsChunkLocked(island.Descriptor.Transform.Position) ||
-                          ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Descriptor.Transform.Position))))
-                parent.InvalidateIslandAt(island.Descriptor.Transform.Position);
-            parent.GetAllIslands(outIslands);
+                          ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Descriptor
+                              .Transform.Position))))
+            {
+                placementData.InvalidateIslandAt(island.Descriptor.Transform.Position);   
+            }
         }
-
-        public void AddBuildingPlacement(BuildingPlacement buildingPlacement) => parent.AddBuildingPlacement(buildingPlacement);
-        public void RemoveBuildingPlacement(BuildingPlacement buildingPlacement) => parent.RemoveBuildingPlacement(buildingPlacement);
-        public void ReplaceBuildingPlacement(BuildingPlacement replacement) => parent.ReplaceBuildingPlacement(replacement);
-        public void InvalidateBuildingAt(GlobalTileCoordinate position) => parent.InvalidateBuildingAt(position);
-        public bool HasBuildingPlacementAt(GlobalTileCoordinate position) => parent.HasBuildingPlacementAt(position);
-        public bool TryGetBuildingPlacementsAt(GlobalTileCoordinate position, ICollection<BuildingPlacement> buildings) => parent.TryGetBuildingPlacementsAt(position, buildings);
-        public bool HasIslandPlacementAt(GlobalChunkCoordinate position) => parent.HasIslandPlacementAt(position);
-        public bool TryGetIslandPlacementsAt(GlobalChunkCoordinate position, ICollection<IslandPlacement> islands) => parent.TryGetIslandPlacementsAt(position, islands);
-        public void AddIslandPlacement(IslandPlacement islandPlacement) => parent.AddIslandPlacement(islandPlacement);
-        public void RemoveIslandPlacement(IslandPlacement islandPlacement) => parent.RemoveIslandPlacement(islandPlacement);
-        public void ReplaceIslandPlacement(IslandPlacement replacement) => parent.ReplaceIslandPlacement(replacement);
-        public void InvalidateIslandAt(GlobalChunkCoordinate position) => parent.InvalidateIslandAt(position);
-        public void Clear() => parent.Clear();
-        public ICollection<GlobalTileCoordinate> ExtraBuildingsToRemovePositions => parent.ExtraBuildingsToRemovePositions;
-        public ICollection<GlobalChunkCoordinate> ExtraIslandsToRemovePositions => parent.ExtraIslandsToRemovePositions;
-        public bool CanAffordBlueprintCost { get => parent.CanAffordBlueprintCost; set => parent.CanAffordBlueprintCost = value; }
-        public bool CanFitChunkLimit { get => parent.CanFitChunkLimit; set => parent.CanFitChunkLimit = value; }
-        public IPlacementAdditionalData AdditionalData => parent.AdditionalData;
-        public int MaxBuildingIndex => parent.MaxBuildingIndex;
-        public int MaxIslandIndex => parent.MaxIslandIndex;
-        public bool CostBlueprintPoints { get => parent.CostBlueprintPoints; set => parent.CostBlueprintPoints = value; }
-        public BlueprintCurrency BlueprintCost { get => parent.BlueprintCost; set => parent.BlueprintCost = value; }
-        public ChunkLimitCurrency ChunkCost { get => parent.ChunkCost; set => parent.ChunkCost = value; }
-        public int IslandsCount { get => parent.IslandsCount; }
-        public int BuildingsCount { get => parent.BuildingsCount; }
     }
 }
