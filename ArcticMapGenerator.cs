@@ -92,18 +92,21 @@ public static class ArcticMapGenerator
                     
             var blueprint = blueprintCache.GetBlueprint("DoubleHalfCutter");
             if (blueprint is BuildingBlueprint buildingBlueprint)
-                PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos);
+                PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos, GridRotation.RotationsInClockwiseOrder[rng.Next(0, 4)]);
         } catch(MapCannotCreateIslandException) { }
     }
 
     private static void PlaceBuildingBlueprint(BuildingBlueprint blueprint, GameSessionOrchestrator orchestrator,
-        GlobalChunkCoordinate chunk)
+        GlobalChunkCoordinate chunk, GridRotation rotation)
     {
         var map = orchestrator.MapModel;
         var player = orchestrator.SystemPlayer;
         var placementData = new ConcurrentPlacementData();
-        var blueprintInput = new BlueprintPlacementInput<GlobalTileCoordinate>(GridRotation.NoRotate, false);
-        var coordinate = chunk.ToOrigin_G() + new TileVector(CoordinateConstants.TILES_PER_CHUNK / 2, CoordinateConstants.TILES_PER_CHUNK / 2, 0);
+        var blueprintInput = new BlueprintPlacementInput<GlobalTileCoordinate>(rotation, false);
+        var coordinate = chunk.ToOrigin_G() + new TileVector(
+            CoordinateConstants.TILES_PER_CHUNK / 2 - (rotation == GridRotation.Rotate180 || rotation == GridRotation.RotateCW ? 1 : 0),
+            CoordinateConstants.TILES_PER_CHUNK / 2 - (rotation == GridRotation.Rotate180 || rotation == GridRotation.RotateCCW ? 1 : 0),
+            0);
         blueprintInput.TryUpdateStartPosition(coordinate);
         blueprintInput.TryUpdateEndPosition(coordinate);
         var processor = new BuildingBlueprintProcessor(blueprint, ArcticRuinsMod.Logger);
