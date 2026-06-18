@@ -68,7 +68,7 @@ namespace ArcticRuins.CommunicationRelay
             AtomicBuildings.Extend()
                 .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                 .WithBuilding(communicationRelayBuilder, communicationRelayGroup)
-                .UnlockedAtMilestone(new MilestoneSelector())
+                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                 .WithDefaultPlacement()
                 .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(5).InsertAfter())
                 .WithSimulation(new CommunicationRelayFactoryBuilder(), ArcticRuinsMod.Logger)
@@ -99,14 +99,6 @@ namespace ArcticRuins.CommunicationRelay
                 false,
                 null,
                 false);
-        }
-    }
-
-    internal class MilestoneSelector : IMilestoneSelector
-    {
-        public ResearchLevel Select(ScenarioId scenarioId, IReadOnlyList<ResearchLevel> milestones)
-        {
-            return milestones[0];
         }
     }
 }

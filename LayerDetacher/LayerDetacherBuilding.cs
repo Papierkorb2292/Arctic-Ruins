@@ -64,7 +64,7 @@ namespace ArcticRuins.LayerDetacher
             AtomicBuildings.Extend()
                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
-               .UnlockedAtMilestone(new MilestoneSelector())
+               .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                .WithDefaultPlacement()
                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(3).ChildAt(^1).InsertAfter()) // At the end of the stacker section
                .WithSimulation(new LayerDetacherFactoryBuilder(), ArcticRuinsMod.Logger)
@@ -92,14 +92,6 @@ namespace ArcticRuins.LayerDetacher
                 false,
                 null,
                 false);
-        }
-    }
-
-    internal class MilestoneSelector : IMilestoneSelector
-    {
-        public ResearchLevel Select(ScenarioId scenarioId, IReadOnlyList<ResearchLevel> milestones)
-        {
-            return milestones[0];
         }
     }
 }

@@ -5,6 +5,7 @@ using Core.Collections.Scoped;
 using Core.Events;
 using Game.Core.Coordinates;
 using ShapezShifter.Flow.Atomic;
+using ShapezShifter.Flow.Research;
 using ShapezShifter.Flow.Toolbar;
 using ShapezShifter.Hijack;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace ArcticRuins
 {
     public static class Helper
     {
+        public static IToolbarEntryInsertLocation NoToolbarEntryLocation = new NoToolbarLocation();
+        public static IMilestoneSelector FirstMilestoneSelector = new MilestoneSelectorFirst();
+        
         public static BuildingItemInput ToInput(this ShapeConnectorConfig shapeConnectorConfig, TileVector? pos = null)
         {
             return new BuildingItemInput
@@ -100,6 +104,19 @@ namespace ArcticRuins
             }
 
             public override string ToString() => $"Replace \n{ElementLocator}";
+        }
+
+        private class NoToolbarLocation : IToolbarEntryInsertLocation
+        {
+            public void AddEntry(ToolbarData toolbarData, IToolbarElementData elementData) { }
+        }
+        
+        private class MilestoneSelectorFirst : IMilestoneSelector
+        {
+            public ResearchLevel Select(ScenarioId scenarioId, IReadOnlyList<ResearchLevel> milestones)
+            {
+                return milestones[0];
+            }
         }
 
         public delegate ISimulationSystem CustomSimulationSystemFactory<TConfig>(ICollection<ISimulationSystem> simulationSystems, SimulationSystemsDependencies dependencies, BuildingDefinition building, out TConfig config);

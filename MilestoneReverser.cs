@@ -159,8 +159,7 @@ public static class MilestoneReverser
     
     public static SaveData.TechReference? PickNextTech(ResearchProgression layout)
     {
-        var techTracker = ArcticRuinsMod.Instance.SaveData.Tech;
-        var rewards = techTracker.QueuedRewards ??= GenerateRewardQueue(layout);
+        var rewards = GetRewardQueue(layout);
         if (rewards.Count == 0)
             return null;
         var nextReward = rewards[0];
@@ -168,19 +167,36 @@ public static class MilestoneReverser
         return nextReward;
     }
 
-    private static List<SaveData.TechReference> GenerateRewardQueue(ResearchProgression layout)
+    public static List<SaveData.TechReference> GetRewardQueue(ResearchProgression layout)
+    {
+        var techTracker = ArcticRuinsMod.Instance.SaveData.Tech;
+        if (techTracker.QueuedRewards == null)
+            (techTracker.QueuedRewards, techTracker.RewardCountPerLevel) = GenerateRewardQueue(layout);
+        return techTracker.QueuedRewards;
+    }
+
+    public static List<int> GetLevelRewardCount(ResearchProgression layout)
+    {
+        var techTracker = ArcticRuinsMod.Instance.SaveData.Tech;
+        if (techTracker.RewardCountPerLevel == null)
+            (techTracker.QueuedRewards, techTracker.RewardCountPerLevel) = GenerateRewardQueue(layout);
+        return techTracker.RewardCountPerLevel;
+    }
+    private static (List<SaveData.TechReference> queue, List<int> levelRewardCount) GenerateRewardQueue(ResearchProgression layout)
     {
         // TODO: Some milestones should be able to add their rewards at any point in the list (for example third space layer or pin pusher)
-        var result =  new List<SaveData.TechReference>();
+        var queue =  new List<SaveData.TechReference>();
+        List<int> levelRewardCount = [0];
         // Randomly add rewards from all milestones (except initial milestone).
         for(int i = 1;  i < layout.Levels.Count; i++)
         {
             var level = layout.Levels[i];
             var indices = Enumerable.Range(0, level.Rewards.Count).ToArray();
             indices.Shuffle();
-            result.AddRange(indices.Select(index => new SaveData.TechReference(i, index)));
+            queue.AddRange(indices.Select(index => new SaveData.TechReference(i, index)));
+            levelRewardCount.Add(level.Rewards.Count);
         }
-        return result;
+        return (queue, levelRewardCount);
     }
 
     public static void MarkTechUnlocked(SaveData.TechReference techReference, ResearchProgression layout)

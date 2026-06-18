@@ -65,7 +65,7 @@ namespace ArcticRuins.ArcticCutter
             AtomicBuildings.Extend()
                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
-               .UnlockedAtMilestone(new MilestoneSelector())
+               .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                .WithDefaultPlacement()
                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(0).Replace()) // Replace normal cutter
                .WithSimulation(new ArcticCutterFactoryBuilder(), ArcticRuinsMod.Logger)
@@ -93,14 +93,6 @@ namespace ArcticRuins.ArcticCutter
                 false,
                 null,
                 false);
-        }
-    }
-
-    internal class MilestoneSelector : IMilestoneSelector
-    {
-        public ResearchLevel Select(ScenarioId scenarioId, IReadOnlyList<ResearchLevel> milestones)
-        {
-            return milestones[0];
         }
     }
 }

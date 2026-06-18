@@ -7,6 +7,7 @@ using System.Reflection;
 using Core.Collections;
 using Core.Localization;
 using ArcticRuins.ArcticCutter;
+using ArcticRuins.ArcticPlatform;
 using ArcticRuins.CommunicationRelay;
 using ArcticRuins.DataFragment;
 using ArcticRuins.LayerDetacher;
@@ -90,6 +91,8 @@ namespace ArcticRuins
             DataFragmentBuilding.Register();
             MeshRecolorer.Register();
             StormRenderer.Register();
+            ArcticPlatformIsland.Register();
+            ArcticMapGenerator.Register();
 
             BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
             BuildingDefinitionId definitionId = new("DiagonalCutter");
@@ -239,6 +242,7 @@ namespace ArcticRuins
             MeshRecolorer.Dispose();
             DataFragmentBuilding.Dispose();
             StormRenderer.Dispose();
+            ArcticMapGenerator.Dispose();
         }
 
         private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)

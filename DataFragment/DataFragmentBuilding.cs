@@ -74,7 +74,7 @@ namespace ArcticRuins.DataFragment
             AtomicBuildings.Extend()
                 .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                 .WithBuilding(communicationRelayBuilder, communicationRelayGroup)
-                .UnlockedAtMilestone(new MilestoneSelector())
+                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                 .WithDefaultPlacement()
                 .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(5).InsertAfter())
                 .WithSimulation(new DataFragmentFactoryBuilder(), ArcticRuinsMod.Logger)
@@ -121,14 +121,6 @@ namespace ArcticRuins.DataFragment
             var cubeMeshPath = modResourcesLocator.SubPath("DataFragmentCube.fbx");
             var cubeMesh = FileMeshLoader.LoadSingleMeshFromFile(cubeMeshPath);
             return MeshLod.Create().AddLod0Mesh(cubeMesh).BuildLod6Mesh();
-        }
-    }
-
-    internal class MilestoneSelector : IMilestoneSelector
-    {
-        public ResearchLevel Select(ScenarioId scenarioId, IReadOnlyList<ResearchLevel> milestones)
-        {
-            return milestones[0];
         }
     }
 }

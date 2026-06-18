@@ -156,8 +156,7 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
                 var matrix = FastMatrix.TranslateScale(in pos_W, scale);
                 if (c == '/')
                     matrix.m20 = -(matrix.m02 = matrix.m22 = matrix.m00 = scale / Sqrt2); // Rotate by 45°
-                options.Renderers.UINonInstanced.DrawMesh(coordinatesVisualization.PlaneMeshes[meshIndex], textMaterial,
-                    matrix, RenderCategory.ShapeMapResources);
+                options.Renderers.UI.Add(coordinatesVisualization.PlaneMeshes[meshIndex], textMaterial, matrix);
             }
 
             pos_W += WorldVector.East * scale;

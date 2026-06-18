@@ -39,6 +39,7 @@ public class StormRenderer
     private readonly StormLayer[] _mapLayers;
     private readonly AsteroidProgressSystem _progressSystem;
     private readonly GameResourcesMap _gameResourcesMap;
+    private readonly GameSessionOrchestrator _orchestrator;
     private readonly DelaunayHelper _delaunay;
     private readonly Dictionary<GlobalChunkCoordinate, float> _heights = new();
     private readonly Dictionary<GlobalChunkCoordinate, float> _targetHeights = new();
@@ -74,6 +75,7 @@ public class StormRenderer
             .Select(patch => patch.CenterOfMass_GC)
             .Select(chunkCoord => new Vector2(chunkCoord.x, chunkCoord.y)));
         _progressSystem.OnAsteroidProgressUpdate.Register((coord, data) => RevealPatch(coord, data, _targetHeights));
+        this._orchestrator = orchestrator;
         InitializeStormHeight();
         FilterLockedSelections(orchestrator);
     }
@@ -103,7 +105,7 @@ public class StormRenderer
             {
                 var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
                 if (stormRenderer != null && islands is HashSet<IslandModel> set)
-                    set.RemoveWhere(island => stormRenderer.IsChunkLocked(island.Position));
+                    set.RemoveWhere(island => stormRenderer.IsChunkLocked(island.Position) || ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Position));
                 return (options, islands, type);
             }
         );
@@ -255,6 +257,17 @@ public class StormRenderer
             var distanceToCenter = (circle.Center - vector).Length();
             var distanceToEdge = distanceToCenter - circle.Radius;
             var heightInterpolation = Mathf.Lerp(-0.5f, 0, Mathf.InverseLerp(fadeStart, fadeEnd, distanceToEdge));
+            if (heightInterpolation < 0 && ArcticRuinsMod.Instance.SaveData.GeneratedStormChunks.Add(coord))
+            {
+                for (int y = 0; y < StormChunkSize; y++)
+                {
+                    for (int x = 0; x < StormChunkSize; x++)
+                    {
+                        var chunk = coord + new ChunkVector(x, y, 0);
+                        ArcticMapGenerator.TryGenerateChunk(_orchestrator, in chunk);           
+                    } 
+                }
+            }
             heightsMap[coord] = Mathf.Min(heightsMap.GetValueOrDefault(coord, 0), heightInterpolation);
         }
         
@@ -419,7 +432,7 @@ public class StormRenderer
         });
         islandSelection.OnAdded.Register(islands =>
         {
-            islandSelection.Remove(islands.Where(island => IsChunkLocked(island.Position)));
+            islandSelection.Remove(islands.Where(island => IsChunkLocked(island.Position) || ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Position)));
         });
     }
     
@@ -445,7 +458,10 @@ public class StormRenderer
         {
             using var islandsFilter = ScopedList.Get<IslandPlacement>();
             parent.GetAllIslands(islandsFilter);
-            foreach (var island in islandsFilter.Where(island => island.PlacementAllowability.WillBePlaced() && stormRenderer.IsChunkLocked(island.Descriptor.Transform.Position)))
+            foreach (var island in islandsFilter.Where(island =>
+                         island.PlacementAllowability.WillBePlaced() &&
+                         (stormRenderer.IsChunkLocked(island.Descriptor.Transform.Position) ||
+                          ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Descriptor.Transform.Position))))
                 parent.InvalidateIslandAt(island.Descriptor.Transform.Position);
             parent.GetAllIslands(outIslands);
         }
