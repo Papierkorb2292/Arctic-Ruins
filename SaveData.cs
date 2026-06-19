@@ -16,9 +16,9 @@ public class SaveData
     public readonly Dictionary<GlobalChunkCoordinate, AsteroidData> Asteroids = new();
     public readonly Dictionary<TileDirection, VortexSide> VortexSides = new();
     private readonly Dictionary<string, ShapeSupplierData> VortexShapeSupplier = new();
-    private readonly Dictionary<int, LevelGeneratorData> _levelGeneratorData = new();
     public readonly HashSet<GlobalChunkCoordinate> UnremovablePlatforms = [];
     public readonly HashSet<GlobalChunkCoordinate> GeneratedStormChunks = [];
+    public HashSet<GlobalChunkCoordinate> DataFragmentChunks = null;
     public readonly TechTracker Tech = new();
     
     public SaveData() {}
@@ -39,11 +39,7 @@ public class SaveData
             VortexShapeSupplier[shape] = data;
         }
 
-        foreach (var (level, data) in rawSaveData.LevelGeneratorData)
-        {
-            _levelGeneratorData[level] = data;
-        }
-    
+        DataFragmentChunks = rawSaveData.DataFragmentChunks;
         UnremovablePlatforms = rawSaveData.UnremovablePlatforms;
         GeneratedStormChunks = rawSaveData.GeneratedStormChunks;
         Tech = rawSaveData.Tech;
@@ -69,22 +65,6 @@ public class SaveData
             return data;
         return VortexShapeSupplier[hash] = new ShapeSupplierData();
     }
-
-    public LevelGeneratorData GetLevelGeneratorData(int level) => _levelGeneratorData.GetValueOrDefault(level, new LevelGeneratorData());
-
-    public void IncreaseDataFragmentCount(int level)
-    {
-        var data = GetLevelGeneratorData(level);
-        data.GeneratedDataFragments += 1;
-        _levelGeneratorData[level] = data;
-    }
-
-    public void IncreaseGeneratedChunkCount(int level)
-    {
-        var data = GetLevelGeneratorData(level);
-        data.GeneratedChunks += 1;
-        _levelGeneratorData[level] = data;
-    } 
 
     public class AsteroidData(int totalRequirement, int suppliedShapes)
     {
@@ -118,9 +98,9 @@ public class SaveData
         public List<(GlobalChunkCoordinate, AsteroidData)> Asteroids = [];
         public List<(TileDirection, VortexSide)> VortexSides = [];
         public List<(string, ShapeSupplierData)> VortexShapeSupplier = [];
-        public List<(int, LevelGeneratorData)> LevelGeneratorData = [];
         public HashSet<GlobalChunkCoordinate> UnremovablePlatforms = [];
         public HashSet<GlobalChunkCoordinate> GeneratedStormChunks = [];
+        public HashSet<GlobalChunkCoordinate> DataFragmentChunks = null;
         public TechTracker Tech;
         
         public void CopyFrom(SaveData saveData)
@@ -128,9 +108,9 @@ public class SaveData
             Asteroids = saveData.Asteroids.Select(entry => (entry.Key, entry.Value)).ToList();
             VortexSides = saveData.VortexSides.Select(entry => (entry.Key, entry.Value)).ToList();
             VortexShapeSupplier = saveData.VortexShapeSupplier.Select(entry => (entry.Key, entry.Value)).ToList();
-            LevelGeneratorData = saveData._levelGeneratorData.Select(entry => (entry.Key, entry.Value)).ToList();
             UnremovablePlatforms = saveData.UnremovablePlatforms;
             GeneratedStormChunks =  saveData.GeneratedStormChunks;
+            DataFragmentChunks = saveData.DataFragmentChunks;
             Tech = saveData.Tech;
         }
     }
@@ -164,11 +144,5 @@ public class SaveData
         {
             return !left.Equals(right);
         }
-    }
-
-    public class LevelGeneratorData
-    {
-        public int GeneratedChunks = 0;
-        public int GeneratedDataFragments = 0;
     }
 }

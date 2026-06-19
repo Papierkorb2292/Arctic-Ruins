@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using ArcticRuins.ArcticPlatform;
+using ArcticRuins.DataFragment;
 using Core.Collections.Scoped;
 using Core.Randomizing;
 using Game.Core.Coordinates;
@@ -17,12 +18,12 @@ using Game.Placement.Data;
 using Game.Placement.Processing;
 using MonoMod.RuntimeDetour;
 using ShapezShifter.SharpDetour;
+using UnityEngine;
 
 namespace ArcticRuins;
 
 public static class ArcticMapGenerator
 {
-    private static int _islandRuinChunkProbabilityPerMille = 5;
     private static int _postgameDataFragmentProbabilityPerMille = 1;
     private static readonly int[] LevelRadii = [
         0,
@@ -37,8 +38,6 @@ public static class ArcticMapGenerator
     ];
     private static readonly int[] LevelRadiiSquare = LevelRadii.Select(radius => radius * radius).ToArray();
     
-    private static readonly Dictionary<int, int> LatticePointsInCircleCache = new();
-
     private static readonly ConditionalWeakTable<GameSessionOrchestrator, BlueprintCache> BlueprintCaches = new();
     private static Hook _gameTickHook;
 
@@ -52,7 +51,8 @@ public static class ArcticMapGenerator
                 (orchestrator, deltaTicks, simulationLODs, doParallelSimulationUpdate) => orchestrator.StartLogicUpdate(deltaTicks, simulationLODs, doParallelSimulationUpdate),
                 (orchestrator, deltaTicks, simulationLODs, doParallelSimulationUpdate) =>
                 {
-                    // Generate all the pending chunks. This has to happen delayed, because blueprints can't be placed while the simulation is updated
+                    // Generate a pending chunk. This has to happen delayed, because blueprints can't be placed while the simulation is updated
+                    // It also reduces lag to do process them one at a time
                     using var pendingChunks = ScopedList.Get(PendingSuperChunkGeneration);
                     foreach (var chunk in pendingChunks)
                         TryGenerateChunk(orchestrator, chunk);
@@ -80,19 +80,25 @@ public static class ArcticMapGenerator
         
         var seed = orchestrator.Mode.Seed;
         var rng = new ConsistentRandom($"{seed}/{pos.x}/{pos.y}");
-        if (!rng.TestPerMille(_islandRuinChunkProbabilityPerMille)) return;
+        var hasDataFragment = ShouldGenerateLevelDataFragment(pos, orchestrator) ||
+                              ShouldGeneratePostgameDataFragment(pos, orchestrator, rng);
+        if (!hasDataFragment && rng.Next(0, 10000) != 0) return;
         try
         {
-            orchestrator.MapModel.CreateIsland(
+            var island = orchestrator.MapModel.CreateIsland(
                 orchestrator.Mode.Islands.GetDefinition(ArcticPlatformIsland.ArcticPlatform1x1Id),
                 new GlobalChunkTransform(pos, GridRotation.NoRotate),
                 null
             );
+            var islandDescriptor = island.Instance.ToDescriptor();
             ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Add(pos);
                     
             var blueprint = blueprintCache.GetBlueprint("DoubleHalfCutter");
             if (blueprint is BuildingBlueprint buildingBlueprint)
                 PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos, GridRotation.RotationsInClockwiseOrder[rng.Next(0, 4)]);
+
+            if (hasDataFragment)
+                PlaceDataFragment(islandDescriptor, orchestrator, rng);
         } catch(MapCannotCreateIslandException) { }
     }
 
@@ -132,36 +138,87 @@ public static class ArcticMapGenerator
             throw new Exception("Failed to place blueprint for map generation");
         orchestrator.PlayerActions.ExecuteActionImmediately_INTERNAL(action, out _);
     }
-    
-    /*public static (float probability, int level) GetDataFragmentProbabilityInChunk(int x, int y, ResearchProgression researchLayout)
+
+    private static bool ShouldGenerateLevelDataFragment(GlobalChunkCoordinate chunk, GameSessionOrchestrator orchestrator)
     {
-        var level = GetLevelForChunk(x, y);
-        if (level == -1)
-            return (_postgameDataFragmentProbability, -1);
-        if (level <= 1)
-            return (0f, level); // For these levels everything is placed statically
-        var generatorData = ArcticRuinsMod.Instance.SaveData.GetLevelGeneratorData(level);
-        var accumulatedRewardsCount = MilestoneReverser.GetLevelRewardCount(researchLayout);
-        if (level >= accumulatedRewardsCount.Count)
-            return (_postgameDataFragmentProbability, -1);
-        var totalDataFragmentsForLevel = accumulatedRewardsCount[level] - accumulatedRewardsCount[level - 1];
-        totalDataFragmentsForLevel += level; // Player shouldn't have to unlock the entire circle, so add a couple more
-        var generatedDataFragments = generatorData.GeneratedDataFragments;
-        var totalChunks = GetChunksInCircleSection(LevelRadii[level - 1], LevelRadii[level]);
-        var generatedChunks = generatorData.GeneratedChunks;
-        var probability = (totalDataFragmentsForLevel - generatedDataFragments) / (float)(totalChunks - generatedChunks);
-        return (probability, level);
-    }*/
-    
-    public static int GetLevelForChunk(int x, int y)
-    {
-        // Use corner closest to the origin
-        var cornerX = x < 0 ? x + 1 : x;
-        var cornerY = y < 0 ? y + 1 : y;
-        var distanceSqr = cornerX * cornerX + cornerY * cornerY;
-        return LevelRadiiSquare.FindIndex(radiusSqr => distanceSqr >= radiusSqr);
+        if (ArcticRuinsMod.Instance.SaveData.DataFragmentChunks != null)
+            return ArcticRuinsMod.Instance.SaveData.DataFragmentChunks.Contains(chunk);
+        
+        var dataFragmentChunks = new HashSet<GlobalChunkCoordinate>();
+        var research = orchestrator.Research.Layout;
+
+        var rewardCounts = MilestoneReverser.GetLevelRewardCount(research);
+        var rng = new ConsistentRandom($"{orchestrator.Mode.Seed}");
+        for (int i = 1; i < rewardCounts.Count; i++)
+        {
+            var count = rewardCounts[i] + i; //
+                                             // Generate some extra data fragments for each level, so player's don't have to unlock the entire circle
+            var distMin = LevelRadii[i];
+            var distMax = LevelRadii[i + 1];
+            for (int j = 0; j < count; j++)
+            {
+                GlobalChunkCoordinate position;
+                do
+                {
+                    var directionDeg = rng.Next(0, 360 * 4) / 4f;
+                    var distance = rng.Next(distMin, distMax);
+                    var posXFloat = Mathf.Cos(directionDeg * Mathf.Deg2Rad) * distance;
+                    var posYFloat = Mathf.Sin(directionDeg * Mathf.Deg2Rad) * distance;
+                    position = new GlobalChunkCoordinate(
+                        Mathf.RoundToInt(posXFloat),
+                        Mathf.RoundToInt(posYFloat),
+                        0);
+                } while(!dataFragmentChunks.Add(position));
+            }
+        }
+        
+        ArcticRuinsMod.Instance.SaveData.DataFragmentChunks = dataFragmentChunks;
+        return dataFragmentChunks.Contains(chunk);
     }
 
+    private static bool ShouldGeneratePostgameDataFragment(GlobalChunkCoordinate chunk, GameSessionOrchestrator orchestrator, ConsistentRandom chunkRng)
+    {
+        // Postgame data fragments only generate beyond the last level
+        return !IsChunkInCircle(chunk.x, chunk.y, LevelRadii[MilestoneReverser.GetLevelRewardCount(orchestrator.Research.Layout).Count]) &&
+               chunkRng.TestPerMille(_postgameDataFragmentProbabilityPerMille);
+    }
+
+    private static void PlaceDataFragment(IslandDescriptor island, GameSessionOrchestrator orchestrator,
+        ConsistentRandom chunkRng)
+    {
+        var query = new IslandLayoutQuery(island, orchestrator.Mode.MaxBuildingLayer);
+        var availableTiles = 0;
+        for (short y = 0; y < CoordinateConstants.TilesPerIslandLayer; y++)
+        {
+            for (short x = 0; x < CoordinateConstants.TilesPerIslandLayer; x++)
+            {
+                if(query.IsValidAndBuildableTile_I(new IslandTileCoordinate(x, y, 0)) && !orchestrator.Map.TryGetBuilding(island.Transform.Position.ToOrigin_G() + new TileVector(x, y, 0), out _, out _))
+                    availableTiles++;
+            }
+        }
+        var fragmentLocation = chunkRng.Next(0, availableTiles);
+        for (short y = 0; y < CoordinateConstants.TilesPerIslandLayer; y++)
+        {
+            for (short x = 0; x < CoordinateConstants.TilesPerIslandLayer; x++)
+            {
+                var position = island.Transform.Position.ToOrigin_G() + new TileVector(x, y, 0);
+                if (!query.IsValidAndBuildableTile_I(new IslandTileCoordinate(x, y, 0)) ||
+                    orchestrator.Map.TryGetBuilding(position, out _, out _)) continue;
+                var buildingTransform = new GlobalTileTransform(position, GridRotation.NoRotate);
+                if (fragmentLocation == 0)
+                {
+                    orchestrator.MapModel.CreateBuilding(
+                        orchestrator.Mode.Buildings.GetDefinition(DataFragmentBuilding.DefinitionId),
+                        in buildingTransform,
+                        null);
+                    return;
+                }
+                
+                fragmentLocation--;
+            }
+        }
+    }
+    
     public static bool IsChunkInCircle(int x, int y, int radius)
     {
         // Use corner closest to the origin
@@ -169,37 +226,6 @@ public static class ArcticMapGenerator
         var cornerY = y < 0 ? y + 1 : y;
         return cornerX*cornerX + cornerY*cornerY <= radius*radius;
     }
-
-    public static int GetChunksInCircleSection(int innerRadius, int outerRadius)
-    {
-        return GetChunksInCircle(outerRadius) - GetChunksInCircle(innerRadius);
-    }
-
-    public static int GetChunksInCircle(int radius)
-    {
-        var chunkCount = GetLatticePointsInCircle(radius);
-
-        // Add chunks along the axis that share a lattice point
-        chunkCount += radius * 4 + 3;
-        
-        return chunkCount;
-    }
-    
-    // https://oeis.org/A000328
-    public static int GetLatticePointsInCircle(int radius)
-    {
-        if (LatticePointsInCircleCache.TryGetValue(radius, out var result))
-            return result;
-        
-        result = 1 + Enumerable.Range(1, radius)
-            .Select(k => (int)Math.Sqrt(k * ((radius << 1) - k)))
-            .Sum() << 2;
-        LatticePointsInCircleCache[radius] = result;
-        return result;
-    }
-    
-    private delegate MapSuperChunk GetOrCreateSuperChunkMethod(GameResourcesMap map, in SuperChunkCoordinate tile_SC);
-    private delegate MapSuperChunk GetOrCreateSuperChunkWrapper(GetOrCreateSuperChunkMethod original, GameResourcesMap map, in SuperChunkCoordinate tile_SC);
 
     private class BlueprintCache(GameSessionOrchestrator orchestrator)
     {
