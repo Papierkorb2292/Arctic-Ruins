@@ -77,7 +77,7 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
     private static int ComputeTotalRequirement(IMapResourceSource source)
     {
         // Should increase as you get further away
-        return 1000 * Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y));
+        return 20 * Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y));
     }
 
     public static void Dispose()

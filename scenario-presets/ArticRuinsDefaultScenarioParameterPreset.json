@@ -7,7 +7,7 @@
     "ScenarioId": "arctic-ruins-default",
     "MapGenerationParameters": {
       "FluidsSpawnPrimaryColors": true,
-      "FluidsSpawnSecondaryColors": true,
+      "FluidsSpawnSecondaryColors": false,
       "FluidsSpawnTertiaryColors": true,
       "FluidPatchLikelinessPercent": 20,
       "FluidPatchBaseSize": 6,
