@@ -120,6 +120,10 @@ public static class MeshRecolorer
             {
                 ChangeLODMeshAssetsColor(allField.GetValue(customDrawData) as LODMeshAsset[]);
             }
+            else if (allField.FieldType == typeof(ILODMesh))
+            {
+                ChangeLODMeshColor(allField.GetValue(customDrawData) as ILODMesh);
+            }
         }
         if (customDrawData is BeltPortSenderEntityMetaBuildingDefinition.DrawData receiverData)
         {

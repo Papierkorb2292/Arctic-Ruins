@@ -26,9 +26,6 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             string titleId = "building-variant.asteroid-stabilizer.title";
             string titleDescription = "building-variant.asteroid-stabilizer.description";
 
-            using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
-
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder asteroidStabilizerGroup = BuildingGroup.Create(GroupId)
@@ -51,7 +48,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
 
             IBuildingConnectorData connectorData = new BuildingConnectorData(
                 [
-                    new ShapeConnectorConfig(TileDirection.West).ToInput()
+                    new ShapeConnectorConfig(TileDirection.West, BuildingItemIOType.Regular).ToInput()
                 ],
                 [TileVector.Zero, TileVector.Up, TileVector.East, TileVector.East + TileVector.Up],
                 tileBounds,
@@ -59,11 +56,12 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 dimensions
             );
 
+            var drawData = CreateDrawData(ArcticRuinsMod.Instance.Resources, out var customDrawData);
             IBuildingBuilder asteroidStabilizerBuilder = Building.Create(DefinitionId)
                 .WithConnectorData(connectorData)
                 .DynamicallyRendering<ShapeAsteroidStabilizerSimulationRenderer, ShapeAsteroidStabilizerSimulation,
-                    IShapeAsteroidStabilizerDrawData>(new ShapeShapeAsteroidStabilizerDrawData())
-                .WithStaticDrawData(CreateDrawData(ArcticRuinsMod.Instance.Resources))
+                    IShapeAsteroidStabilizerDrawData>(customDrawData)
+                .WithStaticDrawData(drawData)
                 .WithoutSound()
                 .WithoutSimulationConfiguration()
                 .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
@@ -91,13 +89,17 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .Build();
         }
 
-        private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
+        private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator, out ShapeShapeAsteroidStabilizerDrawData customDrawData)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("DiagonalCutter.fbx");
+            string baseMeshPath = modResourcesLocator.SubPath("Stabilizer.fbx");
             Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
+            Mesh hammerMesh = FileMeshLoader.LoadSingleMeshFromFile(modResourcesLocator.SubPath("StabilizerHammer.fbx"));
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
+            LOD6Mesh hammerModLod = MeshLod.Create().AddLod0Mesh(hammerMesh).BuildLod6Mesh();
 
+            customDrawData = new ShapeShapeAsteroidStabilizerDrawData(hammerModLod);
+            
             return new BuildingDrawData(
                 renderVoidBelow: false,
                 new ILODMesh[] { baseModLod, baseModLod, baseModLod },
@@ -106,7 +108,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 baseModLod.LODClose,
                 new LODEmptyMesh(),
                 BoundingBoxHelper.CreateBasicCollider(baseMesh),
-                new ShapeShapeAsteroidStabilizerDrawData(),
+                customDrawData,
                 false,
                 null,
                 false);

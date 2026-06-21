@@ -4,5 +4,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
     {
         IBeltLaneRendererDefinition InputLaneRenderingDefinition { get; }
         IBeltLaneRendererDefinition ProcessingLaneRenderingDefinition { get; }
+        
+        ILODMesh HammerMesh { get; }
     }
 }

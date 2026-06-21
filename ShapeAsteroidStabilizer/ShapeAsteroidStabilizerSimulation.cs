@@ -11,9 +11,15 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
         public readonly DelayBeltLane ProcessingLane;
         public readonly BeltLane InputLane;
 
+        public readonly HashSet<string> AllowedHashes;
+
         public ShapeAsteroidStabilizerSimulation([NotNull] ShapeAsteroidStabilizerSimulationState state, IShapeAsteroidStabilizerConfiguration configuration, ShapeMiningStream aggregatedResource, Action receivedCallback) : base(state)
         {
-            ProcessingLane = new DelayBeltLane(configuration.ProcessingDelay, state.ProcessingLaneState, new AsteroidStabilizerTrash(aggregatedResource, receivedCallback));
+            // Convert to hash, because item definitions don't implement Equals
+            // TODO(opt): The proper solution would be ShapeId
+            AllowedHashes = aggregatedResource.DistinctPossibleShapes.Select(item => item.Definition.Hash)
+                .ToHashSet();
+            ProcessingLane = new DelayBeltLane(configuration.ProcessingDelay, state.ProcessingLaneState, new AsteroidStabilizerTrash(AllowedHashes, receivedCallback));
             InputLane = new BeltLane(configuration.BeltSpeed, state.InputLaneState, ProcessingLane);
         }
 
@@ -34,19 +40,15 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
 
         public IItemReceiver GetItemReceiver(int index) => InputLane;
 
-        private class AsteroidStabilizerTrash(ShapeMiningStream aggregatedResource, Action receivedCallback) : IItemReceiver
+        private class AsteroidStabilizerTrash(HashSet<string> allowedHashes, Action receivedCallback) : IItemReceiver
         {
             Steps IItemReceiver.MaxStep_S => LaneConstants.ItemSpacing;
-            
-            // Convert to hash, because item definitions don't implement Equals
-            // TODO(opt): The proper solution would be ShapeId
-            private readonly HashSet<string> _allowedHashes = aggregatedResource.DistinctPossibleShapes.Select(item => item.Definition.Hash).ToHashSet();
 
             public bool CanAcceptItem(IBeltItem itemToTransfer) => true;
 
             public void HandOverItem(IBeltItem itemToTransfer, Ticks remainingTicks)
             {
-                if(itemToTransfer is ShapeItem shape && _allowedHashes.Contains(shape.Definition.Hash)) {
+                if(itemToTransfer is ShapeItem shape && allowedHashes.Contains(shape.Definition.Hash)) {
                     receivedCallback();
                 }
             }
