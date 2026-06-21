@@ -26,7 +26,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             string titleId = "building-variant.asteroid-stabilizer.title";
             string titleDescription = "building-variant.asteroid-stabilizer.description";
 
-            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("Stabilizer_Icon.png");
 
             IBuildingGroupBuilder asteroidStabilizerGroup = BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())
