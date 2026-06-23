@@ -33,9 +33,6 @@ namespace ArcticRuins.DataFragment
             string titleId = "building-variant.data-fragment.title";
             string titleDescription = "building-variant.data-fragment.description";
 
-            using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
-
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder communicationRelayGroup = BuildingGroup.Create(GroupId)
@@ -97,7 +94,7 @@ namespace ArcticRuins.DataFragment
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("DiagonalCutter.fbx");
+            string baseMeshPath = modResourcesLocator.SubPath("DataFragment.fbx");
             Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
