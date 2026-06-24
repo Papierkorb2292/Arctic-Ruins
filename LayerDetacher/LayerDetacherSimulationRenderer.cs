@@ -40,6 +40,7 @@ public class LayerDetacherSimulationRenderer
         
         DrawProcessingLane(entity, options, simulation.LeftProcessingLane, false, lowerLayerCount);
         DrawProcessingLane(entity, options, simulation.RightProcessingLane, true, lowerLayerCount);
+        DrawLauncher(entity, options, simulation.LeftProcessingLane);
     }
 
     private void DrawLeftOutputLane(in Entity entity, FrameDrawOptions options, BeltLane lane)
@@ -109,8 +110,30 @@ public class LayerDetacherSimulationRenderer
         if (!isLowerLayers && progress > 0.25f)
         {
             // Render a second inverted shape, because shapes don't have a bottom
-            options.Renderers.Shapes.Add( beltItems.ShapeRenderer.GetDrawData(FlipShape(((ShapeItem)lane.Item).Definition), options.LOD.ShapeLOD), CalculateBottomDuplicateMatrix(matrixTransform, options));
+            options.Renderers.Shapes.Add(beltItems.ShapeRenderer.GetDrawData(FlipShape(((ShapeItem)lane.Item).Definition), options.LOD.ShapeLOD), CalculateBottomDuplicateMatrix(matrixTransform, options));
         }
+    }
+    
+    private void DrawLauncher(in Entity entity, FrameDrawOptions options, DelayBeltLane lane)
+    {
+        int buildingMaterialLod = options.LOD.BuildingMaterialLOD;
+        if(!entity.DrawData.LauncherMesh.TryGet(buildingMaterialLod, out var launcherMesh)) return;
+        
+        var fallDuration = Ticks.FromMilliSeconds(600);
+        var progressTicks = lane.Progress_T;
+        var durationTicks = lane.Duration_T;
+        var remainingTicks = durationTicks - progressTicks;
+        var angle = 0f;
+        if (remainingTicks < fallDuration)
+        {
+            var totalProgress = 1 - Ticks.Ratio(remainingTicks, fallDuration);
+            var progress = AdjustLowerLayersProgress(totalProgress, true);
+            angle = CalculateRotationAroundSelfDeg(progress);
+        }
+        var matrixTransform = CalculateFlyingShapeMatrix(LocalVector.North * 0.5f * entity.Transform, entity.Transform.Rotation, angle, 1);
+        matrixTransform *= FastMatrix.TranslateRotate(0, entity.Transform.Rotation);
+        
+        options.Renderers.Buildings.Add(launcherMesh, options.Theme.BaseResources.BuildingMaterial[buildingMaterialLod], matrixTransform);
     }
 
     private static float AdjustLowerLayersProgress(float progress, bool isLowerLayers)

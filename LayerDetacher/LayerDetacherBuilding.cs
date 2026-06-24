@@ -30,7 +30,7 @@ namespace ArcticRuins.LayerDetacher
 
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
-            IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(GroupId)
+            IBuildingGroupBuilder layerDetacherGroup = BuildingGroup.Create(GroupId)
                .WithTitle(titleId.T())
                .WithDescription(titleDescription.T())
                .WithIcon(FileTextureLoader.LoadTextureAsSprite(iconPath, out _))
@@ -44,26 +44,28 @@ namespace ArcticRuins.LayerDetacher
             
             IBuildingConnectorData connectorData = new BuildingConnectorData(
                 [
-                    new ShapeConnectorConfig(TileDirection.West).ToInput(),
-                    new ShapeConnectorConfig(TileDirection.East).ToOutput(TileVector.North),
-                    new ShapeConnectorConfig(TileDirection.East).ToOutput(),
+                    new ShapeConnectorConfig(TileDirection.West, separators: true).ToInput(),
+                    new ShapeConnectorConfig(TileDirection.East, separators: true).ToOutput(TileVector.North),
+                    new ShapeConnectorConfig(TileDirection.East, separators: true).ToOutput(),
                 ],
                 [TileVector.Zero, TileVector.North],
                 tileBounds,
                 tileBoundsCenter,
                 dimensions
             );
-            IBuildingBuilder arcticCutterBuilder = Building.Create(DefinitionId)
+            
+            var drawData = CreateDrawData(ArcticRuinsMod.Instance.Resources, out var customDrawData);
+            IBuildingBuilder layerDetacherBuilder = Building.Create(DefinitionId)
                .WithConnectorData(connectorData)
-               .DynamicallyRendering<LayerDetacherSimulationRenderer, LayerDetacherSimulation, ILayerDetacherDrawData>(new LayerDetacherDrawData())
-               .WithStaticDrawData(CreateDrawData(ArcticRuinsMod.Instance.Resources))
+               .DynamicallyRendering<LayerDetacherSimulationRenderer, LayerDetacherSimulation, ILayerDetacherDrawData>(customDrawData)
+               .WithStaticDrawData(drawData)
                .WithoutSound()
                .WithoutSimulationConfiguration()
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
 
             AtomicBuildings.Extend()
                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
-               .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
+               .WithBuilding(layerDetacherBuilder, layerDetacherGroup)
                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                .WithDefaultPlacement()
                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(3).ChildAt(^1).InsertAfter()) // At the end of the stacker section
@@ -73,12 +75,16 @@ namespace ArcticRuins.LayerDetacher
                .Build();
         }
 
-        private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
+        private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator, out ILayerDetacherDrawData customDrawData)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("DiagonalCutter.fbx");
+            string baseMeshPath = modResourcesLocator.SubPath("LayerDetacher.fbx");
             Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
+            Mesh launcherMesh = FileMeshLoader.LoadSingleMeshFromFile(modResourcesLocator.SubPath("LayerDetacherLauncher.fbx"));
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
+            LOD6Mesh launcherModLod = MeshLod.Create().AddLod0Mesh(launcherMesh).BuildLod6Mesh();
+
+            customDrawData = new LayerDetacherDrawData(launcherModLod);
 
             return new BuildingDrawData(
                 renderVoidBelow: false,
@@ -88,7 +94,7 @@ namespace ArcticRuins.LayerDetacher
                 baseModLod.LODClose,
                 new LODEmptyMesh(),
                 BoundingBoxHelper.CreateBasicCollider(baseMesh),
-                new LayerDetacherDrawData(),
+                customDrawData,
                 false,
                 null,
                 false);

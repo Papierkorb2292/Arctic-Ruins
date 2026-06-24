@@ -2,7 +2,7 @@ using Game.Core.Coordinates;
 
 namespace ArcticRuins.LayerDetacher
 {
-    internal class LayerDetacherDrawData : ILayerDetacherDrawData
+    internal class LayerDetacherDrawData(ILODMesh launcherMesh) : ILayerDetacherDrawData
     {
         public IBeltLaneRendererDefinition InputLaneRenderingDefinition => new MyBeltLaneRenderingDefinition(
             new LocalVector(-0.5f, 0.0f, 0.0f),
@@ -15,5 +15,7 @@ namespace ArcticRuins.LayerDetacher
         public IBeltLaneRendererDefinition RightOutputLaneRenderingDefinition => new MyBeltLaneRenderingDefinition(
             new LocalVector(0.0f, 0.0f, 0.0f),
             new LocalVector(0.5f, 0.0f, 0.0f));
+
+        public ILODMesh LauncherMesh => launcherMesh;
     }
 }
