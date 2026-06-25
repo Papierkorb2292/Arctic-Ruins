@@ -1,5 +1,7 @@
 using Game.Core.Coordinates;
 
+namespace ArcticRuins;
+
 internal class MyBeltLaneRenderingDefinition : IBeltLaneRendererDefinition
 {
     public LocalVector ItemStartPos_L { get; }
