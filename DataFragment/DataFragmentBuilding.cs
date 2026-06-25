@@ -33,7 +33,7 @@ namespace ArcticRuins.DataFragment
             string titleId = "building-variant.data-fragment.title";
             string titleDescription = "building-variant.data-fragment.description";
 
-            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DataFragment_Icon.png");
 
             IBuildingGroupBuilder communicationRelayGroup = BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())

@@ -25,10 +25,7 @@ namespace ArcticRuins.LayerDetacher
             string titleId = "building-variant.layer-detacher.title";
             string titleDescription = "building-variant.layer-detacher.description";
             
-            using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
-
-            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("LayerDetacher_Icon.png");
 
             IBuildingGroupBuilder layerDetacherGroup = BuildingGroup.Create(GroupId)
                .WithTitle(titleId.T())

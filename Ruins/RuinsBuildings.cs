@@ -26,11 +26,11 @@ namespace ArcticRuins.Ruins
         
         public static void Register()
         {
-            WallBuildingId = RegisterRuin("wall", "RuinWall.fbx");
-            RubbleBuildingId = RegisterRuin("rubble", "Rubble.fbx");
+            WallBuildingId = RegisterRuin("wall", "RuinWall.fbx", "Wall_Icon.png");
+            RubbleBuildingId = RegisterRuin("rubble", "Rubble.fbx", "Rubble_Icon.png");
         }
 
-        public static BuildingDefinitionId RegisterRuin(string name, string model)
+        public static BuildingDefinitionId RegisterRuin(string name, string model, string icon)
         {
             BuildingDefinitionGroupId groupId = new($"Ruin{name}Group");
             BuildingDefinitionId definitionId = new($"Ruin{name}");
@@ -38,7 +38,7 @@ namespace ArcticRuins.Ruins
             string titleId = $"building-variant.ruin-{name}.title";
             string titleDescription = $"building-variant.ruin-{name}.description";
 
-            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath(icon);
 
             IBuildingGroupBuilder ruinsGroup = BuildingGroup.Create(groupId)
                 .WithTitle(titleId.T())
