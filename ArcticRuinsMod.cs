@@ -13,6 +13,7 @@ using ArcticRuins.DataFragment;
 using ArcticRuins.LayerDetacher;
 using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
+using ArcticRuins.Ruins;
 using Core.Factory;
 using Game.Core.Coordinates;
 using Game.Core.GameData.GameModeDefinition;
@@ -89,6 +90,7 @@ namespace ArcticRuins
             LayerDetacherBuilding.Register();
             CommunicationRelayBuilding.Register();
             DataFragmentBuilding.Register();
+            RuinsBuildings.Register();
             MeshRecolorer.Register();
             StormRenderer.Register();
             ArcticPlatformIsland.Register();
