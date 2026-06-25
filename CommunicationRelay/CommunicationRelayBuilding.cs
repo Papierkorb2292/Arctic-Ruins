@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Events;
 using Core.Localization;
+using Game.Core.Content.Buildings;
 using Game.Core.Coordinates;
 using Game.Core.Rendering.MeshGeneration;
 using ShapezShifter.Flow;
@@ -39,8 +40,7 @@ namespace ArcticRuins.CommunicationRelay
                 .AsNonTransportableBuilding()
                 .WithPreferredPlacement(DefaultPreferredPlacementMode.Single)
                 .WithDefaultStructureOverview()
-                .NotBuildable(); // Note: The names in ShapezShifter are currently wrong. This is actually NotRemovable() and NotBuildable() respectively
-                //.NotSelectable(); // Don't forget to change this back once ShapezShifter is fixed
+                .NotRemovable();
 
 
             var tileBounds = new LocalTileBounds(new TileVector(-1, -1, 0), new TileVector(1, 1, 2));

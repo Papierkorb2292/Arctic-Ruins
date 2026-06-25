@@ -191,7 +191,7 @@ namespace ArcticRuins
             
             public bool Equals(IRewirer other) => other is SenderReceiverPlacementSwapper;
 
-            public GameBuildings ModifyGameBuildings(MetaGameModeBuildings metaBuildings, GameBuildings gameBuildings,
+            public GameBuildings ModifyGameBuildings(AuthoringBuildings metaBuildings, GameBuildings gameBuildings,
                 IMeshCache meshCache, VisualThemeBaseResources theme)
             {
                 var receiver = gameBuildings._VariantsById[new("BeltPortReceiverVariant")];

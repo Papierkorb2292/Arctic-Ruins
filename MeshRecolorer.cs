@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Game.Core.Content;
 using Game.Core.Rendering.Islands;
 using Game.Core.Rendering.Islands.Connectors;
 using Game.Core.Rendering.MeshGeneration;
@@ -20,9 +21,9 @@ public static class MeshRecolorer
     
     public static void Register()
     {
-        _savegameHook = DetourHelper.CreatePostfixHook<GameSessionOrchestrator, GameData, IGameStartOptions>(
-            (orchestrator, gameData, options) => orchestrator.Init_3_SavegameAndMode(gameData, options),
-            (orchestrator, _, _) =>
+        _savegameHook = DetourHelper.CreatePostfixHook<GameSessionOrchestrator, IContent, GameData, IGameStartOptions>(
+            (orchestrator, content, gameData, options) => orchestrator.Init_3_SavegameAndMode(content, gameData, options),
+            (orchestrator, _, _, _) =>
             {
                 if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
                 {

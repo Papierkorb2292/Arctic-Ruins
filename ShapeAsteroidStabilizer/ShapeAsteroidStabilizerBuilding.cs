@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Events;
 using Core.Localization;
+using Game.Core.Content.Buildings;
 using Game.Core.Coordinates;
 using Game.Core.Rendering.MeshGeneration;
 using ShapezShifter.Flow;

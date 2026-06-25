@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core.Collections;
 using Core.Localization;
+using Game.Core.Content.Buildings;
 using Game.Core.Coordinates;
 using Game.Core.Research;
 using ShapezShifter.Flow;

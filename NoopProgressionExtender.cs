@@ -1,3 +1,4 @@
+using Game.Core.Content.Buildings;
 using ShapezShifter.Flow.Research;
 
 namespace ArcticRuins;

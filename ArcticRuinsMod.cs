@@ -15,6 +15,8 @@ using ArcticRuins.ShapeAsteroidStabilizer;
 using ArcticRuins.ReceiverFromHub;
 using ArcticRuins.Ruins;
 using Core.Factory;
+using Game.Core.Content.Buildings;
+using Game.Core.Content.Islands;
 using Game.Core.Coordinates;
 using Game.Core.GameData.GameModeDefinition;
 using Game.Core.Rendering.Islands;
@@ -32,17 +34,8 @@ using ShapezShifter.Hijack;
 using ShapezShifter.Kit;
 using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 using ILogger = Core.Logging.ILogger;
-using Object = UnityEngine.Object;
-using Quaternion = UnityEngine.Quaternion;
-using Renderer = DiagonalCutterSimulationRenderer;
-using Simulation = DiagonalCutterSimulation;
-using RendererData = IDiagonalCutterDrawData;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 namespace ArcticRuins
 {
@@ -97,53 +90,6 @@ namespace ArcticRuins
             StormRenderer.Register();
             ArcticPlatformIsland.Register();
             ArcticMapGenerator.Register();
-
-            BuildingDefinitionGroupId groupId = new("DiagonalCutterGroup");
-            BuildingDefinitionId definitionId = new("DiagonalCutter");
-
-            string titleId = "building-variant.cutter-diagonal.title";
-            string titleDescription = "building-variant.cutter-diagonal.description";
-
-            using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
-
-            string iconPath = Resources.SubPath("DiagonalCutter_Icon.png");
-
-            IBuildingGroupBuilder diagonalCutterGroup = BuildingGroup.Create(groupId)
-                .WithTitle(titleId.T())
-                .WithDescription(titleDescription.T())
-                .WithIcon(FileTextureLoader.LoadTextureAsSprite(iconPath, out _))
-                .AsNonTransportableBuilding()
-                .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
-                .WithDefaultStructureOverview();
-
-            IBuildingConnectorData connectorData = BuildingConnectors.SingleTile()
-                .AddShapeInput(ShapeConnectorConfig.DefaultInput())
-                .AddShapeOutput(ShapeConnectorConfig.DefaultOutput())
-                .Build();
-
-            IBuildingBuilder diagonalCutterBuilder = Building.Create(definitionId)
-                .WithConnectorData(connectorData)
-                .DynamicallyRendering<Renderer, Simulation, RendererData>(new DiagonalCutterDrawData())
-                .WithStaticDrawData(CreateDrawData(Resources))
-                .WithoutSound()
-                .WithoutSimulationConfiguration()
-                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
-
-            IPresentableUnlockableSideUpgradeBuilder sideUpgradeBuilder = SideUpgrade.New()
-                .WithPresentationData(CreateSideUpgradePresentationData(titleId, titleDescription))
-                .WithCost(new ResearchCostPoints(new ResearchPointCurrency(50)).AsEnumerable())
-                .WithCustomRequirements(Array.Empty<ResearchMechanicId>(), Array.Empty<ResearchUpgradeId>());
-            AtomicBuildings.Extend()
-                .AllScenarios()
-                .WithBuilding(diagonalCutterBuilder, diagonalCutterGroup)
-                .UnlockedWithNewSideUpgrade(sideUpgradeBuilder)
-                .WithDefaultPlacement()
-                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(^1).InsertAfter())
-                .WithSimulation(new DiagonalCutterFactoryBuilder(), logger)
-                .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
-                .WithPrediction(new DiagonalCutterPredictionFactoryBuilder(), logger)
-                .Build();
         }
 
         private void RegisterSaveData()
@@ -188,8 +134,6 @@ namespace ArcticRuins
                     mode.Icon = baseMode.Icon;
                     mode.VideoPreview = baseMode.VideoPreview;
                     mode.ImagePreview = baseMode.ImagePreview;
-                    mode.GameModeBuildings = baseMode.Buildings;
-                    mode.GameModeIslands = baseMode.Islands;
                     mode.TrainSimulationConfiguration = baseMode.TrainSimulationConfiguration;
                     mode.name = "ArcticRuins";
                 }));
@@ -216,9 +160,9 @@ namespace ArcticRuins
 
         private Hook CreateCustomMapRenderersHook()
         {
-            return DetourHelper.CreatePostfixHook<GameSessionOrchestrator, IGameData>(
-                (orchestrator, gameData) => orchestrator.Init_7_Rendering(gameData),
-                (orchestrator, _) =>
+            return DetourHelper.CreatePrefixHook<GameSessionOrchestrator>(
+                orchestrator => orchestrator.Init_8_HUD(),
+                orchestrator =>
                 {
                     StormRenderer = StormRenderer.HookRenderer(orchestrator);
                 });
@@ -247,39 +191,6 @@ namespace ArcticRuins
             DataFragmentBuilding.Dispose();
             StormRenderer.Dispose();
             ArcticMapGenerator.Dispose();
-        }
-
-        private SideUpgradePresentationData CreateSideUpgradePresentationData(string titleId, string titleDescription)
-        {
-            return new SideUpgradePresentationData(
-                new ResearchUpgradeId("Patience"),
-                GameImageId.Empty,
-                GameVideoId.Empty,
-                titleId.T(),
-                titleDescription.T(),
-                false,
-                "Buildings");
-        }
-
-        private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
-        {
-            string baseMeshPath = modResourcesLocator.SubPath("DiagonalCutter.fbx");
-            Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
-
-            LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
-
-            return new BuildingDrawData(
-                renderVoidBelow: false,
-                new ILODMesh[] { baseModLod, baseModLod, baseModLod },
-                baseModLod,
-                baseModLod,
-                baseModLod.LODClose,
-                new LODEmptyMesh(),
-                BoundingBoxHelper.CreateBasicCollider(baseMesh),
-                new DiagonalCutterDrawData(),
-                false,
-                null,
-                false);
         }
     }
 }
