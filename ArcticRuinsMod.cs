@@ -51,7 +51,9 @@ namespace ArcticRuins
     {
         public static readonly ScenarioSelector ArcticRuinsScenarioSelector =
             scenario => scenario.UniqueId.Id.StartsWith("arctic-ruins");
-        
+
+        public const bool IsModDevelopmentMode = true;
+
         public static ILogger Logger { get; private set; }
         public static ArcticRuinsMod Instance;
         

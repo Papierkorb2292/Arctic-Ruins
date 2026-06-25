@@ -69,7 +69,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             AtomicBuildings.Extend()
                 .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                 .WithBuilding(asteroidStabilizerBuilder, asteroidStabilizerGroup)
-                .UnlockedAtMilestone(new MilestoneSelector())
+                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                 .WithDefaultPlacement()
                 .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).Replace()) // Replace extractor
                 .WithCustomSimulationSystem<IShapeAsteroidStabilizerConfiguration>((systems, dependencies, building, out config) =>
@@ -112,14 +112,6 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 false,
                 null,
                 false);
-        }
-    }
-
-    internal class MilestoneSelector : IMilestoneSelector
-    {
-        public ResearchLevel Select(ScenarioId scenarioId, IReadOnlyList<ResearchLevel> milestones)
-        {
-            return milestones[0];
         }
     }
 }

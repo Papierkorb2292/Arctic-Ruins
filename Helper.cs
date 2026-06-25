@@ -53,6 +53,15 @@ namespace ArcticRuins
             return extender;
         }
 
+        public static IDefinedUnlockableBuildingExtender UnlockedInDevMode(this IDefinedBuildingExtender extenderAbstract)
+        {
+            if (ArcticRuinsMod.IsModDevelopmentMode)
+                return extenderAbstract.UnlockedAtMilestone(FirstMilestoneSelector);
+            var extender = (AtomicBuildingExtender)extenderAbstract;
+            extender.ProgressionExtender = NoopProgressionExtender.Instance;
+            return extender;
+        }
+
         public static IMaterialReference Copy(this IMaterialReference material)
         {
             return new MaterialReference
