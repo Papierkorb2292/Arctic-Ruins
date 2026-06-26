@@ -318,13 +318,11 @@ public static class ArcticMapGenerator
         var baseShape = ColorShapeRandomly(PickRandomShape(rng, level, orchestrator), rng, generator, type);
         for (int index = 0; index < basePartCount; ++index)
         {
-            //IShapeColor color = rng.TestPercentage(generator.MapGenerationParameters.ShapePatchShapeColorfulnessPercent) ? shapeColor2 : this.ColorScheme.DefaultShapeColor;
             parts.Add(baseShape);
         }
         for (int index = 0; index < additionalPartCount; ++index)
         {
             var additionalShape = ColorShapeRandomly(PickRandomShape(rng, level, orchestrator), rng, generator, type);
-            //IShapeColor color = rng.TestPercentage(generator.MapGenerationParameters.ShapePatchShapeColorfulnessPercent) ? shapeColor2 : this.ColorScheme.DefaultShapeColor;
             parts.Add(additionalShape);
         }
         for (int count = parts.Count; count < partCount; ++count)
