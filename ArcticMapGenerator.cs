@@ -25,7 +25,6 @@ namespace ArcticRuins;
 
 public static class ArcticMapGenerator
 {
-    private static int _postgameDataFragmentProbabilityPerMille = 1;
     private static readonly int[] LevelRadii = [
         0,
         2 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
@@ -241,7 +240,7 @@ public static class ArcticMapGenerator
     {
         // Postgame data fragments only generate beyond the last level
         return !IsChunkInCircle(chunk.x, chunk.y, LevelRadii[MilestoneReverser.GetLevelRewardCount(orchestrator.Research.Layout).Count]) &&
-               chunkRng.TestPerMille(_postgameDataFragmentProbabilityPerMille);
+               chunkRng.Next(0, 50000) == 0;
     }
 
     private static void PlaceDataFragment(IslandDescriptor island, GameSessionOrchestrator orchestrator,
