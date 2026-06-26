@@ -74,6 +74,16 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
         }
     }
 
+    // Register the system on demand, because rewirer invoke order is arbitrary
+    public static AsteroidProgressSystem GetOrRegisterSimulationSystem(ICollection<ISimulationSystem> simulationSystems)
+    {
+        var system = simulationSystems.OfType<AsteroidProgressSystem>().FirstOrDefault();
+        if (system != null) return system;
+        system = new AsteroidProgressSystem();
+        simulationSystems.Add(system);
+        return system;
+    }
+
     private static int ComputeTotalRequirement(IMapResourceSource source)
     {
         // Should increase as you get further away
@@ -176,7 +186,7 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
         {
             if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(dependencies.Mode.Scenario))
                 return;
-            simulationSystems.Add(new AsteroidProgressSystem());
+            GetOrRegisterSimulationSystem(simulationSystems);
         }
 
         public bool Equals(IRewirer other) => other is RegisterAsteroidProgressSystemRewirer;

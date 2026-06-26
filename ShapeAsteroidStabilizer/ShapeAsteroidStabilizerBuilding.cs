@@ -80,7 +80,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                         BuffableBeltDelay.DiscreteDuration.OnePointFiveSeconds,
                         new ResearchSpeedId("BeltSpeed"));
                     systems.Remove(systems.First(system => system is ShapeMiningSystem));
-                    var asteroidProgressSystem = (AsteroidProgressSystem)systems.First(system => system is AsteroidProgressSystem);
+                    var asteroidProgressSystem = AsteroidProgressSystem.GetOrRegisterSimulationSystem(systems);
                     return new ShapeStabilizingSystem(config, building, dependencies.ResourcesMap, dependencies.ShapeRegistry, asteroidProgressSystem,
                         dependencies.Mode, ArcticRuinsMod.Logger);
                 })
