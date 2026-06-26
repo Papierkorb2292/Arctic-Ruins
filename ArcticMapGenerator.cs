@@ -182,7 +182,6 @@ public static class ArcticMapGenerator
         using var placePayload = ScopedList.Get<PlaceBuildingPayload>();
         foreach (var addedBuilding in addedBuildings)
         {
-            ArcticRuinsMod.Logger.Info!.LogFormat("Id: {0}, Transform: {1}, Allowed: {2}", addedBuilding.Descriptor.Definition.Id, addedBuilding.Descriptor.Transform, addedBuilding.PlacementAllowability.WillBePlaced());
             var island = map.GetIsland(addedBuilding.Descriptor.Transform.Position);
             var islandTileTransform = addedBuilding.Descriptor.Transform.ToIsland(island);
             placePayload.Add(new PlaceBuildingPayload(
