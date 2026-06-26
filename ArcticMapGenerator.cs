@@ -38,6 +38,18 @@ public static class ArcticMapGenerator
         16 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK
     ];
     private static readonly int[] LevelRadiiSquare = LevelRadii.Select(radius => radius * radius).ToArray();
+
+    private static readonly RandomBlueprint[] Blueprints =
+    [
+        new("Misc1", 4, new IslandTileCoordinate(9, 10, 0)),
+        new("LayerDetacher", 4, new IslandTileCoordinate(8, 9, 0)),
+        new("Crossing", 2, new IslandTileCoordinate(9, 10, 0)),
+        new("DiagonalSwapper", 3, new IslandTileCoordinate(9, 10, 0)),
+        new("Painter", 3, new IslandTileCoordinate(9, 9, 0)),
+        new("DoubleHalfCutter", 1, new IslandTileCoordinate(10, 10, 0))
+    ];
+
+    private static readonly int BlueprintsTotalWeight = Blueprints.Select(blueprint => blueprint.Weight).Sum(); 
     
     private static readonly ConditionalWeakTable<GameSessionOrchestrator, BlueprintCache> BlueprintCaches = new();
     private static readonly ConditionalWeakTable<IMapGenerator, GameSessionOrchestrator> GeneratorOrchestrators = new();
@@ -53,8 +65,7 @@ public static class ArcticMapGenerator
                 (orchestrator, deltaTicks, simulationLODs, doParallelSimulationUpdate) => orchestrator.StartLogicUpdate(deltaTicks, simulationLODs, doParallelSimulationUpdate),
                 (orchestrator, deltaTicks, simulationLODs, doParallelSimulationUpdate) =>
                 {
-                    // Generate a pending chunk. This has to happen delayed, because blueprints can't be placed while the simulation is updated
-                    // It also reduces lag to do process them one at a time
+                    // Generate pending chunks. This has to happen delayed, because blueprints can't be placed while the simulation is updated
                     using var pendingChunks = ScopedList.Get(PendingSuperChunkGeneration);
                     foreach (var chunk in pendingChunks)
                         TryGenerateChunk(orchestrator, chunk);
@@ -113,6 +124,8 @@ public static class ArcticMapGenerator
     private static void TryGenerateChunk(GameSessionOrchestrator orchestrator, in GlobalChunkCoordinate pos)
     {
         PendingSuperChunkGeneration.Remove(pos);
+        if (pos.x is 0 or -1 && pos.y is 0 or -1)
+            return; // Don't generate at the center of the map, where there already are islands
         
         var blueprintCache = BlueprintCaches.GetValue(orchestrator,
             orchestrator2 => new BlueprintCache(orchestrator2));
@@ -131,10 +144,19 @@ public static class ArcticMapGenerator
             );
             var islandDescriptor = island.Instance.ToDescriptor();
             ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Add(pos);
-                    
-            var blueprint = blueprintCache.GetBlueprint("DoubleHalfCutter");
+
+            var blueprintNumber = rng.Next(0, BlueprintsTotalWeight);
+            var blueprintIndex = 0;
+            while(blueprintNumber >= Blueprints[blueprintIndex].Weight)
+            {
+                blueprintNumber -= Blueprints[blueprintIndex].Weight;
+                blueprintIndex++;
+            }
+            var randomBlueprint =  Blueprints[blueprintIndex];
+            
+            var blueprint = blueprintCache.GetBlueprint(randomBlueprint.Name);
             if (blueprint is BuildingBlueprint buildingBlueprint)
-                PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos, GridRotation.RotationsInClockwiseOrder[rng.Next(0, 4)]);
+                PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos, randomBlueprint.Coord, GridRotation.RotationsInClockwiseOrder[rng.Next(0, 4)]);
 
             if (hasDataFragment)
                 PlaceDataFragment(islandDescriptor, orchestrator, rng);
@@ -142,16 +164,14 @@ public static class ArcticMapGenerator
     }
 
     private static void PlaceBuildingBlueprint(BuildingBlueprint blueprint, GameSessionOrchestrator orchestrator,
-        GlobalChunkCoordinate chunk, GridRotation rotation)
+        GlobalChunkCoordinate chunk, IslandTileCoordinate relativePos, GridRotation rotation)
     {
         var map = orchestrator.MapModel;
         var player = orchestrator.SystemPlayer;
-        var placementData = new ConcurrentPlacementData();
+        // Use flat here, because other PlacementData implementations would add multi tile buildings multiple times and that's no good
+        var placementData = new FlatPlacementData(ArcticRuinsMod.Logger);
         var blueprintInput = new BlueprintPlacementInput<GlobalTileCoordinate>(rotation, false);
-        var coordinate = chunk.ToOrigin_G() + new TileVector(
-            CoordinateConstants.TILES_PER_CHUNK / 2 - (rotation == GridRotation.Rotate180 || rotation == GridRotation.RotateCW ? 1 : 0),
-            CoordinateConstants.TILES_PER_CHUNK / 2 - (rotation == GridRotation.Rotate180 || rotation == GridRotation.RotateCCW ? 1 : 0),
-            0);
+        var coordinate = relativePos.RotateAroundCenter(rotation).ToGlobal(chunk);
         blueprintInput.TryUpdateStartPosition(coordinate);
         blueprintInput.TryUpdateEndPosition(coordinate);
         var processor = new BuildingBlueprintProcessor(blueprint, ArcticRuinsMod.Logger);
@@ -159,9 +179,11 @@ public static class ArcticMapGenerator
         using var addedBuildings = ScopedList.Get<BuildingPlacement>();
         placementData.GetAllBuildings(addedBuildings);
 
+        // Put buildings in modify action
         using var placePayload = ScopedList.Get<PlaceBuildingPayload>();
         foreach (var addedBuilding in addedBuildings)
         {
+            ArcticRuinsMod.Logger.Info!.LogFormat("Id: {0}, Transform: {1}, Allowed: {2}", addedBuilding.Descriptor.Definition.Id, addedBuilding.Descriptor.Transform, addedBuilding.PlacementAllowability.WillBePlaced());
             var island = map.GetIsland(addedBuilding.Descriptor.Transform.Position);
             var islandTileTransform = addedBuilding.Descriptor.Transform.ToIsland(island);
             placePayload.Add(new PlaceBuildingPayload(
@@ -419,4 +441,15 @@ public static class ArcticMapGenerator
 
     private delegate bool TryGenerateShapePatchWrapper(TryGenerateShapePatch original, DefaultMapGenerator self,
         MapGenerationSuperChunkPayload data, ShapeId shape, int patchSize, out IResourceSourceData result);
+
+    private class RandomBlueprint(string name, int weight, IslandTileCoordinate coord)
+    {
+        // The file name of the blueprint in "Resources/Blueprints" without the .txt file extension
+        public string Name => name;
+        // The weight with which this blueprint should be randomly chosen
+        public int Weight => weight;
+        // The relative position of the blueprint on the island with the default rotation. This it the coordinate
+        // that the cursor is on when placing the blueprint
+        public IslandTileCoordinate Coord => coord;
+    }
 }
