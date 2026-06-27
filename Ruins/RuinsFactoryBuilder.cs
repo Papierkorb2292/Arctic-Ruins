@@ -5,13 +5,13 @@ using ShapezShifter.Hijack;
 namespace ArcticRuins.Ruins
 {
     internal class DataFragmentFactoryBuilder
-        : IBuildingSimulationFactoryBuilder<RuinsSimulation, RuinsSimulationState, IDataFragmentConfiguration>
+        : IBuildingSimulationFactoryBuilder<RuinsSimulation, RuinsSimulationState, IRuinsConfiguration>
     {
         public IFactory<RuinsSimulationState, RuinsSimulation> BuildFactory(
             SimulationSystemsDependencies dependencies,
-            out IDataFragmentConfiguration config)
+            out IRuinsConfiguration config)
         {
-            config = new DataFragmentConfiguration();
+            config = new RuinsConfiguration();
             return new RuinsSimulationFactory();
         }
     }
