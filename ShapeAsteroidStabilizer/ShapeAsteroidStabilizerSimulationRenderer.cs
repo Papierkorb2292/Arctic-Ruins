@@ -39,7 +39,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             };
             DrawHammer(in entity, options, hammerAngle);
 
-            var isShapeAccepted = simulation.AllowedHashes.Contains(item.Definition.Hash);
+            var isShapeAccepted = simulation.AllowedIds.Contains(item.Definition.Id);
 
             if (isShapeAccepted)
             {

@@ -11,15 +11,17 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
         public readonly DelayBeltLane ProcessingLane;
         public readonly BeltLane InputLane;
 
-        public readonly HashSet<string> AllowedHashes;
+        public readonly HashSet<ShapeId> AllowedIds = [];
 
         public ShapeAsteroidStabilizerSimulation([NotNull] ShapeAsteroidStabilizerSimulationState state, IShapeAsteroidStabilizerConfiguration configuration, ShapeMiningStream aggregatedResource, Action receivedCallback) : base(state)
         {
-            // Convert to hash, because item definitions don't implement Equals
-            // TODO(opt): The proper solution would be ShapeId
-            AllowedHashes = aggregatedResource.DistinctPossibleShapes.Select(item => item.Definition.Hash)
-                .ToHashSet();
-            ProcessingLane = new DelayBeltLane(configuration.ProcessingDelay, state.ProcessingLaneState, new AsteroidStabilizerTrash(AllowedHashes, receivedCallback));
+            // Allow all rotations, also use ids because they implement Equals
+            var shapeUnifier = StaticGameCoreAccessor.G.Research.ShapeUnifier;
+            foreach (var possibleShape in aggregatedResource.DistinctPossibleShapes)
+            {
+                shapeUnifier.GetRotatedShapeIds(possibleShape.Definition.Id, "Stabilizer", AllowedIds);
+            }
+            ProcessingLane = new DelayBeltLane(configuration.ProcessingDelay, state.ProcessingLaneState, new AsteroidStabilizerTrash(AllowedIds, receivedCallback));
             InputLane = new BeltLane(configuration.BeltSpeed, state.InputLaneState, ProcessingLane);
         }
 
@@ -40,7 +42,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
 
         public IItemReceiver GetItemReceiver(int index) => InputLane;
 
-        private class AsteroidStabilizerTrash(HashSet<string> allowedHashes, Action receivedCallback) : IItemReceiver
+        private class AsteroidStabilizerTrash(HashSet<ShapeId> allowedIds, Action receivedCallback) : IItemReceiver
         {
             Steps IItemReceiver.MaxStep_S => LaneConstants.ItemSpacing;
 
@@ -48,7 +50,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
 
             public void HandOverItem(IBeltItem itemToTransfer, Ticks remainingTicks)
             {
-                if(itemToTransfer is ShapeItem shape && allowedHashes.Contains(shape.Definition.Hash)) {
+                if(itemToTransfer is ShapeItem shape && allowedIds.Contains(shape.Definition.Id)) {
                     receivedCallback();
                 }
             }
