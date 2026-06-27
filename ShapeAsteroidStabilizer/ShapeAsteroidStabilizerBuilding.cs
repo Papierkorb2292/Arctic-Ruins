@@ -21,6 +21,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
     {
         public static BuildingDefinitionGroupId GroupId = new("ShapeAsteroidStabilizerGroup");
         public static BuildingDefinitionId DefinitionId = new("ShapeAsteroidStabilizer");
+        public static Sprite Icon;
 
         public static void Register()
         {
@@ -28,11 +29,14 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             string titleDescription = "building-variant.asteroid-stabilizer.description";
 
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("Stabilizer_Icon.png");
-
+            Icon = FileTextureLoader.LoadTextureAsSprite(iconPath, out _);
+            
+            ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
+            
             IBuildingGroupBuilder asteroidStabilizerGroup = BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())
                 .WithDescription(titleDescription.T())
-                .WithIcon(FileTextureLoader.LoadTextureAsSprite(iconPath, out _))
+                .WithIcon(Icon)
                 .AsNonTransportableBuilding()
                 .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
                 .WithDefaultStructureOverview();
@@ -70,7 +74,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             AtomicBuildings.Extend()
                 .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                 .WithBuilding(asteroidStabilizerBuilder, asteroidStabilizerGroup)
-                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
+                .NotUnlocked() // Unlocked through scenario file
                 .WithDefaultPlacement()
                 .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).Replace()) // Replace extractor
                 .WithCustomSimulationSystem<IShapeAsteroidStabilizerConfiguration>((systems, dependencies, building, out config) =>

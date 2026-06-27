@@ -28,8 +28,7 @@ namespace ArcticRuins.CommunicationRelay
             string titleId = "building-variant.communication-relay.title";
             string titleDescription = "building-variant.communication-relay.description";
 
-            using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
+            ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
 
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 

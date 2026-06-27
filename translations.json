@@ -32,6 +32,10 @@
     "ui.arctic-ruins.vortex-configuration.belts.plural": " Belts",
     "ui.arctic-ruins.data-fragment.tech-info": "You discovered: ",
     "ui.arctic-ruins.data-fragment.unlocked-tech-info": "Already unlocked: ",
-    "ui.arctic-ruins.data-fragment.unlock": "Unlock"
+    "ui.arctic-ruins.data-fragment.unlock": "Unlock",
+    "research.Milestone_BasicDisassemblyArticRuins.title": "Basic Disassembly",
+    "research.Milestone_BasicDisassemblyArticRuins.description": "All the necessary tools to disassemble shapes from the vortex",
+    "research.Milestone_AdvancedMachiningArticRuins.title": "Advanced Machining",
+    "research.Milestone_AdvancedMachiningArticRuins.description": "Let your machines cuddle up with even more compact factories"
   }
 }

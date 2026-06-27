@@ -7,12 +7,10 @@
   ],
   "NextScenarios": [],
   "ExampleShapes": [
-    "CwRwCwRw:CkCkCkCk:CcCwCcCw",
-    "RbRbRbRb:CrCrCrCr",
-    "RuRgRuRg:SbSbSbSb",
-    "RbCbCbCb:RuCuCuCu",
-    "SuP-P-Su:P-P-P-P-:RbCgCgRb",
-    "RyP-RyP-:SwRuSwRu"
+    "Sr--Yr--:SwXbYwXb:Sr--Yr--",
+    "Sr--Yr--:SwXgYwXg:Sr--Yr--",
+    "XwWbXwWb:YbCcYbCc:ScCcScCc",
+    "Sw--Sw--"
   ],
   "Title": "@scenario.arctic-ruins.title",
   "Description": "@scenario.arctic-ruins.description",
@@ -91,7 +89,11 @@
                 "Shapes": [
                   {
                     "Shape": "RuRuRuRu",
-                    "Amount": 1
+                    "Amount": 4
+                  },
+                  {
+                    "Shape": "CbCcCbCc",
+                    "Amount": 4
                   }
                 ]
               }
@@ -121,10 +123,6 @@
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBShapes_Extraction"
-              },
-              {
-                "$type": "ContentBundleReward",
                 "ContentBundleId": "CBCutting_HalfDestroyer"
               },
               {
@@ -133,7 +131,7 @@
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBStacking_Stacker"
+                "ContentBundleId": "CBCutting_Swapper"
               },
               {
                 "$type": "ContentBundleReward",
@@ -142,6 +140,69 @@
               {
                 "$type": "ContentBundleReward",
                 "ContentBundleId": "CBPlatformPack_Small"
+              }
+            ]
+          }
+        },
+        {
+          "Definition": {
+            "Id": "Milestone_BasicDisassembly",
+            "VideoId": "LoopCutterVD",
+            "PreviewImageId": "Placeholder",
+            "Title": "@research.Milestone_BasicDisassemblyArticRuins.title",
+            "Description": "@research.Milestone_BasicDisassemblyArticRuins.description",
+            "WikiEntryId": "WKVortexLTD_Handbook",
+            "IconId": "building.CutterDefaultVariant"
+          },
+          "Lines": {
+            "Lines": [
+              {
+                "Shapes": [
+                  {
+                    "Shape": "RbRyRbRy:RyRbRyRb",
+                    "Amount": 8
+                  }
+                ]
+              }
+            ]
+          },
+          "Rewards": {
+            "Rewards": [
+              {
+                "$type": "ChunkLimitReward",
+                "Amount": 250
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBShapes_Stabilizing"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBRotating_Rotator180"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBStacking_Stacker"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBBelts_Trash"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBCutting_FullCutter"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBStacking_LayerDetacher"
+              },
+              {
+                "$type": "BlueprintCurrencyReward",
+                "Amount": 2000
+              },
+              {
+                "$type": "ResearchPointsReward",
+                "Amount": 15  
               }
             ]
           }
@@ -161,8 +222,8 @@
               {
                 "Shapes": [
                   {
-                    "Shape": "CuCuCuCu",
-                    "Amount": 2
+                    "Shape": "CuRgCuRg:SrSrSrSr",
+                    "Amount": 8
                   }
                 ]
               }
@@ -176,7 +237,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 2000
+                "Amount": 4000
               },
               {
                 "$type": "ContentBundleReward",
@@ -185,6 +246,15 @@
               {
                 "$type": "ContentBundleReward",
                 "ContentBundleId": "CBFluids_PainterTop"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBFluids_Mixer"
+              },
+
+              {
+                "$type": "ResearchPointsReward",
+                "Amount": 30
               }
             ]
           }
@@ -202,79 +272,10 @@
           "Lines": {
             "Lines": [
               {
-                
                 "Shapes": [
                   {
-                    "Shape": "RuRgRuRg:SbSbSbSb",
-                    "Amount": 4
-                  }
-                ]
-              },
-              {
-                "Shapes": [
-                  {
-                    "Shape": "SbSbSbSb",
-                    "Amount": 4
-                  }
-                ]
-              }
-            ]
-          },
-          "Rewards": {
-            "Rewards": [
-              {
-                "$type": "ChunkLimitReward",
-                "Amount": 500
-              },
-              {
-                "$type": "BlueprintCurrencyReward",
-                "Amount": 3000
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_Core"
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_ShapeTransport"
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_TrainStopQuick"
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_LineRed"
-              }
-            ]
-          }
-        },
-        {
-          "Definition": {
-            "Id": "Milestone_PinPusher",
-            "VideoId": "MilestoneClassicPinPusherVD",
-            "PreviewImageId": "Placeholder",
-            "Title": "@research.Milestone_PinPusher.title",
-            "Description": "@research.Milestone_PinPusher.description",
-            "WikiEntryId": "WKProcessing_PinPusher",
-            "IconId": "building.PinPusherDefaultVariant"
-          },
-          "Lines": {
-            "Lines": [
-              {
-                
-                "Shapes": [
-                  {
-                    "Shape": "RbCbCbCb:RuCuCuCu:WgWrWgWr",
-                    "Amount": 8
-                  }
-                ]
-              },
-              {
-                "Shapes": [
-                  {
-                    "Shape": "RbCbCbCb:RuCuCuCu",
-                    "Amount": 8
+                    "Shape": "CrSrCrSr:WySyWySy:CgSgCgSg:WwSwWwSw",
+                    "Amount": 16
                   }
                 ]
               }
@@ -292,37 +293,44 @@
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBSpecial_PinPusher"
+                "ContentBundleId": "CBTrains_Core"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBTrains_ShapeTransport"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBTrains_TrainStopQuick"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBTrains_LineRed"
+              },
+              {
+                "$type": "ResearchPointsReward",
+                "Amount": 50
               }
             ]
           }
         },
         {
           "Definition": {
-            "Id": "Milestone_ColorMixing",
-            "VideoId": "MilestoneClassicMixerVD",
+            "Id": "Milestone_FactoryFloor3",
+            "VideoId": "MilestoneClassicSpaceLayer3VD",
             "PreviewImageId": "Placeholder",
-            "Title": "@research.Milestone_ColorMixing.title",
-            "Description": "@research.Milestone_ColorMixing.description",
-            "WikiEntryId": "WKFluids_Mixing",
-            "IconId": "building.MixerDefaultVariant"
+            "Title": "@research.CBSpecial_FactoryFloor3.title",
+            "Description": "@research.CBSpecial_FactoryFloor3.description",
+            "WikiEntryId": "WKIslands_Floors",
+            "IconId": "GenericLayerUnlock"
           },
           "Lines": {
             "Lines": [
               {
-                
                 "Shapes": [
                   {
-                    "Shape": "SuP-P-Su:P-P-P-P-:RbCgCgRb",
-                    "Amount": 16
-                  }
-                ]
-              },
-              {
-                "Shapes": [
-                  {
-                    "Shape": "--P-P---:--P-P---:--CgCg--",
-                    "Amount": 16
+                    "Shape": "RwRwRkRk:SrSySySr:YyYrYrYy",
+                    "Amount": 32
                   }
                 ]
               }
@@ -336,11 +344,65 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 15000
+                "Amount": 6000
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBFluids_Mixer"
+                "ContentBundleId": "CBSpecial_FactoryFloor3"
+              },
+
+              {
+                "$type": "ResearchPointsReward",
+                "Amount": 70
+              }
+            ]
+          }
+        },
+        {
+          "Definition": {
+            "Id": "Milestone_AdvancedMachining",
+            "VideoId": "LoopStackerBentVD",
+            "PreviewImageId": "Placeholder",
+            "Title": "@research.Milestone_AdvancedMachiningArticRuins.title",
+            "Description": "@research.Milestone_AdvancedMachiningArticRuins.description",
+            "WikiEntryId": "WKProcessing_PinPusher",
+            "IconId": "building.PinPusherDefaultVariant"
+          },
+          "Lines": {
+            "Lines": [
+              {
+                
+                "Shapes": [
+                  {
+                    "Shape": "XwWbXwWb:YbCcYbCc:ScCcScCc",
+                    "Amount": 64
+                  }
+                ]
+              }
+            ]
+          },
+          "Rewards": {
+            "Rewards": [
+              {
+                "$type": "ChunkLimitReward",
+                "Amount": 500
+              },
+              {
+                "$type": "BlueprintCurrencyReward",
+                "Amount": 10000
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBStacking_BentStacker"
+              },
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBRotating_ReverseRotator"
+              },
+
+              {
+                "$type": "ResearchPointsReward",
+                "Amount": 100
               }
             ]
           }
@@ -361,18 +423,8 @@
                 
                 "Shapes": [
                   {
-                    "Shape": "CcCcP-P-:WwWwCcCc:----WwWw",
-                    "Amount": 32
-                  }
-                ]
-              },
-              {
-                "ReusedAtSameMilestone": true,
-                "ReusedAtSameMilestoneOffset": -1,
-                "Shapes": [
-                  {
-                    "Shape": "WwWw----",
-                    "Amount": 32
+                    "Shape": "Sr--Yr--:SwXgYwXg:Sr--Yr--",
+                    "Amount": 128
                   }
                 ]
               }
@@ -386,107 +438,11 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 15000
+                "Amount": 30000
               },
               {
                 "$type": "ContentBundleReward",
                 "ContentBundleId": "CBSpecial_SpaceFloor3"
-              }
-            ]
-          }
-        },
-        {
-          "Definition": {
-            "Id": "Milestone_Crystals",
-            "VideoId": "MilestoneClassicCrystalsVD",
-            "PreviewImageId": "Placeholder",
-            "Title": "@research.Milestone_Crystals.title",
-            "Description": "@research.Milestone_Crystals.description",
-            "WikiEntryId": "WKFluids_CrystalGenerator",
-            "IconId": "building.CrystalGeneratorDefaultVariant"
-          },
-          "Lines": {
-            "Lines": [
-              {
-                
-                "Shapes": [
-                  {
-                    "Shape": "RyP-RyP-:SwRuSwRu",
-                    "Amount": 64
-                  }
-                ]
-              },
-              {
-                "Shapes": [
-                  {
-                    "Shape": "Sm--Sm--",
-                    "Amount": 64
-                  }
-                ]
-              }
-            ]
-          },
-          "Rewards": {
-            "Rewards": [
-              {
-                "$type": "ChunkLimitReward",
-                "Amount": 500
-              },
-              {
-                "$type": "BlueprintCurrencyReward",
-                "Amount": 25000
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBSpecial_Crystals"
-              }
-            ]
-          }
-        },
-        {
-          "Definition": {
-            "Id": "Milestone_VortexDelivery",
-            "VideoId": "MilestoneClassicVortexDeliveryVD",
-            "PreviewImageId": "Placeholder",
-            "Title": "@research.CBTrains_VortexDelivery.title",
-            "Description": "@research.CBTrains_VortexDelivery.description",
-            "WikiEntryId": "WKTrains_VortexDelivery",
-            "IconId": "Trains"
-          },
-          "Lines": {
-            "Lines": [
-              {
-                
-                "Shapes": [
-                  {
-                    "Shape": "RrcrWrcr:CwcwCwcw",
-                    "Amount": 128
-                  }
-                ]
-              },
-              {
-                "Shapes": [
-                  {
-                    "Shape": "Cw--Cw--",
-                    "Amount": 128
-                  }
-                ]
-              }
-            ]
-          },
-          "Rewards": {
-            "Rewards": [
-              {
-                "$type": "ChunkLimitReward",
-                "Amount": 2000
-              },
-              {
-                "$type": "BlueprintCurrencyReward",
-                "Amount": 25000
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_VortexDelivery"
               }
             ]
           }
@@ -609,29 +565,6 @@
               ]
             },
             {
-              "Id": "CBSpecial_RandomizedGoals",
-              "PreviewImageId": "CBSpecial_RandomizedGoals",
-              "VideoId": "PlaceholderVideoVD",
-              "Title": "@research.CBSpecial_RandomizedGoals.title",
-              "IconId": "VirtualProcessorsGroup",
-              "Description": "@research.CBSpecial_RandomizedGoals.description",
-              "Category": "Other",
-              "RequiredUpgradeIds": [],
-              "RequiredMechanicIds": [],
-              "Rewards": [
-                {
-                  "$type": "MechanicReward",
-                  "MechanicId": "RUInfiniteGoals"
-                }
-              ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 30
-                }
-              ]
-            },
-            {
               "Id": "CBSandbox",
               "PreviewImageId": "CBSandbox",
               "VideoId": "PlaceholderVideoVD",
@@ -726,10 +659,25 @@
                 }
               ],
               "Costs": [
+              ]
+            },
+            {
+              "Id": "CBStacking_LayerDetacher",
+              "PreviewImageId": "CBStacking_Stacker",
+              "VideoId": "PlaceholderVideoVD",
+              "Title": "@building-variant.layer-detacher.title",
+              "IconId": "building.LayerDetacherGroup",
+              "Description": "@building-variant.layer-detacher.description",
+              "Category": "Buildings",
+              "RequiredUpgradeIds": [],
+              "RequiredMechanicIds": [],
+              "Rewards": [
                 {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 6
+                  "$type": "BuildingReward",
+                  "BuildingDefinitionGroupId": "LayerDetacherGroup"
                 }
+              ],
+              "Costs": [
               ]
             },
             {
@@ -800,52 +748,6 @@
               "Costs": [ ]
             },
             {
-              "Id": "CBSpecial_PinPusher",
-              "PreviewImageId": "CBSpecial_PinPusher",
-              "VideoId": "PlaceholderVideoVD",
-              "Title": "@research.CBSpecial_PinPusher.title",
-              "IconId": "building.PinPusherDefaultVariant",
-              "Description": "@research.CBSpecial_PinPusher.description",
-              "Category": "Buildings",
-              "RequiredUpgradeIds": [],
-              "RequiredMechanicIds": [],
-              "Rewards": [
-                {
-                  "$type": "BuildingReward",
-                  "BuildingDefinitionGroupId": "PinPusherDefaultVariant"
-                },
-                {
-                  "$type": "MechanicReward",
-                  "MechanicId": "RUPinPushing"
-                }
-              ],
-              "Costs": [ ]
-            },
-            {
-              "Id": "CBSpecial_Crystals",
-              "PreviewImageId": "CBSpecial_Crystals",
-              "VideoId": "PlaceholderVideoVD",
-              "Title": "@research.CBSpecial_Crystals.title",
-              "IconId": "building.CrystalGeneratorDefaultVariant",
-              "Description": "@research.CBSpecial_Crystals.description",
-              "Category": "Buildings",
-              "RequiredUpgradeIds": [],
-              "RequiredMechanicIds": [
-                "RUFluids"
-              ],
-              "Rewards": [
-                {
-                  "$type": "BuildingReward",
-                  "BuildingDefinitionGroupId": "CrystalGeneratorDefaultVariant"
-                },
-                {
-                  "$type": "MechanicReward",
-                  "MechanicId": "RUCrystals"
-                }
-              ],
-              "Costs": [ ]
-            },
-            {
               "Id": "CBCutting_FullCutter",
               "PreviewImageId": "CBCutting_FullCutter",
               "VideoId": "PlaceholderVideoVD",
@@ -862,10 +764,6 @@
                 }
               ],
               "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 3
-                }
               ]
             },
             {
@@ -908,10 +806,6 @@
                 }
               ],
               "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 4
-                }
               ]
             },
             {
@@ -931,10 +825,6 @@
                 }
               ],
               "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 2
-                }
               ]
             },
             {
@@ -954,10 +844,6 @@
                 }
               ],
               "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 6
-                }
               ]
             },
             {
@@ -977,10 +863,6 @@
                 }
               ],
               "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 6
-                }
               ]
             },
             {
@@ -1027,10 +909,6 @@
                 }
               ],
               "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 50
-                }
               ]
             },
             {
@@ -1295,34 +1173,6 @@
               ]
             },
             {
-              "Id": "CBWires_GoalReceiver",
-              "PreviewImageId": "CBWires_GoalReceiver",
-              "VideoId": "PlaceholderVideoVD",
-              "Title": "@research.CBWires_GoalReceiver.title",
-              "IconId": "building.ControlledSignalTransmitterVariant",
-              "Description": "@research.CBWires_GoalReceiver.description",
-              "Category": "Wires",
-              "ShopDisplayMode": 1,
-              "RequiredUpgradeIds": [
-                "CBWires_Core"
-              ],
-              "RequiredMechanicIds": [
-                "RULayer3"
-              ],
-              "Rewards": [
-                {
-                  "$type": "BuildingReward",
-                  "BuildingDefinitionGroupId": "WireGlobalTransmitterReceiverVariant"
-                }
-              ],
-              "Costs": [
-                {
-                  "$type": "ResearchPointsCost",
-                  "Amount": 8
-                }
-              ]
-            },
-            {
               "Id": "CBSpecial_SpaceBuilding",
               "PreviewImageId": "CBSpecial_SpaceBuilding",
               "VideoId": "PlaceholderVideoVD",
@@ -1357,19 +1207,19 @@
               "Costs": []
             },
             {
-              "Id": "CBShapes_Extraction",
+              "Id": "CBShapes_Stabilizing",
               "PreviewImageId": "CBShapes_Extraction",
               "VideoId": "PlaceholderVideoVD",
-              "Title": "@research.CBShapes_Extraction.title",
-              "IconId": "ShapeCategory",
-              "Description": "@research.CBShapes_Extraction.description",
+              "Title": "@building-variant.asteroid-stabilizer.title",
+              "IconId": "building.ShapeAsteroidStabilizerGroup",
+              "Description": "@building-variant.asteroid-stabilizer.description",
               "Category": "Buildings",
               "RequiredUpgradeIds": [],
               "RequiredMechanicIds": [],
               "Rewards": [
                 {
                   "$type": "BuildingReward",
-                  "BuildingDefinitionGroupId": "ExtractorDefaultVariant"
+                  "BuildingDefinitionGroupId": "ShapeAsteroidStabilizerGroup"
                 }
               ],
               "Costs": []
@@ -3488,29 +3338,131 @@
             "x": -1
           },
           "LayoutId": "Layout_HUB"
+        },
+        {
+          "Position_GC": {
+            "x": -3
+          },
+          "LayoutId": "Layout_ShapeMiner"
+        },
+        {
+          "Position_GC": {
+            "y": 3
+          },
+          "Rotation": 3,
+          "LayoutId": "Layout_ShapeMiner"
+        },
+        {
+          "Position_GC": {
+            "x": 1,
+            "y": 0
+          },
+          "Rotation": 2,
+          "LayoutId": "Layout_ShapeMiner"
+        },
+        {
+          "Position_GC": {
+            "x": -1,
+            "y": -3
+          },
+          "Rotation": 1,
+          "LayoutId": "Layout_ShapeMiner"
+        },
+        {
+          "Position_GC": {
+            "x": -1,
+            "y": -2
+          },
+          "Rotation": 3,
+          "LayoutId": "SpaceBelt_Forward"
+        },
+        {
+          "Position_GC": {
+            "x": -5
+          },
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": -4,
+            "y": -1
+          },
+          "Rotation": 1,
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": -4
+          },
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": -2,
+            "y": -4
+          },
+          "Rotation": 1,
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": -2,
+            "y": -3
+          },
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": -2,
+            "y": 3
+          },
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": -1,
+            "y": -4
+          },
+          "Rotation": 1,
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": 2,
+            "y": -1
+          },
+          "Rotation": 1,
+          "LayoutId": "Layout_ShapeMinerExtension"
+        },
+        {
+          "Position_GC": {
+            "x": 2,
+            "y": 0
+          },
+          "Rotation": 2,
+          "LayoutId": "Layout_ShapeMinerExtension"
         }
       ]
     },
     "FixedPatches": {
       "FixedPatches": [
         {
-          "Shape": "RuRuRuRu",
+          "Shape": "Cc----Cb",
           "Position_LC": {
             "x": 31,
-            "y": 30
+            "y": 29
           },
           "LocalTiles": [
             {},
             {
               "x": -1,
-              "y": -2
+              "y": -1
             },
             {
               "y": -1
             },
             {
-              "x": -1,
-              "y": -1
+              "x": -1
             }
           ]
         },
@@ -3518,25 +3470,24 @@
           "Shape": "RuRuRuRu",
           "Position_LC": {
             "x": 31,
-            "y": 34
+            "y": 35
           },
           "LocalTiles": [
             {},
             {
-              "y": 1
+              "x": 1
             },
             {
-              "x": -1,
-              "y": 1
+              "x": -1
             },
             {
-              "x": -1,
-              "y": 2
+              "x": 1,
+              "y": 1
             }
           ]
         },
         {
-          "Shape": "CuCuCuCu",
+          "Shape": "RuRuRuRu",
           "Position_LC": {
             "x": 29,
             "y": 32
@@ -3556,15 +3507,15 @@
           ]
         },
         {
-          "Shape": "CuCuCuCu",
+          "Shape": "CbCcCbCc",
           "Position_LC": {
-            "x": 33,
+            "x": 34,
             "y": 32
           },
           "LocalTiles": [
             {},
             {
-              "x": 1
+              "x": -1
             },
             {
               "y": 1
@@ -3580,15 +3531,10 @@
       "StartingChunks": [
         {
           "GuaranteedShapePatches": [
-            "RbRuRbRu",
-            "CrCrCrCu",
-            "CrCuCuCu",
-            "RuSuRu--",
-            "RuRuRuRu",
-            "--CuCuCu",
-            "SuSuCu--",
-            "--RbSuCr",
-            "CuCuCuCu"
+            "RuCcCbRu",
+            "CbCcRuCc",
+            "----RuRu",
+            "--RuCb--"
           ],
           "GuaranteedColorPatches": [
             "r",
@@ -3610,7 +3556,7 @@
             "y": 1
           },
           "GuaranteedShapePatches": [
-            "--WuWuCu"
+            "Ru--CcCc"
           ],
           "GuaranteedColorPatches": [
             "g"
@@ -3622,9 +3568,29 @@
             "y": -1
           },
           "GuaranteedShapePatches": [
-            "--WuCu--"
+            "--CbCb--"
           ],
           "GuaranteedColorPatches": []
+        },
+        {
+          "SuperChunk": {
+            "x": 1,
+            "y": -1
+          },
+          "GuaranteedShapePatches": [ ],
+          "GuaranteedColorPatches": [
+            "w"
+          ]
+        },
+        {
+          "SuperChunk": {
+            "x": -1,
+            "y": 1
+          },
+          "GuaranteedShapePatches": [ ],
+          "GuaranteedColorPatches": [
+            "w"
+          ]
         }
       ]
     }
@@ -3632,419 +3598,14 @@
   "PlayerLevelConfig": {
     "IconicLevelShapes": {
       "LevelShapes": [
-        "RbCuCrCu",
-        "RgCuCgCu",
-        "RyCuCyCu",
-        "RmCuCmCu",
-        "RcCuCcCu",
-        "RuCuCuCu:Rb--Cr--",
-        "RuCuCuCu:Rg--Cg--",
-        "RuCuCuCu:Ry--Cy--",
-        "RuCuCuCu:Rm--Cm--",
-        "RuCuCuCu:Rc--Cc--",
-        "RuCuCuRu:RbWuWrRu",
-        "RuCuCuRu:RgWuWgRu",
-        "RuCuCuRu:RyWuWyRu",
-        "RuCuCuRu:RmWuWmRu",
-        "RuCuCuRu:RcWuWcRu",
-        "RuCbP-Cr:----Ru--",
-        "RuCgP-Cy:----Ru--",
-        "RuCmP-Cm:----Ru--",
-        "RuCcP-Cc:----Ru--",
-        "RuCwP-Cw:----Ru--",
-        "CbCbCbRb:CwCwCwCw",
-        "CrCrCrRr:CwCwCwCw",
-        "CgCgCyRy:CwCwCwCw",
-        "CmCmCmRm:CwCwCwCw",
-        "CcCcCcRc:CwCwCwCw",
-        "RyWyCyCy:Rr--Cr--",
-        "RyWyCyCy:Rb--Cb--",
-        "RyWyCyCy:Rg--Cg--",
-        "RyWyCyCy:Rm--Cm--",
-        "RyWyCyCy:Rc--Cc--",
-        "RyCyCyRy:RuWuWrRr",
-        "RyCyCyRy:RrWrWbRb",
-        "RyCyCyRy:RbWbWgRg",
-        "RyCyCyRy:RgWgWmRm",
-        "RyCyCyRy:RmWmWcRc",
-        "RwCwRwCw:Rr--Cy--",
-        "RwCwRwCw:Rb--Cy--",
-        "RwCwRwCw:Rg--Cy--",
-        "RwCwRwCw:Rm--Cy--",
-        "RwCwRwCw:Rc--Cy--",
-        "RwCwCwRw:RyCyCrRr",
-        "RwCwCwRw:RyCyCbRb",
-        "RwCwCwRw:RyCyCgRg",
-        "RwCwCwRw:RyCyCmRm",
-        "RwCwCwRw:RyCyCcRc",
-        "--SuSu--:CuRuRuCu:Cw----Cw",
-        "--SrSr--:CrRrRrCr:Cw----Cw",
-        "--SbSb--:CbRbRbCb:Cw----Cw",
-        "--SgSg--:CgRgRgCg:Cw----Cw",
-        "--SySy--:CyRyRyCy:Cw----Cw",
-        "--SmSm--:CmRmRmCm:Cw----Cw",
-        "--ScSc--:CcRcRcCc:Cw----Cw",
-        "--SuSu--:SrRuRuCu:----CwCw",
-        "--SySy--:SrRyRyCy:----CwCw",
-        "--ScSc--:SrRcRcCc:----CwCw",
-        "CrWuCrCr:WuWuWuCu:WbWbWbCb",
-        "CgWuCgCg:WuWuWuCu:WrWrWrCr",
-        "CyWuCyCy:WuWuWuCu:WgWgWgCg",
-        "CmWuCmCm:WuWuWuCu:WyWyWyCy",
-        "CcWuCcCc:WuWuWuCu:WmWmWmCm",
-        "RyCyCyCy:RwCwCwCw:Rr--Cm--",
-        "RyCyCyCy:RwCwCwCw:Rb--Cm--",
-        "RyCyCyCy:RwCwCwCw:Rg--Cm--",
-        "RyCyCyCy:RwCwCwCw:Ry--Cm--",
-        "RyCyCyCy:RwCwCwCw:Rc--Cm--",
-        "RyCyCyRy:RwCwCwRw:WmCmCrWr",
-        "RyCyCyRy:RwCwCwRw:WmCmCbWb",
-        "RyCyCyRy:RwCwCwRw:WmCmCgWg",
-        "RyCyCyRy:RwCwCwRw:WmCmCyWy",
-        "RyCyCyRy:RwCwCwRw:WmCmCcWc",
-        "SwCrSwCr:--CwRbCw:RwCwRwCw",
-        "SwCbSwCb:--CwRyCw:RwCwRwCw",
-        "SwCgSwCg:--CwRyCw:RwCwRwCw",
-        "SwCmSwCm:--CwRyCw:RwCwRwCw",
-        "SwCcSwCc:--CwRmCw:RwCwRwCw",
-        "CwRwCwCw:P-P-P-P-:CbCbCrCr",
-        "CwRwCwCw:P-P-P-P-:CgCgCgCg",
-        "CwRwCwCw:P-P-P-P-:CyCyCyCy",
-        "CwRwCwCw:P-P-P-P-:CmCmCmCm",
-        "CwRwCwCw:P-P-P-P-:CcCcCcCc",
-        "SyP-SyP-:CbCbCbCb:P-CyP-Cy:SySySySy",
-        "SyP-SyP-:CrCrCrCr:P-CyP-Cy:SySySySy",
-        "SyP-SyP-:CgCgCgCg:P-CyP-Cy:SySySySy",
-        "SyP-SyP-:CmCmCmCm:P-CyP-Cy:SySySySy",
-        "SyP-SyP-:CcCcCcCc:P-CyP-Cy:SySySySy",
-        "WrCrWrRr:RwCwRwRw:WrWrWrRr:CbWbCbRb",
-        "WbCbWbRb:RwCwRwRw:WbWbWbRb:CgWgCgRg",
-        "WyCyWyRy:RwCwRwRw:WyWyWyRy:CgWgCgRg",
-        "WmCmWmRm:RwCwRwRw:WmWmWmRm:CyWyCyRy",
-        "WcCcWcRc:RwCwRwRw:WcWcWcRc:CmWmCmRm",
-        "RmWmRmWm:RwWwRwWw:RcP-RrP-:--Cc--Cr",
-        "RmWmRmWm:RwWwRwWw:RcP-RbP-:--Cc--Cb",
-        "RmWmRmWm:RwWwRwWw:RcP-RgP-:--Cc--Cg",
-        "RmWmRmWm:RwWwRwWw:RcP-RyP-:--Cc--Cy",
-        "RmWmRmWm:RwWwRwWw:RcP-RmP-:--Cc--Cm",
-        "CrCwCwCr:P-P-P-P-:CuCuCuCu:CwCwCwCw",
-        "CbCwCwCb:P-P-P-P-:CuCuCuCu:CwCwCwCw",
-        "CyCwCwCg:P-P-P-P-:CuCuCuCu:CwCwCwCw",
-        "CmCwCwCm:P-P-P-P-:CuCuCuCu:CwCwCwCw",
-        "CcCwCwCc:P-P-P-P-:CuCuCuCu:CwCwCwCw",
-        "P-SwSwP-:CrWrWrCr:CbWbWbCb:Cw----Cw",
-        "P-SwSwP-:CgWgWgCg:CrWrWrCr:Cw----Cw",
-        "P-SwSwP-:CyWyWyCy:CgWgWgCg:Cw----Cw",
-        "P-SwSwP-:CmWmWmCm:CyWyWyCy:Cw----Cw",
-        "P-SwSwP-:CcWcWcCc:CmWmWmCm:Cw----Cw",
-        "--WySyWy:RySwWwSw:CwWwWbWw:CbWbSwWb",
-        "--WySyWy:RySwWwSw:CwWwWrWw:CrWrSwWr",
-        "--WySyWy:RySwWwSw:CwWwWgWw:CgWgSwWg",
-        "--WySyWy:RySwWwSw:CwWwWmWw:CmWmSwWm",
-        "--WySyWy:RySwWwSw:CwWwWcWw:CcWcSwWc",
-        "RcCcCcRc:RwCwCwRw:CrCrCrCr:P-CwCwP-",
-        "RcCcCcRc:RwCwCwRw:CbCbCbCb:P-CwCwP-",
-        "RcCcCcRc:RwCwCwRw:CgCgCgCg:P-CwCwP-",
-        "RcCcCcRc:RwCwCwRw:CyCyCyCy:P-CwCwP-",
-        "RcCcCcRc:RwCwCwRw:CcCcCcCc:P-CwCwP-",
-        "RwWbRbWw:P-P-P---:RbWwRw--:--WbRbWb",
-        "RwWrRrWw:P-P-P---:RrWwRw--:--WrRrWr",
-        "RwWgRgWw:P-P-P---:RgWwRw--:--WgRgWg",
-        "RwWyRyWw:P-P-P---:RyWwRw--:--WyRyWy",
-        "RwWmRmWw:P-P-P---:RmWwRw--:--WmRmWm",
-        "RwCwCwRw:SrP-P-Sr:CrCrCrCr:P-CwCwP-",
-        "RwCwCwRw:SbP-P-Sb:CbCbCbCb:P-CwCwP-",
-        "RwCwCwRw:SgP-P-Sg:CgCgCgCg:P-CwCwP-",
-        "RwCwCwRw:SyP-P-Sy:CyCyCyCy:P-CwCwP-",
-        "RwCwCwRw:ScP-P-Sm:CcCcCmCm:P-CwCwP-",
-        "CrCwCrCw:CwCrCwCr:CrCwCrCw:CwCrCwCr",
-        "CbCwCgCw:CwCbCwCg:CbCwCgCw:CwCbCwCg",
-        "CyCwCyCw:CwCyCwCy:CyCwCyCw:CwCyCwCy",
-        "CmCwCmCw:CwCmCwCm:CmCwCmCw:CwCmCwCm",
-        "CcCwCcCw:CwCcCwCc:CcCwCcCw:CwCcCwCc",
-        "RwCwCwRw:SrWrWrSr:WbCbCwWr:--CbCr--",
-        "RwCwCwRw:SrWrWrSr:WgCgCgWg:--CgCg--",
-        "RwCwCwRw:SrWrWrSr:WyCyCyWy:--CyCy--",
-        "RwCwCwRw:SrWrWrSr:WmCmCmWm:--CmCm--",
-        "RwCwCwRw:SrWrWrSr:WcCcCcWc:--CcCc--",
-        "CbCbCbCb:P-CrCrP-:P-P-P-P-:WbRwRwWb",
-        "CgCgCgCg:P-CrCrP-:P-P-P-P-:WgRwRwWg",
-        "CyCyCyCy:P-CrCrP-:P-P-P-P-:WyRwRwWy",
-        "CmCmCmCm:P-CrCrP-:P-P-P-P-:WmRwRwWm",
-        "CcCcCcCc:P-CrCrP-:P-P-P-P-:WcRwRwWc",
-        "P-CwRwCw:CbP-P-P-:P-CrRrCr:WwCwRwCw",
-        "P-CwRwCw:CgP-P-P-:P-CgRgCg:WwCwRwCw",
-        "P-CwRwCw:CyP-P-P-:P-CyRyCy:WwCwRwCw",
-        "P-CwRwCw:CmP-P-P-:P-CmRmCm:WwCwRwCw",
-        "P-CwRwCw:CcP-P-P-:P-CcRcCc:WwCwRwCw",
-        "CrRrRrCr:P-CwCwCw:--CyCyCy:------P-",
-        "CbRbRbCb:P-CwCwCw:--CyCyCy:------P-",
-        "CgRgRgCg:P-CwCwCw:--CyCyCy:------P-",
-        "CmRmRmCm:P-CwCwCw:--CyCyCy:------P-",
-        "CcRcRcCc:P-CwCwCw:--CyCyCy:------P-",
-        "RyCyRyCy:Cr--Cr--:CwCwCwCw:cbcbcbcb",
-        "RyCyRyCy:Cb--Cb--:CwCwCwCw:crcrcrcr",
-        "RyCyRyCy:Cr--Cr--:CwCwCwCw:cgcgcgcg",
-        "RyCyRyCy:Cr--Cr--:CwCwCwCw:cmcmcmcm",
-        "RyCyRyCy:Cm--Cm--:CwCwCwCw:cccccccc",
-        "Sr--Sb--:P-P-P-P-:P-P-P-P-:--Cr--Cb:CwCwCwCw",
-        "Sg--Sy--:P-P-P-P-:P-P-P-P-:--Cg--Cy:CwCwCwCw",
-        "Sm--Sm--:P-P-P-P-:P-P-P-P-:--Cm--Cm:CwCwCwCw",
-        "Sc--Sc--:P-P-P-P-:P-P-P-P-:--Cc--Cc:CwCwCwCw",
-        "Sw--Sw--:P-P-P-P-:P-P-P-P-:--Cw--Cw:CcCcCcCc",
-        "SwSwSwSw:WrWrWrWr:CrCrCrCr:WbWbWbWb:CwCwCwCw",
-        "SwSwSwSw:WbWbWbWb:CbCbCbCb:WgWgWgWg:CwCwCwCw",
-        "SwSwSwSw:WyWyWyWy:CyCyCyCy:WmWmWmWm:CwCwCwCw",
-        "SwSwSwSw:WmWmWmWm:CmCmCmCm:WcWcWcWc:CwCwCwCw",
-        "SwSwSwSw:WcWcWcWc:CcCcCcCc:WmWmWmWm:CwCwCwCw",
-        "P-P-P-P-:SbWgWgSb:CbP-P-Cb:CgRbRbCg:P-----P-",
-        "P-P-P-P-:SrWgWgSr:CrP-P-Cr:CgRrRrCg:P-----P-",
-        "P-P-P-P-:SyWgWgSy:CyP-P-Cy:CgRyRyCg:P-----P-",
-        "P-P-P-P-:SmWgWgSm:CmP-P-Cm:CgRmRmCg:P-----P-",
-        "P-P-P-P-:ScWgWgSc:CcP-P-Cc:CgRcRcCg:P-----P-",
-        "SuWwWwSu:CwWuWuCw:CbRwRwCb:P-RuRuP-:--P-P---",
-        "SbWwWwSb:CwWbWbCw:CyRwRwCy:P-RuRuP-:--P-P---",
-        "SrWwWwSr:CwWrWrCw:CyRwRwCy:P-RuRuP-:--P-P---",
-        "SgWwWwSg:CwWgWgCw:CyRwRwCy:P-RuRuP-:--P-P---",
-        "SmWwWwSm:CwWmWmCw:CcRwRwCc:P-RuRuP-:--P-P---",
-        "Sw----Sw:WwWcWcWw:CcSwSwCc:CwCwCwCw:WrWrWrWr",
-        "Sw----Sw:WwWcWcWw:CcSwSwCc:CwCwCwCw:WbWbWbWb",
-        "Sw----Sw:WwWcWcWw:CcSwSwCc:CwCwCwCw:WgWgWgWg",
-        "Sw----Sw:WwWcWcWw:CcSwSwCc:CwCwCwCw:WyWyWyWy",
-        "Sw----Sw:WwWcWcWw:CcSwSwCc:CwCwCwCw:WmWmWmWm",
-        "RrCrRrCr:RwCwRwCw:CbCbCbCb:P-P-P-P-:WuCuWuCu",
-        "RbCbRbCb:RwCwRwCw:CgCgCgCg:P-P-P-P-:WuCuWuCu",
-        "RgCgRgCg:RwCwRwCw:CyCyCyCy:P-P-P-P-:WuCuWuCu",
-        "RmCmRmCm:RwCwRwCw:CcCcCcCc:P-P-P-P-:WuCuWuCu",
-        "RwCwRwCw:RmCmRmCm:CwCwCwCw:P-P-P-P-:WcCcWcCc",
-        "Rr--Rr--:cy--cy--:cyRwcyRw:--Cm--Cm:--cb--cb",
-        "Rg--Rg--:cy--cy--:cyRwcyRw:--Cm--Cm:--cg--cg",
-        "Rc--Rc--:cm--cm--:cmRwcmRw:--Cy--Cy:--cr--cr",
-        "Rc--Rc--:cm--cm--:cmRwcmRw:--Cy--Cy:--cb--cb",
-        "Rm--Rm--:cc--cc--:ccRwccRw:--Cy--Cy:--cr--cr",
-        "CbCuCbCu:SrP-P-P-:P-P-SrP-:P-CrP-Cr:CwCwCwCw",
-        "CgCuCgCu:SyP-P-P-:P-P-SyP-:P-CyP-Cy:CwCwCwCw",
-        "CyCuCyCu:SmP-P-P-:P-P-SmP-:P-CmP-Cm:CwCwCwCw",
-        "CmCuCmCu:ScP-P-P-:P-P-ScP-:P-CcP-Cc:CwCwCwCw",
-        "CcCuCcCu:SwP-P-P-:P-P-SwP-:P-CwP-Cw:CcCcCcCc",
-        "RbCbCuCb:SwP-P-P-:P-P-P-P-:--CrP-Cr:--CwWrCw",
-        "RrCrCuCr:SwP-P-P-:P-P-P-P-:--CyP-Cy:--CwWyCw",
-        "RyCyCuCy:SwP-P-P-:P-P-P-P-:--CmP-Cm:--CwWmCw",
-        "RmCmCuCm:SwP-P-P-:P-P-P-P-:--CcP-Cc:--CwWcCw",
-        "RcCcCuCc:SwP-P-P-:P-P-P-P-:--CmP-Cm:--CwWmCw"
+        "Sr--Yr--:SwXbYwXb:Sr--Yr--"
       ]
     },
     "IconicLevelShapeInterval": 5,
     "RankDifficultyMultiplier": 1.0,
     "GoalLines": [
-      {
-        "Id": "Reuse_Fluids",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "RbRbRbRb:CrCrCrCr",
-        "StartingAmount": 15000,
-        "ExponentialGrowthPercentPerLevel": 18,
-        "RequiredUpgradeIds": [
-          "CBFluids_Extraction"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_Trains",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "RuRgRuRg:SbSbSbSb",
-        "StartingAmount": 12000,
-        "ExponentialGrowthPercentPerLevel": 17,
-        "RequiredUpgradeIds": [
-          "CBTrains_Core"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_PinPusher",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "RbCbCbCb:RuCuCuCu:WgWrWgWr",
-        "StartingAmount": 10000,
-        "ExponentialGrowthPercentPerLevel": 16,
-        "RequiredUpgradeIds": [
-          "CBSpecial_PinPusher"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_Mixing",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "SuP-P-Su:P-P-P-P-:RbCgCgRb",
-        "StartingAmount": 8000,
-        "ExponentialGrowthPercentPerLevel": 16,
-        "RequiredUpgradeIds": [
-          "CBFluids_Mixer"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_IslandLayer3",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "CcCcP-P-:WwWwCcCc:----WwWw",
-        "StartingAmount": 8000,
-        "ExponentialGrowthPercentPerLevel": 16,
-        "RequiredUpgradeIds": [
-          "CBSpecial_SpaceFloor3"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_Crystals",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "RyP-RyP-:SwRuSwRu",
-        "StartingAmount": 8000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "CBSpecial_Crystals"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_Vortex",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "RrcrWrcr:CwcwCwcw",
-        "StartingAmount": 8000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "CBTrains_VortexDelivery"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_Final",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "cwRwcwCw:cwcwcwcw:CcCcCcCc:CcCcCcCc",
-        "StartingAmount": 8000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "CBSpecial_RandomizedGoals"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_PostFinal0",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "XrXbXrXb:WbWbWbWb:--Xg--Xg",
-        "StartingAmount": 3000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "Milestone_PostFinal_Tier0"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_PostFinal1",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "XyXyXcXc:XmP-XmP-:--Wm--Wm",
-        "StartingAmount": 3000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "Milestone_PostFinal_Tier1"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_PostFinal2",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "XwXkXwXk:SySwSySw:P-P-P-P-:SwSySwSy",
-        "StartingAmount": 3000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "Milestone_PostFinal_Tier2"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Reuse_PostFinal3",
-        "RandomizedExtraShapesPer10Level": [],
-        "Shape": "YkYwYkYw:P-P-P-P-:YwYkYwYk:WuWbWgWr",
-        "StartingAmount": 3000,
-        "ExponentialGrowthPercentPerLevel": 15,
-        "RequiredUpgradeIds": [
-          "Milestone_PostFinal_Tier3"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Random1",
-        "Randomized": true,
-        "RandomizedExtraShapesPer10Level": [],
-        "StartingAmount": 1000,
-        "ExponentialGrowthPercentPerLevel": 5,
-        "RequiredUpgradeIds": [
-          "CBSpecial_RandomizedGoals"
-        ],
-        "RequiredMechanicIds": []
-      },
-      {
-        "Id": "Random2_Crystals",
-        "Randomized": true,
-        "RandomizedUseCrystals": true,
-        "RandomizedExtraShapesPer10Level": [],
-        "StartingAmount": 1000,
-        "ExponentialGrowthPercentPerLevel": 4,
-        "RequiredUpgradeIds": [
-          "CBSpecial_RandomizedGoals"
-        ],
-        "RequiredMechanicIds": []
-      }
     ],
     "Rewards": [
-      {
-        "MinimumLevel": 25,
-        "Rewards": [
-          {
-            "$type": "ChunkLimitReward",
-            "Amount": 500
-          },
-          {
-            "$type": "BlueprintCurrencyReward",
-            "Amount": 20000
-          },
-          {
-            "$type": "ResearchPointsReward",
-            "Amount": 50
-          }
-        ]
-      },
-      {
-        "MinimumLevel": 10,
-        "Rewards": [
-          {
-            "$type": "ChunkLimitReward",
-            "Amount": 50
-          },
-          {
-            "$type": "BlueprintCurrencyReward",
-            "Amount": 10000
-          },
-          {
-            "$type": "ResearchPointsReward",
-            "Amount": 5
-          }
-        ]
-      },
-      {
-        "MinimumLevel": 1,
-        "Rewards": [
-          {
-            "$type": "ChunkLimitReward",
-            "Amount": 25
-          },
-          {
-            "$type": "BlueprintCurrencyReward",
-            "Amount": 5000
-          },
-          {
-            "$type": "ResearchPointsReward",
-            "Amount": 2
-          }
-        ]
-      }
     ]
   },
   "Mechanics": {

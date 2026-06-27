@@ -8,7 +8,7 @@
     "MapGenerationParameters": {
       "FluidsSpawnPrimaryColors": true,
       "FluidsSpawnSecondaryColors": false,
-      "FluidsSpawnTertiaryColors": true,
+      "FluidsSpawnTertiaryColors": false,
       "FluidPatchLikelinessPercent": 20,
       "FluidPatchBaseSize": 6,
       "FluidPatchSizeGrowPercentPerChunk": 70,
@@ -24,47 +24,47 @@
       "ShapePatchGenerationLikeliness": [
         {
           "GenerationType": "TertiaryColorFullShapePure",
-          "MinimumDistanceToOrigin": 40,
+          "MinimumDistanceToOrigin": 10,
           "Weight": 5
         },
         {
           "GenerationType": "TertiaryColorFullShape",
-          "MinimumDistanceToOrigin": 32,
+          "MinimumDistanceToOrigin": 10,
           "Weight": 7
         },
         {
           "GenerationType": "TertiaryColorAlmostFullShape",
-          "MinimumDistanceToOrigin": 28,
+          "MinimumDistanceToOrigin": 10,
           "Weight": 10
         },
         {
           "GenerationType": "TertiaryColorHalfShape",
-          "MinimumDistanceToOrigin": 24,
-          "Weight": 10
+          "MinimumDistanceToOrigin": 10,
+          "Weight": 4
         },
         {
           "GenerationType": "SecondaryColorFullShapePure",
-          "MinimumDistanceToOrigin": 20,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 15
         },
         {
           "GenerationType": "SecondaryColorFullShape",
-          "MinimumDistanceToOrigin": 16,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 20
         },
         {
           "GenerationType": "SecondaryColorAlmostFullShape",
-          "MinimumDistanceToOrigin": 12,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 25
         },
         {
           "GenerationType": "SecondaryColorHalfShape",
-          "MinimumDistanceToOrigin": 10,
-          "Weight": 30
+          "MinimumDistanceToOrigin": 8,
+          "Weight": 10
         },
         {
           "GenerationType": "PrimaryColorFullShapePure",
-          "MinimumDistanceToOrigin": 8,
+          "MinimumDistanceToOrigin": 6,
           "Weight": 35
         },
         {
@@ -74,33 +74,33 @@
         },
         {
           "GenerationType": "PrimaryColorAlmostFullShape",
-          "MinimumDistanceToOrigin": 4,
+          "MinimumDistanceToOrigin": 6,
           "Weight": 45
         },
         {
           "GenerationType": "PrimaryColorHalfShape",
-          "MinimumDistanceToOrigin": 3,
-          "Weight": 50
+          "MinimumDistanceToOrigin": 6,
+          "Weight": 15
         },
         {
           "GenerationType": "UncoloredFullShapePure",
           "MinimumDistanceToOrigin": 2,
-          "Weight": 100
+          "Weight": 80
         },
         {
           "GenerationType": "UncoloredFullShape",
           "MinimumDistanceToOrigin": 1,
-          "Weight": 300
+          "Weight": 100
         },
         {
           "GenerationType": "UncoloredAlmostFullShape",
-          "MinimumDistanceToOrigin": 1,
-          "Weight": 500
+          "MinimumDistanceToOrigin": 0,
+          "Weight": 200
         },
         {
           "GenerationType": "UncoloredHalfShape",
-          "MinimumDistanceToOrigin": 0,
-          "Weight": 1000
+          "MinimumDistanceToOrigin": 2,
+          "Weight": 40
         }
       ]
     },

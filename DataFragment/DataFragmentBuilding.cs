@@ -36,6 +36,8 @@ namespace ArcticRuins.DataFragment
 
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DataFragment_Icon.png");
 
+            ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
+            
             IBuildingGroupBuilder communicationRelayGroup = BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())
                 .WithDescription(titleDescription.T())

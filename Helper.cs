@@ -57,6 +57,11 @@ namespace ArcticRuins
         {
             if (ArcticRuinsMod.IsModDevelopmentMode)
                 return extenderAbstract.UnlockedAtMilestone(FirstMilestoneSelector);
+            return extenderAbstract.NotUnlocked();
+        }
+        
+        public static IDefinedUnlockableBuildingExtender NotUnlocked(this IDefinedBuildingExtender extenderAbstract)
+        {
             var extender = (AtomicBuildingExtender)extenderAbstract;
             extender.ProgressionExtender = NoopProgressionExtender.Instance;
             return extender;

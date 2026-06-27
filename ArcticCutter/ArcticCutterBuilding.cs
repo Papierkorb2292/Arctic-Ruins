@@ -26,9 +26,8 @@ namespace ArcticRuins.ArcticCutter
             string titleId = "building-variant.arctic-cutter.title";
             string titleDescription = "building-variant.arctic-cutter.description";
             
-            using var assetBundleHelper =
-                AssetBundleHelper.CreateForAssetBundleEmbeddedWithMod<ArcticRuinsMod>("Resources/DiagonalCutter");
-
+            ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
+            
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
 
             IBuildingGroupBuilder arcticCutterGroup = BuildingGroup.Create(GroupId)

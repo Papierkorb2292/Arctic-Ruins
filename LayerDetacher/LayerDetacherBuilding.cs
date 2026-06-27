@@ -20,6 +20,7 @@ namespace ArcticRuins.LayerDetacher
     {
         public static BuildingDefinitionGroupId GroupId = new("LayerDetacherGroup");
         public static BuildingDefinitionId DefinitionId = new("LayerDetacher");
+        public static Sprite Icon;
         
         public static void Register()
         { 
@@ -27,11 +28,14 @@ namespace ArcticRuins.LayerDetacher
             string titleDescription = "building-variant.layer-detacher.description";
             
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("LayerDetacher_Icon.png");
-
+            Icon = FileTextureLoader.LoadTextureAsSprite(iconPath, out _);
+            
+            ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
+            
             IBuildingGroupBuilder layerDetacherGroup = BuildingGroup.Create(GroupId)
                .WithTitle(titleId.T())
                .WithDescription(titleDescription.T())
-               .WithIcon(FileTextureLoader.LoadTextureAsSprite(iconPath, out _))
+               .WithIcon(Icon)
                .AsNonTransportableBuilding()
                .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
                .WithDefaultStructureOverview();
@@ -64,7 +68,7 @@ namespace ArcticRuins.LayerDetacher
             AtomicBuildings.Extend()
                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
                .WithBuilding(layerDetacherBuilder, layerDetacherGroup)
-               .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
+               .NotUnlocked() // Unlocked through scenario file
                .WithDefaultPlacement()
                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(3).ChildAt(^1).InsertAfter()) // At the end of the stacker section
                .WithSimulation(new LayerDetacherFactoryBuilder(), ArcticRuinsMod.Logger)

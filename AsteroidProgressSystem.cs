@@ -87,7 +87,16 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
     private static int ComputeTotalRequirement(IMapResourceSource source)
     {
         // Should increase as you get further away
-        return 20 * Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y));
+        return RoundToTwoSignificantDigits(20 * Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y)));
+    }
+
+    private static int RoundToTwoSignificantDigits(int number)
+    {
+        var magnitude = (int)Math.Log10(number);
+        if (magnitude <= 1)
+            return number;
+        var scale = (int)Math.Pow(10, magnitude - 1);
+        return (number / scale) * scale;
     }
 
     public static void Dispose()
