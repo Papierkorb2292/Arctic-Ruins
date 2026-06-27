@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using ArcticRuins.ShapeAsteroidStabilizer;
+using Core.Collections.Scoped;
 using Core.Events;
 using Game.Core.Coordinates;
 using Game.Core.Map.Simulation;
@@ -32,7 +33,7 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
 
     public void OnShapeReceived(GlobalChunkCoordinate originCoordinate)
     {
-        _queuedUpdates[originCoordinate] = _queuedUpdates.GetValueOrDefault(originCoordinate, 0) + 1;
+        _queuedUpdates.AddOrUpdate(originCoordinate, 1, (_, num) => num + 1);
     }
     
     public static void Register()
@@ -107,15 +108,12 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
     public void Update(Ticks startTicks, Ticks deltaTicks)
     {
         var saveData = ArcticRuinsMod.Instance.SaveData;
-        foreach (var coord in _queuedUpdates.Keys)
+        using var queued = ScopedList.Get(_queuedUpdates.Keys);
+        foreach (var coord in queued)
         {
-            if (_queuedUpdates.TryRemove(coord, out var increment) &&
-                saveData.Asteroids.TryGetValue(coord, out var asteroid))
-            {
-                if (asteroid.IsComplete()) return;
-                asteroid.SuppliedShapes = Math.Min(asteroid.SuppliedShapes + increment, asteroid.TotalRequirement);
-                OnAsteroidProgressUpdate.Invoke(coord, asteroid);
-            }
+            if (!_queuedUpdates.TryRemove(coord, out var increment) || !saveData.Asteroids.TryGetValue(coord, out var asteroid) || asteroid.IsComplete()) continue;
+            asteroid.SuppliedShapes = Math.Min(asteroid.SuppliedShapes + increment, asteroid.TotalRequirement);
+            OnAsteroidProgressUpdate.Invoke(coord, asteroid);
         }
     }
 
