@@ -87,6 +87,10 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
 
     private static int ComputeTotalRequirement(IMapResourceSource source)
     {
+        // Special case for the chunks at the center, since they'd get very small numbers otherwise, and wouldn't
+        // be consistent with each other
+        if (source.CenterOfMass_GC.ManhattanDistance(GlobalChunkCoordinate.Origin) < 5)
+            return 100;
         // Should increase as you get further away
         return RoundToTwoSignificantDigits(20 * Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y)));
     }
