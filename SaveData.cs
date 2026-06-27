@@ -18,7 +18,7 @@ public class SaveData
     private readonly Dictionary<string, ShapeSupplierData> VortexShapeSupplier = new();
     public readonly HashSet<GlobalChunkCoordinate> UnremovablePlatforms = [];
     public readonly HashSet<GlobalChunkCoordinate> GeneratedStormChunks = [];
-    public HashSet<GlobalChunkCoordinate> DataFragmentChunks = null;
+    public Dictionary<GlobalChunkCoordinate, int> DataFragmentChunkLevels = new();
     public readonly TechTracker Tech = new();
     
     public SaveData() {}
@@ -39,7 +39,10 @@ public class SaveData
             VortexShapeSupplier[shape] = data;
         }
 
-        DataFragmentChunks = rawSaveData.DataFragmentChunks;
+        foreach (var (chunk, level) in rawSaveData.DataFragmentChunkLevels)
+        {
+            DataFragmentChunkLevels[chunk] = level;
+        }
         UnremovablePlatforms = rawSaveData.UnremovablePlatforms;
         GeneratedStormChunks = rawSaveData.GeneratedStormChunks;
         Tech = rawSaveData.Tech;
@@ -87,9 +90,8 @@ public class SaveData
 
     public class TechTracker
     {
-        public List<TechReference> QueuedRewards = null;
+        public List<(List<TechReference> queue, int levelRewardCount)> QueuedRewards = null;
         public HashSet<TechReference> UnlockedRewards = [];
-        public List<int> RewardCountPerLevel = null;
     }
 
     public class RawSaveData
@@ -100,7 +102,7 @@ public class SaveData
         public List<(string, ShapeSupplierData)> VortexShapeSupplier = [];
         public HashSet<GlobalChunkCoordinate> UnremovablePlatforms = [];
         public HashSet<GlobalChunkCoordinate> GeneratedStormChunks = [];
-        public HashSet<GlobalChunkCoordinate> DataFragmentChunks = null;
+        public List<(GlobalChunkCoordinate, int)> DataFragmentChunkLevels = [];
         public TechTracker Tech;
         
         public void CopyFrom(SaveData saveData)
@@ -110,7 +112,7 @@ public class SaveData
             VortexShapeSupplier = saveData.VortexShapeSupplier.Select(entry => (entry.Key, entry.Value)).ToList();
             UnremovablePlatforms = saveData.UnremovablePlatforms;
             GeneratedStormChunks =  saveData.GeneratedStormChunks;
-            DataFragmentChunks = saveData.DataFragmentChunks;
+            DataFragmentChunkLevels = saveData.DataFragmentChunkLevels.Select(entry => (entry.Key, entry.Value)).ToList();
             Tech = saveData.Tech;
         }
     }

@@ -169,12 +169,12 @@
           "Rewards": {
             "Rewards": [
               {
-                "$type": "ChunkLimitReward",
-                "Amount": 250
-              },
-              {
                 "$type": "ContentBundleReward",
                 "ContentBundleId": "CBShapes_Stabilizing"
+              },
+              {
+                "$type": "ChunkLimitReward",
+                "Amount": 250
               },
               {
                 "$type": "ContentBundleReward",

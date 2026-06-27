@@ -10,9 +10,11 @@ public class DataFragmentModules : SimulationBasedBuildingModuleDataProvider<Dat
     public override IEnumerable<IHUDSidePanelModuleData> GetSimulationModules(BuildingModel building, ILocalizedSimulation localizedSimulation,
         DataFragmentSimulation actualSimulation)
     {
+        ArcticRuinsMod.Logger.Info!.LogFormat("Position: {0}, Level: {1}, Tech: {2}", building.Transform.Position, actualSimulation.State.Reward?.Level, actualSimulation.State.Reward?.Index);
+        
         if (!actualSimulation.State.GeneratedReward)
         {
-            actualSimulation.State.Reward = MilestoneReverser.PickNextTech(actualSimulation.Progression);
+            actualSimulation.State.Reward = MilestoneReverser.PickNextTech(actualSimulation.Progression, building.Transform.Position.ToChunkCoordinate());
             actualSimulation.State.GeneratedReward = true;
         }
         var techReference = actualSimulation.State.Reward;

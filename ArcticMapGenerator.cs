@@ -123,8 +123,12 @@ public static class ArcticMapGenerator
     private static void TryGenerateChunk(GameSessionOrchestrator orchestrator, in GlobalChunkCoordinate pos)
     {
         PendingSuperChunkGeneration.Remove(pos);
+        if (pos == GlobalChunkCoordinate.Origin)
+        {
+            PlaceHubBuildings(orchestrator);
+        }
         if (pos.x is 0 or -1 && pos.y is 0 or -1)
-            return; // Don't generate at the center of the map, where there already are islands
+            return; // Don't generate anything else at the center of the map, where there already are islands
         
         var blueprintCache = BlueprintCaches.GetValue(orchestrator,
             orchestrator2 => new BlueprintCache(orchestrator2));
@@ -198,20 +202,20 @@ public static class ArcticMapGenerator
         orchestrator.PlayerActions.ExecuteActionImmediately_INTERNAL(action, out _);
     }
 
-    private static bool ShouldGenerateLevelDataFragment(GlobalChunkCoordinate chunk, GameSessionOrchestrator orchestrator)
+    public static bool ShouldGenerateLevelDataFragment(GlobalChunkCoordinate chunk, GameSessionOrchestrator orchestrator)
     {
-        if (ArcticRuinsMod.Instance.SaveData.DataFragmentChunks != null)
-            return ArcticRuinsMod.Instance.SaveData.DataFragmentChunks.Contains(chunk);
+        if (ArcticRuinsMod.Instance.SaveData.DataFragmentChunkLevels != null)
+            return ArcticRuinsMod.Instance.SaveData.DataFragmentChunkLevels.ContainsKey(chunk);
         
-        var dataFragmentChunks = new HashSet<GlobalChunkCoordinate>();
+        var dataFragmentChunks = new Dictionary<GlobalChunkCoordinate, int>();
+        dataFragmentChunks[new GlobalChunkCoordinate(-2, 0, 0)] = 1; // Add the stabilizer data fragment from PlaceHubBuildings
         var research = orchestrator.Research.Layout;
 
         var rewardCounts = MilestoneReverser.GetLevelRewardCount(research);
         var rng = new ConsistentRandom($"{orchestrator.Mode.Seed}");
         for (int i = 1; i < rewardCounts.Count; i++)
         {
-            var count = rewardCounts[i] + i; //
-                                             // Generate some extra data fragments for each level, so player's don't have to unlock the entire circle
+            var count = rewardCounts[i] + i; // Generate some extra data fragments for each level, so player's don't have to unlock the entire circle
             var distMin = LevelRadii[i];
             var distMax = LevelRadii[i + 1];
             for (int j = 0; j < count; j++)
@@ -227,12 +231,14 @@ public static class ArcticMapGenerator
                         Mathf.RoundToInt(posXFloat),
                         Mathf.RoundToInt(posYFloat),
                         0);
-                } while(!dataFragmentChunks.Add(position));
+                } while(dataFragmentChunks.ContainsKey(position));
+
+                dataFragmentChunks[position] = i;
             }
         }
         
-        ArcticRuinsMod.Instance.SaveData.DataFragmentChunks = dataFragmentChunks;
-        return dataFragmentChunks.Contains(chunk);
+        ArcticRuinsMod.Instance.SaveData.DataFragmentChunkLevels = dataFragmentChunks;
+        return dataFragmentChunks.ContainsKey(chunk);
     }
 
     private static bool ShouldGeneratePostgameDataFragment(GlobalChunkCoordinate chunk, GameSessionOrchestrator orchestrator, ConsistentRandom chunkRng)
@@ -276,6 +282,16 @@ public static class ArcticMapGenerator
                 fragmentLocation--;
             }
         }
+    }
+
+    private static void PlaceHubBuildings(GameSessionOrchestrator orchestrator)
+    {
+        // Place data fragment for stabilizer reward next to first asteroid miner island
+        var buildingTransform = new GlobalTileTransform(new GlobalTileCoordinate(-36, 6, 0), GridRotation.NoRotate);
+        orchestrator.MapModel.CreateBuilding(
+            orchestrator.Mode.Buildings.GetDefinition(DataFragmentBuilding.DefinitionId),
+            in buildingTransform,
+            null);
     }
     
     // Generate a shape for a cluster at the given distance. This shape will only use the levels that the player
