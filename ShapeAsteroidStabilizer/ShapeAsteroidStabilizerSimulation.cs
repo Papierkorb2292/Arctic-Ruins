@@ -12,15 +12,11 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
         public readonly BeltLane InputLane;
 
         public readonly HashSet<ShapeId> AllowedIds = [];
+        private readonly ShapeMiningStream _aggregatedResource; 
 
         public ShapeAsteroidStabilizerSimulation([NotNull] ShapeAsteroidStabilizerSimulationState state, IShapeAsteroidStabilizerConfiguration configuration, ShapeMiningStream aggregatedResource, Action receivedCallback) : base(state)
         {
-            // Allow all rotations, also use ids because they implement Equals
-            var shapeUnifier = StaticGameCoreAccessor.G.Research.ShapeUnifier;
-            foreach (var possibleShape in aggregatedResource.DistinctPossibleShapes)
-            {
-                shapeUnifier.GetRotatedShapeIds(possibleShape.Definition.Id, "Stabilizer", AllowedIds);
-            }
+            _aggregatedResource = aggregatedResource;
             ProcessingLane = new DelayBeltLane(configuration.ProcessingDelay, state.ProcessingLaneState, new AsteroidStabilizerTrash(AllowedIds, receivedCallback));
             InputLane = new BeltLane(configuration.BeltSpeed, state.InputLaneState, ProcessingLane);
         }
@@ -36,6 +32,18 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
         
         public void Update(Ticks startTicks, Ticks deltaTicks)
         {
+            if (AllowedIds.Count == 0 && _aggregatedResource.DistinctPossibleShapes.Count != 0)
+            {
+                // Allow all rotations, also use ids because they implement Equals
+                // This is done in Update, because the shape unifier isn't available when the map is loaded
+                // and it would be too much effort to get the game session from somewhere
+                var shapeUnifier = StaticGameCoreAccessor.G.Research.ShapeUnifier;
+                foreach (var possibleShape in _aggregatedResource.DistinctPossibleShapes)
+                {
+                    shapeUnifier.GetRotatedShapeIds(possibleShape.Definition.Id, "Stabilizer", AllowedIds);
+                }
+            }
+
             ProcessingLane.Update(deltaTicks);
             InputLane.Update(deltaTicks);
         }
