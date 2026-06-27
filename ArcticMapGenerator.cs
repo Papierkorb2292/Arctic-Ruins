@@ -122,16 +122,16 @@ public static class ArcticMapGenerator
 
     private static void TryGenerateChunk(GameSessionOrchestrator orchestrator, in GlobalChunkCoordinate pos)
     {
+        var blueprintCache = BlueprintCaches.GetValue(orchestrator,
+            orchestrator2 => new BlueprintCache(orchestrator2));
+        
         PendingSuperChunkGeneration.Remove(pos);
         if (pos == GlobalChunkCoordinate.Origin)
         {
-            PlaceHubBuildings(orchestrator);
+            PlaceHubBuildings(orchestrator, blueprintCache);
         }
         if (pos.x is 0 or -1 && pos.y is 0 or -1)
             return; // Don't generate anything else at the center of the map, where there already are islands
-        
-        var blueprintCache = BlueprintCaches.GetValue(orchestrator,
-            orchestrator2 => new BlueprintCache(orchestrator2));
         
         var seed = orchestrator.Mode.Seed;
         var rng = new ConsistentRandom($"{seed}/{pos.x}/{pos.y}");
@@ -186,6 +186,7 @@ public static class ArcticMapGenerator
         using var placePayload = ScopedList.Get<PlaceBuildingPayload>();
         foreach (var addedBuilding in addedBuildings)
         {
+            ArcticRuinsMod.Logger.Info!.Log(addedBuilding.Descriptor.ToString());
             var island = map.GetIsland(addedBuilding.Descriptor.Transform.Position);
             var islandTileTransform = addedBuilding.Descriptor.Transform.ToIsland(island);
             placePayload.Add(new PlaceBuildingPayload(
@@ -204,7 +205,8 @@ public static class ArcticMapGenerator
 
     public static bool ShouldGenerateLevelDataFragment(GlobalChunkCoordinate chunk, GameSessionOrchestrator orchestrator)
     {
-        if (ArcticRuinsMod.Instance.SaveData.DataFragmentChunkLevels != null)
+        // Use cached map if it was generated before
+        if (ArcticRuinsMod.Instance.SaveData.DataFragmentChunkLevels.Count != 0)
             return ArcticRuinsMod.Instance.SaveData.DataFragmentChunkLevels.ContainsKey(chunk);
         
         var dataFragmentChunks = new Dictionary<GlobalChunkCoordinate, int>();
@@ -284,7 +286,7 @@ public static class ArcticMapGenerator
         }
     }
 
-    private static void PlaceHubBuildings(GameSessionOrchestrator orchestrator)
+    private static void PlaceHubBuildings(GameSessionOrchestrator orchestrator, BlueprintCache blueprints)
     {
         // Place data fragment for stabilizer reward next to first asteroid miner island
         var buildingTransform = new GlobalTileTransform(new GlobalTileCoordinate(-36, 6, 0), GridRotation.NoRotate);
@@ -292,6 +294,9 @@ public static class ArcticMapGenerator
             orchestrator.Mode.Buildings.GetDefinition(DataFragmentBuilding.DefinitionId),
             in buildingTransform,
             null);
+        
+        
+        PlaceBuildingBlueprint((BuildingBlueprint)blueprints.GetBlueprint("Hub"), orchestrator, new GlobalChunkCoordinate(-1, 0, 0), new IslandTileCoordinate(3, 8, 0), GridRotation.NoRotate);
     }
     
     // Generate a shape for a cluster at the given distance. This shape will only use the levels that the player
