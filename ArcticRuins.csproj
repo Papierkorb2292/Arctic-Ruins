@@ -131,6 +131,10 @@
             <HintPath>$(SPZ2_PATH)\UnityEngine.CoreModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>$(SPZ2_PATH)\UnityEngine.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="UnityEngine.UI">
             <HintPath>$(SPZ2_PATH)\UnityEngine.UI.dll</HintPath>
             <Private>False</Private>
@@ -149,6 +153,15 @@
         </Reference>
         <Reference Include="UnityEngine.AssetBundleModule">
             <HintPath>$(SPZ2_PATH)\UnityEngine.AssetBundleModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>$(SPZ2_PATH)\UnityEngine.AudioModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+
+        <Reference Include="DOTween">
+            <HintPath>$(SPZ2_PATH)\DOTween.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
@@ -174,6 +187,9 @@
         <PublicizerLogFilePath>logs/krafs</PublicizerLogFilePath>
     </PropertyGroup>
     <ItemGroup>
+        <None Include="UnityAssets\Assets\Titlecard.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

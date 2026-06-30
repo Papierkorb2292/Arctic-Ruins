@@ -64,7 +64,6 @@
         "Amount": 20
       }
     ],
-    "IntroductionWikiEntryId": "WKClassicRegularWelcome",
     "InitiallyUnlockedUpgrades": [
       "Milestone_Initial"
     ],
@@ -3871,5 +3870,33 @@
       }
     ]
   },
-  "ToolbarConfig": "#include_raw:Scenarios/Classic/DefaultData/Toolbar/ToolbarConfig"
+  "ToolbarConfig": "#include_raw:Scenarios/Classic/DefaultData/Toolbar/ToolbarConfig",
+  "CinematicIntroConfig": {
+    "Steps": [
+      {
+        "PositionX": 0,
+        "PositionY": 9,
+        "Zoom": 100.0,
+        "Angle": 50.0,
+        "Text": "@scenario.artic-ruins.intro.vortex",
+        "TransitionDuration": 15.0
+      },
+      {
+        "PositionX": 0,
+        "PositionY": 9,
+        "Zoom": 100.0,
+        "Angle": 50.0,
+        "Text": "@scenario.artic-ruins.intro.crash",
+        "TransitionDuration": 5.0
+      },
+      {
+        "PositionX": 0,
+        "PositionY": 9,
+        "Zoom": 15.0,
+        "Angle": 50.0,
+        "Text": "@scenario.artic-ruins.intro.tutorial",
+        "TransitionDuration": 5.0
+      }
+    ]
+  }
 }

@@ -57,6 +57,7 @@ namespace ArcticRuins
         public List<(BuildingDefinitionId, BuildingDefinitionGroupId)> CustomBuildings = [];
 
         [CanBeNull] public StormRenderer StormRenderer { get; private set; }
+        [CanBeNull] public IntroRenderer IntroRenderer { get; private set; }
         
         private readonly Hook _mainMenuHook;
         private readonly Hook _createSimulationRenderersHook;
@@ -94,6 +95,7 @@ namespace ArcticRuins
             StormRenderer.Register();
             ArcticPlatformIsland.Register();
             ArcticMapGenerator.Register();
+            IntroRenderer.Register();
         }
 
         private void RegisterSaveData()
@@ -177,6 +179,7 @@ namespace ArcticRuins
                 orchestrator => orchestrator.Init_8_HUD(),
                 orchestrator =>
                 {
+                    IntroRenderer = IntroRenderer.HookRenderer(orchestrator);
                     StormRenderer = StormRenderer.HookRenderer(orchestrator);
                 });
         }
@@ -225,6 +228,20 @@ namespace ArcticRuins
             DataFragmentBuilding.Dispose();
             StormRenderer.Dispose();
             ArcticMapGenerator.Dispose();
+            IntroRenderer.Dispose();
+        }
+
+        public SoundEffect LoadSoundFromAssetBundle(string name, GameSessionOrchestrator session)
+        {
+            var effect = ScriptableObject.CreateInstance<SoundEffect>();
+            effect.Clips = [
+                    AssetBundle.LoadAsset<AudioClip>(name)
+            ];
+            // Copy some values from a sound from the game, so I don't need to deal with them
+            var baseSound = session.AssetRefs.AudioConfig.UISoundEffects.ResearchAvailable;
+            effect.MixerGroup = baseSound.MixerGroup;
+            effect.SoundEffectSourcePrefab = baseSound.SoundEffectSourcePrefab;
+            return effect;
         }
     }
 }

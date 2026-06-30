@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 3823826007
+CRC: 4095493057
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8d272abc6ae24431a7ab4271eb205b6d
+    Hash: d83cf6a3a89520263a7823a1ff39d61c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: b30fce1a9ad74efb72be6c308c56e365
+    Hash: 51b38e668b29538eff619c85dc60e7e5
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 8d272abc6ae24431a7ab4271eb205b6d
+    Hash: d83cf6a3a89520263a7823a1ff39d61c
 HashAppended: 0
 ClassTypes:
 - Class: 21
@@ -18,12 +18,19 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/AssetBundle/StormChunksMat.mat
 - Assets/AssetBundle/StormNoiseMat.mat
 - Assets/AssetBundle/DataFragmentIconMat.mat
+- Assets/AssetBundle/Titlecard.ogg
+- Assets/AssetBundle/TitlecardMat.mat
 - Assets/AssetBundle/ProgressBarMat.mat
+- Assets/AssetBundle/IntroOverlayMat.mat
+- Assets/AssetBundle/VortexExit.ogg
+- Assets/AssetBundle/IntroVortexMat.mat
 - Assets/AssetBundle/ProgressBar.shadergraph
 - Assets/AssetBundle/StormNoise.shadergraph
 - Assets/AssetBundle/StormBackgroundMat.mat
