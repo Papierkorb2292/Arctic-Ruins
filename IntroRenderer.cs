@@ -190,7 +190,7 @@ public class IntroRenderer
         animationSequence.Join(DOTween.To(
                 () => _shipPosition,
                 pos => _shipPosition = pos,
-                new Vector3(0f, 0, 5.8f), 1.1f)
+                new Vector3(0f, 0, 6f), 1.1f)
             .SetEase(Ease.Linear)
             .SetDelay(1.5f)
             .OnStart(() => _soundPlayer.PlaySound(_rocketFastSound)));
@@ -223,7 +223,7 @@ public class IntroRenderer
         animationSequence.Join(DOTween.To(
                 () => _camPos,
                 pos => _camPos = pos,
-                new Vector3(0, 0, 5f), 1)
+                new Vector3(0, 0, 5f), 1f)
             .SetEase(Ease.InQuad)
             .SetDelay(0.2f));
         // Aim camera forwards again and rotate around z-axis
@@ -337,7 +337,7 @@ public class IntroRenderer
             totalMatrix * Matrix4x4.TRS(
                 bouncingShipLocation,
                 Quaternion.identity,
-                new float3(0.04f, 0.04f, 0.04f)
+                new float3(0.06f, 0.06f, 0.06f)
             )
         );   
     }
