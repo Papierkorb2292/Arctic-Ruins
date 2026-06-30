@@ -138,7 +138,7 @@ namespace ArcticRuins
                 {
                     //TODO: Add proper assets
                     var mode = (MetaGameModeDefinition)scriptable;
-                    mode.Icon = baseMode.Icon;
+                    mode.Icon = FileTextureLoader.LoadTextureAsSprite(Instance.Resources.SubPath("DataFragment_Icon.png"), out _);
                     mode.VideoPreview = baseMode.VideoPreview;
                     mode.ImagePreview = baseMode.ImagePreview;
                     mode.TrainSimulationConfiguration = baseMode.TrainSimulationConfiguration;
