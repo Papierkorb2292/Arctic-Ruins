@@ -65,8 +65,6 @@ namespace ArcticRuins
         private readonly Hook _customHUDRenderersHook;
         private readonly Hook _addBuildinsToCatalogHook;
 
-        private StormRenderer _stormRenderer;
-
         public ArcticRuinsMod(ILogger logger)
         {
             Logger = logger;
