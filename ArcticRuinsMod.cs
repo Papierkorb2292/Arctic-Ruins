@@ -85,7 +85,7 @@ namespace ArcticRuins
             VortexReverser.Register();
             MilestoneReverser.Register();
             AsteroidProgressSystem.Register();
-            ArcticCutterBuilding.Register();
+            //ArcticCutterBuilding.Register(); // Not done in time for the deadline
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
             CommunicationRelayBuilding.Register();
