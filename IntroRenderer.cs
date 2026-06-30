@@ -36,6 +36,9 @@ public class IntroRenderer
 
     private readonly SoundEffect _vortexExitSound;
     private readonly SoundEffect _titlecardSound;
+    private readonly SoundEffect _crashSound;
+    private readonly SoundEffect _rocketSlowSound;
+    private readonly SoundEffect _rocketFastSound;
     
     private HUDCinematicIntro _HUDIntro;
     private ISoundPlayer _soundPlayer;
@@ -64,6 +67,9 @@ public class IntroRenderer
     {
         _vortexExitSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("VortexExit.ogg", orchestrator);
         _titlecardSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("Titlecard.ogg", orchestrator);
+        _crashSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("Crash.ogg", orchestrator);
+        _rocketSlowSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("RocketSlow.ogg", orchestrator);
+        _rocketFastSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("RocketFast.ogg", orchestrator);
         _soundPlayer = orchestrator._AudioManager.SoundPlayer;
     }
 
@@ -148,7 +154,8 @@ public class IntroRenderer
                 },
                 new Vector3(-0.5f, -0.3f), 2)
             .SetEase(Ease.OutCubic)
-            .SetDelay(2));
+            .SetDelay(2)
+            .OnComplete(() => _soundPlayer.PlaySound(_rocketSlowSound)));
         
         // Ship flies in and comes to a stop in front of the title
         animationSequence.Join(DOTween.To(
@@ -185,7 +192,8 @@ public class IntroRenderer
                 pos => _shipPosition = pos,
                 new Vector3(0f, 0, 5.8f), 1.1f)
             .SetEase(Ease.Linear)
-            .SetDelay(1.5f));
+            .SetDelay(1.5f)
+            .OnStart(() => _soundPlayer.PlaySound(_rocketFastSound)));
         // Title breaks apart. First quickly make space for the rocket, then slowly drift apart further
         animationSequence.Join(DOTween.To(
             () => _titlecardPositionLeft + new Vector3(-0.06f, 0, 0),
@@ -240,6 +248,19 @@ public class IntroRenderer
             alpha => _fadeAlpha = alpha,
             1, 1.5f)
             .SetDelay(0.7f));
+        
+        // Play crash sound with some extra delay at the end
+        animationSequence.Join(DOTween.To(
+                () => 0,
+                _ => { },
+                0, 0f)
+            .SetDelay(3f)
+            .OnStart(() => _soundPlayer.PlaySound(_crashSound)));
+        animationSequence.Join(DOTween.To(
+            () => 0,
+            _ => { },
+            0, 0f)
+            .SetDelay(3f));
         
         stepSequence.Join(animationSequence.SetDelay(0.5f));
     }
