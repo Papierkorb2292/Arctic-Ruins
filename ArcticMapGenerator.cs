@@ -130,7 +130,7 @@ public static class ArcticMapGenerator
         {
             PlaceHubBuildings(orchestrator, blueprintCache);
         }
-        if (pos.x is 0 or -1 && pos.y is 0 or -1)
+        if (pos.x * pos.x + pos.y * pos.y < CoordinateConstants.CHUNKS_PER_SUPER_CHUNK * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK)
             return; // Don't generate anything else at the center of the map, where there already are islands
         
         var seed = orchestrator.Mode.Seed;
