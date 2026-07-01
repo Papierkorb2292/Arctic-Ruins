@@ -78,13 +78,10 @@ namespace ArcticRuins.CommunicationRelay
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("DiagonalCutter.fbx");
+            string baseMeshPath = modResourcesLocator.SubPath("CommunicationRelay.fbx");
             Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
 
-            var scaledMesh = new MeshBuilder("CommunicationRelay", 0);
-            scaledMesh.AddTranslateScale(new TemporaryMeshReference(baseMesh), 0, new float3(3,3,3));
-            var genMesh = scaledMesh.GenerateSingleMeshMax65KVertices()._Mesh;
-            LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(genMesh).BuildLod6Mesh();
+            LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
 
             return new BuildingDrawData(
                 renderVoidBelow: false,

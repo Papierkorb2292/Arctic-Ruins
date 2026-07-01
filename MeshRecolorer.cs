@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using ArcticRuins.CommunicationRelay;
 using Game.Core.Content;
 using Game.Core.Rendering.Islands;
 using Game.Core.Rendering.Islands.Connectors;
@@ -52,6 +53,8 @@ public static class MeshRecolorer
     {
         foreach (var group in buildings.All)
         {
+            if (group.Id == CommunicationRelayBuilding.GroupId)
+                continue; // Communication Relay should still be orange, since it came through the vortex
             foreach (var definition in group.Definitions)
             {
                 var drawData = definition.CustomData.Get<BuildingDrawData>();
