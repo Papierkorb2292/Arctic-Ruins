@@ -399,10 +399,10 @@ public static class ArcticMapGenerator
 
         var newColor = type switch
         {
-            MapShapeGenerationType.UncoloredHalfShape => generator.ColorScheme.DefaultShapeColor,
-            MapShapeGenerationType.UncoloredAlmostFullShape => generator.ColorScheme.DefaultShapeColor,
-            MapShapeGenerationType.UncoloredFullShape => generator.ColorScheme.DefaultShapeColor,
-            MapShapeGenerationType.UncoloredFullShapePure => generator.ColorScheme.DefaultShapeColor,
+            MapShapeGenerationType.UncoloredHalfShape => shape.Color,
+            MapShapeGenerationType.UncoloredAlmostFullShape => shape.Color,
+            MapShapeGenerationType.UncoloredFullShape => shape.Color,
+            MapShapeGenerationType.UncoloredFullShapePure => shape.Color,
             MapShapeGenerationType.PrimaryColorHalfShape => rng.Choice(generator.ColorScheme.PrimaryColors),
             MapShapeGenerationType.PrimaryColorAlmostFullShape => rng.Choice(generator.ColorScheme.PrimaryColors),
             MapShapeGenerationType.PrimaryColorFullShape => rng.Choice(generator.ColorScheme.PrimaryColors),
