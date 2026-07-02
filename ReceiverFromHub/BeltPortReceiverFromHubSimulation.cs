@@ -34,8 +34,8 @@ public class BeltPortReceiverFromHubSimulation : Simulation<BeltPortReceiverFrom
 
   public void Update(Ticks startTicks, Ticks deltaTicks)
   {
-    VortexLane.Update(deltaTicks);
     OutputLane.Update(deltaTicks);
+    VortexLane.Update(deltaTicks);
     // Make sure that the renderer creates animations for items that were already on the belt when it was loaded
     if(VortexLane.ItemCount > ItemDeliveryCount)
       ItemDeliveryCount = VortexLane.ItemCount;
