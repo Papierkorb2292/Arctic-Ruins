@@ -201,10 +201,8 @@ public class StormRenderer
                     RevealPatch(patch.Origin_GC, data, _heights);
             }
         }
-        // Technically zero isn't actually part of the graph, but this should work anyway
-        var startCircles = _delaunay.GetCirclesAroundPoint(Vector2.Zero);
-        for (int i = 0; i < startCircles.Count; i++)
-            AddCompletedCircle(startCircles[i], _heights);
+        // Reveal hub
+        AddCompletedCircle(new DelaunayHelper.Circle(Vector2.Zero, 36), _heights);
         ArcticRuinsMod.Logger.Info!.LogFormat("InitializeStormHeight took {0}", stopwatch.Elapsed);
     }
 
