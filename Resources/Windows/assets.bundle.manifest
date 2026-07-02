@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 4161882917
+CRC: 3794419975
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 52e13d595ede3eef8c8d1cf532f4a0be
+    Hash: 043ee0a3f6447cffeb44ce1dab2cfd31
   TypeTreeHash:
     serializedVersion: 2
     Hash: 51b38e668b29538eff619c85dc60e7e5
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 52e13d595ede3eef8c8d1cf532f4a0be
+    Hash: 043ee0a3f6447cffeb44ce1dab2cfd31
 HashAppended: 0
 ClassTypes:
 - Class: 21
@@ -27,6 +27,7 @@ Assets:
 - Assets/AssetBundle/StormNoiseMat.mat
 - Assets/AssetBundle/DataFragmentIconMat.mat
 - Assets/AssetBundle/RocketFast.ogg
+- Assets/AssetBundle/TitlecardBreak.ogg
 - Assets/AssetBundle/Titlecard.ogg
 - Assets/AssetBundle/TitlecardMat.mat
 - Assets/AssetBundle/Crash.ogg

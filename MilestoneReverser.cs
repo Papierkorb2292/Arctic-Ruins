@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Core.Localization;
+using DG.Tweening;
+using Game.Core.Content;
 using Game.Core.Coordinates;
 using Game.Core.Localization;
 using Game.Core.Research;
@@ -23,10 +25,11 @@ public static class MilestoneReverser
     private static Hook _markCompletedMilestoneRewardsHook;
     private static Hook _shapeCostTextHook;
     private static Hook _hideMilestoneSummaryHook;
+    private static Hook _discoverCustomProgressionHook;
 
     private static HUDResearchTabLevels _tabLevels;
     private static readonly ConditionalWeakTable<HUDResearchShapeCostDisplay, object> CostDisplaysWithBeltText = new();
-    private static readonly ConditionalWeakTable<ResearchProgression, GameScenario> CustomProgressions = new();
+    private static readonly ConditionalWeakTable<ResearchProgression, GameSessionOrchestrator> CustomProgressions = new();
     
     public static void Register()
     {
@@ -42,7 +45,17 @@ public static class MilestoneReverser
         _milestoneTryUnlockHook = new Hook(DetourHelper.GetRuntimeMethod<ResearchUnlockManager>(
                 (Expression<Func<ResearchUnlockManager, IResearchUpgrade, bool, bool>>)((unlockManager, upgrade, force) => unlockManager.TryUnlock(upgrade, force))), 
             (Func<Func<ResearchUnlockManager, IResearchUpgrade, bool, bool>, ResearchUnlockManager, IResearchUpgrade, bool, bool>)
-            ((orig, unlockManager, upgrade, force) => orig(unlockManager, !IsCustomProgression(unlockManager.Layout) || upgrade is not ResearchLevel level ? upgrade : new LevelWrapper(level), force))
+            ((orig, unlockManager, upgrade, force) =>
+            {
+                if (!IsCustomProgression(unlockManager.Layout) || upgrade is not ResearchLevel level)
+                    return orig(unlockManager, upgrade, force);
+                var success = orig(unlockManager, new LevelWrapper(level), force);
+                if (success)
+                {
+                    ShowMilestoneUnlockedMessage(level);
+                }
+                return success;
+            })
         );
         _includeUnlockedChunkLimitInRecomputationHook = DetourHelper.CreatePostfixHook<ResearchUnlockProgressManager>(
             manager => manager.RecomputeUnlocks(),
@@ -132,8 +145,16 @@ public static class MilestoneReverser
                 display.ReleaseChildViews(display.Instances);
                 display.Instances.Clear();
             });
-        
-        GameRewirers.AddRewirer(new CustomProgressionDiscoverer());
+
+        _discoverCustomProgressionHook =
+            DetourHelper.CreatePostfixHook<GameSessionOrchestrator, IContent, IGameData, IGameStartOptions>(
+                (orchestrator, content, data, options) =>
+                    orchestrator.Init_3_SavegameAndMode(content, data, options),
+                (orchestrator, _, _, _) =>
+                {
+                    if(ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
+                        CustomProgressions.Add(orchestrator.Research.Layout, orchestrator);
+                });
     }
 
     public static void Dispose()
@@ -144,6 +165,7 @@ public static class MilestoneReverser
         _markCompletedMilestoneRewardsHook.Dispose();
         _shapeCostTextHook.Dispose();
         _hideMilestoneSummaryHook.Dispose();
+        _discoverCustomProgressionHook.Dispose();
     }
 
     private static bool IsCustomProgression(ResearchProgression progression)
@@ -156,6 +178,30 @@ public static class MilestoneReverser
         var techTracker = ArcticRuinsMod.Instance.SaveData.Tech;
         var levelIndex = unlockManager.Layout.Levels.FindIndex(level2 => level2.Id == level.Id);
         return Enumerable.Range(0, level.Rewards.Count).All(rewardIndex => techTracker.UnlockedRewards.Contains(new SaveData.TechReference(levelIndex, rewardIndex)));
+    }
+
+    private static void ShowMilestoneUnlockedMessage(IResearchUpgrade milestone)
+    {
+        var hudIntro = ArcticRuinsMod.Instance.IntroRenderer!.HUDIntro; 
+        hudIntro.gameObject.SetActiveSelfExt(true);
+        DOTween.To(
+            () => hudIntro.UIMainGroup.alpha,
+            alpha => hudIntro.UIMainGroup.alpha = hudIntro.UITextGroup.alpha = alpha,
+            1, 0.3f);
+        hudIntro.UIText.Text = ("ui.arctic-ruins.shapes-unlocked." + milestone.Id).T();
+
+        hudIntro.UIContinueBtn.OnClick.AddListener(MilestoneUnlockedMessageOnContinue);
+    }
+
+    private static void MilestoneUnlockedMessageOnContinue()
+    {
+        var hudIntro = ArcticRuinsMod.Instance.IntroRenderer!.HUDIntro;
+        hudIntro.UIContinueBtn.OnClick.RemoveListener(MilestoneUnlockedMessageOnContinue);
+        DOTween.To(
+            () => hudIntro.UIMainGroup.alpha,
+            alpha => hudIntro.UIMainGroup.alpha = hudIntro.UITextGroup.alpha = alpha,
+            0, 0.3f)
+            .OnComplete(() => hudIntro.gameObject.SetActiveSelfExt(false));
     }
     
     public static SaveData.TechReference? PickNextTech(ResearchProgression layout, GlobalChunkCoordinate coord)
@@ -247,20 +293,6 @@ public static class MilestoneReverser
         }
 
         _tabLevels.Instances[techReference.Level].UIRewardsDisplay.Instances[labelIndex].UITitle.Color = Color.green;
-    }
-
-    public class CustomProgressionDiscoverer : IGameScenarioRewirer
-    {
-        public bool Equals(IRewirer other) => other is CustomProgressionDiscoverer;
-
-        public GameScenario ModifyGameScenario(GameScenario gameScenario)
-        {
-            if (ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(gameScenario))
-            {
-                CustomProgressions.Add(gameScenario.Progression, gameScenario);
-            }
-            return gameScenario;
-        }
     }
 
     private class LevelWrapper(ResearchLevel level) : IResearchUpgrade

@@ -33,14 +33,16 @@ public class IntroRenderer
     private readonly IMeshReference _titlecardRightMesh = new TemporaryMeshReference(
         FileMeshLoader.LoadSingleMeshFromFile(ArcticRuinsMod.Instance.Resources.SubPath("TitlecardRight.fbx"))
     );
+    
+    public HUDCinematicIntro HUDIntro;
 
     private readonly SoundEffect _vortexExitSound;
     private readonly SoundEffect _titlecardSound;
+    private readonly SoundEffect _titlecardBreakSound;
     private readonly SoundEffect _crashSound;
     private readonly SoundEffect _rocketSlowSound;
     private readonly SoundEffect _rocketFastSound;
     
-    private HUDCinematicIntro _HUDIntro;
     private ISoundPlayer _soundPlayer;
     private bool _hasStartedVortexAnimation = false;
     
@@ -67,6 +69,7 @@ public class IntroRenderer
     {
         _vortexExitSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("VortexExit.ogg", orchestrator);
         _titlecardSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("Titlecard.ogg", orchestrator);
+        _titlecardBreakSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("TitlecardBreak.ogg", orchestrator);
         _crashSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("Crash.ogg", orchestrator);
         _rocketSlowSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("RocketSlow.ogg", orchestrator);
         _rocketFastSound = ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("RocketFast.ogg", orchestrator);
@@ -81,7 +84,7 @@ public class IntroRenderer
             {
                 var introRenderer = ArcticRuinsMod.Instance.IntroRenderer;
                 if(introRenderer == null) return;
-                introRenderer._HUDIntro = intro;
+                introRenderer.HUDIntro = intro;
                 introRenderer.OnIntroInit();
             });
         _HUDIntroContinueHook = DetourHelper.CreatePostfixHook<HUDCinematicIntro>(
@@ -118,7 +121,7 @@ public class IntroRenderer
     
     private void OnIntroContinue()
     {
-        var stepSequence = _HUDIntro.CameraSequence;
+        var stepSequence = HUDIntro.CameraSequence;
         if (stepSequence == null) return;
         
         if (_hasStartedVortexAnimation)
@@ -200,7 +203,8 @@ public class IntroRenderer
             pos => _titlecardPositionLeft = pos,
             _titlecardStartOffset + new Vector3(-0.4f, -0.1f, -0.2f), 0.6f)
             .SetEase(Ease.Linear)
-            .SetDelay(0.1f));
+            .SetDelay(0.1f)
+            .OnStart(() => _soundPlayer.PlaySound(_titlecardBreakSound)));
         animationSequence.Join(DOTween.To(
                 () => _titlecardPositionRight + new Vector3(0.06f, 0, 0),
                 pos => _titlecardPositionRight = pos,
@@ -260,14 +264,14 @@ public class IntroRenderer
             () => 0,
             _ => { },
             0, 0f)
-            .SetDelay(3f));
+            .SetDelay(5f));
         
         stepSequence.Join(animationSequence.SetDelay(0.5f));
     }
 
     private void Draw(FrameDrawOptionsNoLOD options)
     {
-        if (_HUDIntro == null || !_HUDIntro.IsActive)
+        if (HUDIntro == null || !HUDIntro.IsActive)
             return; // Only render during the intro
         
         var gameCamPos = options.Viewport.MainCamera.transform.position;
