@@ -55,9 +55,9 @@ public class LayerDetacherSimulationRenderer
         var angle = Mathf.Sin(overshootProgress * Mathf.PI) * -_rotationOvershootDegrees;
         var beltItems = options.Renderers.BeltItems;
         var pos_L = entity.DrawData.LeftOutputLaneRenderingDefinition.GetPosFromProgress(lane.Progress) + new LocalVector(0.0f, 0.0f, beltItems.BeltShapeHeight)
-            + /*0.33f*/ 0.5f * 0.5f * new LocalVector(0, Mathf.Cos(Mathf.Deg2Rad * angle) - 1, -Mathf.Sin(Mathf.Deg2Rad * angle));
+            + 0.5f * 0.5f * new LocalVector(0, Mathf.Cos(Mathf.Deg2Rad * angle) - 1, -Mathf.Sin(Mathf.Deg2Rad * angle));
         var translation = (pos_L ) * entity.Transform;
-        options.Renderers.Shapes.Add(beltItems.GetDrawData(lane.Item, options.LOD.ShapeLOD), CalculateFlyingShapeMatrix(translation, entity.Transform.Rotation, angle, 1));
+        options.Renderers.Shapes.Add(beltItems.GetDrawData(lane.Item, options.LOD.ShapeLOD), CalculateFlyingShapeMatrix(translation, entity.Transform.Rotation, entity.DrawData.FlipForMirrored(angle), 1));
     }
 
     private void DrawProcessingLane(in Entity entity, FrameDrawOptions options, DelayBeltLane lane, bool isLowerLayers, int lowerLayerCount)
@@ -84,9 +84,9 @@ public class LayerDetacherSimulationRenderer
         
         var progress = AdjustLowerLayersProgress(totalProgress, isLowerLayers);
         var beltItems = options.Renderers.BeltItems;
-        var pivotRotation = CalculateRotationAroundPivot(progress);
-        var pivotRotationVert = new LocalVector(0, -pivotRotation.z, pivotRotation.y);
-        var translation = pivotRotationVert * beltItems.BeltShapeHeight + 0.5f * (pivotRotation + LocalVector.North);
+        var pivotRotation = CalculateRotationAroundPivot(progress, entity);
+        var pivotRotationVert = new LocalVector(0, -pivotRotation.z, pivotRotation.y) * entity.DrawData.FlipForMirrored(1);
+        var translation = pivotRotationVert * beltItems.BeltShapeHeight + 0.5f * (pivotRotation + entity.DrawData.FlipForMirrored(1) * LocalVector.North);
         float scale = 1;
         MeshMaterialCombination meshMaterial;
         if (!isLowerLayers)
@@ -104,7 +104,7 @@ public class LayerDetacherSimulationRenderer
             meshMaterial = beltItems.GetDrawData(totalProgress < 0.25f ? entity.Simulation.State.LastProcessedShape : lane.Item, options.LOD.ShapeLOD);
         }
 
-        var matrixTransform = CalculateFlyingShapeMatrix(translation * entity.Transform, entity.Transform.Rotation, CalculateRotationAroundSelfDeg(progress), scale);
+        var matrixTransform = CalculateFlyingShapeMatrix(translation * entity.Transform, entity.Transform.Rotation, entity.DrawData.FlipForMirrored(CalculateRotationAroundSelfDeg(progress)), scale);
         
         options.Renderers.Shapes.Add(meshMaterial, matrixTransform);
         if (!isLowerLayers && progress > 0.25f)
@@ -129,8 +129,9 @@ public class LayerDetacherSimulationRenderer
             var totalProgress = 1 - Ticks.Ratio(remainingTicks, fallDuration);
             var progress = AdjustLowerLayersProgress(totalProgress, true);
             angle = CalculateRotationAroundSelfDeg(progress);
+            angle = entity.DrawData.FlipForMirrored(angle);
         }
-        var matrixTransform = CalculateFlyingShapeMatrix(LocalVector.North * 0.5f * entity.Transform, entity.Transform.Rotation, angle, 1);
+        var matrixTransform = CalculateFlyingShapeMatrix(LocalVector.North * entity.DrawData.FlipForMirrored(0.5f) * entity.Transform, entity.Transform.Rotation, angle, 1);
         matrixTransform *= FastMatrix.TranslateRotate(0, entity.Transform.Rotation);
         
         options.Renderers.Buildings.Add(launcherMesh, options.Theme.BaseResources.BuildingMaterial[buildingMaterialLod], matrixTransform);
@@ -142,14 +143,14 @@ public class LayerDetacherSimulationRenderer
         return isLowerLayers && progress > 0.25f ? (1 - progress) / 3 : progress;
     }
 
-    private static LocalVector CalculateRotationAroundPivot(float progress)
+    private static LocalVector CalculateRotationAroundPivot(float progress, in Entity entity)
     {
         var angle = progress switch
         {
             <= 0.25f => Mathf.Lerp(0, 0.25f * Mathf.PI, progress / 0.25f),
             _ => Mathf.Lerp(0.25f * Mathf.PI, Mathf.PI, (progress - 0.25f) / 0.75f),
         };
-        return new LocalVector(0, Mathf.Cos(angle), Mathf.Sin(angle));
+        return new LocalVector(0, entity.DrawData.FlipForMirrored(Mathf.Cos(angle)), Mathf.Sin(angle));
     }
 
     private static float CalculateRotationAroundSelfDeg(float progress)
