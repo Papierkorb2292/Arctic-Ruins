@@ -30,7 +30,7 @@ namespace ArcticRuins.CommunicationRelay
 
             ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
 
-            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("DiagonalCutter_Icon.png");
+            string iconPath = ArcticRuinsMod.Instance.Resources.SubPath("CommunicationRelay_Icon.png");
 
             IBuildingGroupBuilder communicationRelayGroup = BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())
