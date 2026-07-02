@@ -14,7 +14,7 @@ internal class LayerDetacherFactoryBuilder
     {
         config = new LayerDetacherConfiguration(
             BuffableBeltSpeed.DiscreteSpeed.OneSecondPerTile,
-            BuffableBeltDelay.DiscreteDuration.OnePointFiveSeconds,
+            BuffableBeltDelay.DiscreteDuration.TwoPointFiveSeconds,
             new ResearchSpeedId("CutterSpeed"));
 
         var cut = new ShapeOperationLayerDetach(

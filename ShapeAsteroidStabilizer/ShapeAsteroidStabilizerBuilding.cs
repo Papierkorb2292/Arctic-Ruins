@@ -33,14 +33,16 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
             
             ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
             
-            IBuildingGroupBuilder asteroidStabilizerGroup = BuildingGroup.Create(GroupId)
+            BuildingGroupBuilder asteroidStabilizerGroup = (BuildingGroupBuilder)BuildingGroup.Create(GroupId)
                 .WithTitle(titleId.T())
                 .WithDescription(titleDescription.T())
                 .WithIcon(Icon)
                 .AsNonTransportableBuilding()
                 .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
                 .WithDefaultStructureOverview();
-            ((BuildingGroupBuilder)asteroidStabilizerGroup).PlacementRequirements =
+            asteroidStabilizerGroup.ShowStatBeltProcessingTime = true; // For some reason the setter methods for these are not implemented
+            asteroidStabilizerGroup.ShowStatBuildingsPerFullBelt = true;
+            asteroidStabilizerGroup.PlacementRequirements =
             [
                 new StabilizerOnResourcePatchPlacementRequirement(),
                 new OnlyOnGroundLayerRequirement()
@@ -69,7 +71,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithStaticDrawData(drawData)
                 .WithoutSound()
                 .WithoutSimulationConfiguration()
-                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
+                .WithEfficiencyData(new BuildingEfficiencyData(3.0f, 1));
 
             AtomicBuildings.Extend()
                 .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)

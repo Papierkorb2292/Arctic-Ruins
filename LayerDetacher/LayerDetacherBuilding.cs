@@ -35,14 +35,16 @@ namespace ArcticRuins.LayerDetacher
             
             ArcticRuinsMod.Instance.CustomBuildings.Add((DefinitionId, GroupId));
             ArcticRuinsMod.Instance.CustomBuildings.Add((MirroredDefinitionId, GroupId));
-            
-            IBuildingGroupBuilder layerDetacherGroup = BuildingGroup.Create(GroupId)
-               .WithTitle(titleId.T())
-               .WithDescription(titleDescription.T())
-               .WithIcon(Icon)
-               .AsNonTransportableBuilding()
-               .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
-               .WithDefaultStructureOverview();
+
+            IBuildingGroupBuilder layerDetacherGroup = (BuildingGroupBuilder)BuildingGroup.Create(GroupId)
+                .WithTitle(titleId.T())
+                .WithDescription(titleDescription.T())
+                .WithIcon(Icon)
+                .AsNonTransportableBuilding()
+                .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
+                .WithDefaultStructureOverview();
+            ((BuildingGroupBuilder)layerDetacherGroup).ShowStatBeltProcessingTime = true;
+            ((BuildingGroupBuilder)layerDetacherGroup).ShowStatBuildingsPerFullBelt = true;
             layerDetacherGroup = new MultiDefinitionBuildingGroupBuilder(layerDetacherGroup); // Needs to be able to have multiple buildings registered
 
             RegisterBuilding(layerDetacherGroup, false, out var normalBuilding);
@@ -88,7 +90,7 @@ namespace ArcticRuins.LayerDetacher
                .WithDefaultPlacement()
                .InToolbar(isMirrored ? Helper.NoToolbarEntryLocation : ToolbarElementLocator.Root().ChildAt(0).ChildAt(3).ChildAt(^1).InsertAfter()) // At the end of the stacker section
                .WithSimulation(new LayerDetacherFactoryBuilder(), ArcticRuinsMod.Logger)
-               .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
+               .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 3.0f)
                .WithPrediction(new LayerDetacherPredictionFactoryBuilder(), ArcticRuinsMod.Logger)
                .Build();
         }
