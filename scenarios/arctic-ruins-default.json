@@ -212,13 +212,13 @@
         },
         {
           "Definition": {
-            "Id": "Milestone_FluidPainting",
-            "VideoId": "MilestoneClassicPainterVD",
+            "Id": "Milestone_ShapeTrains",
+            "VideoId": "MilestoneClassicTrainsVD",
             "PreviewImageId": "Placeholder",
-            "Title": "@research.Milestone_FluidPainting.title",
-            "Description": "@research.Milestone_FluidPainting.description",
-            "WikiEntryId": "WKFluids_Intro",
-            "IconId": "building.PainterDefaultVariant"
+            "Title": "@research.Milestone_ShapeTrains.title",
+            "Description": "@research.Milestone_ShapeTrains.description",
+            "WikiEntryId": "WKTrains_Intro",
+            "IconId": "Trains"
           },
           "Lines": {
             "Lines": [
@@ -264,13 +264,13 @@
         },
         {
           "Definition": {
-            "Id": "Milestone_ShapeTrains",
-            "VideoId": "MilestoneClassicTrainsVD",
+            "Id": "Milestone_FluidPainting",
+            "VideoId": "MilestoneClassicPainterVD",
             "PreviewImageId": "Placeholder",
-            "Title": "@research.Milestone_ShapeTrains.title",
-            "Description": "@research.Milestone_ShapeTrains.description",
-            "WikiEntryId": "WKTrains_Intro",
-            "IconId": "Trains"
+            "Title": "@research.Milestone_FluidPainting.title",
+            "Description": "@research.Milestone_FluidPainting.description",
+            "WikiEntryId": "WKFluids_Intro",
+            "IconId": "building.PainterDefaultVariant"
           },
           "Lines": {
             "Lines": [
