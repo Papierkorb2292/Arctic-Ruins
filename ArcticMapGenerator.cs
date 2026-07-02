@@ -171,6 +171,9 @@ public static class ArcticMapGenerator
     {
         var map = orchestrator.MapModel;
         var player = orchestrator.SystemPlayer;
+        // For some reason the game only sets this for a new save game, not when loading an existing save game,
+        // so it also needs to be set here, otherwise it'd be null and I'd be sad
+        player.CurrentMap = map;
         // Use flat here, because other PlacementData implementations would add multi tile buildings multiple times and that's no good
         var placementData = new FlatPlacementData(ArcticRuinsMod.Logger);
         var blueprintInput = new BlueprintPlacementInput<GlobalTileCoordinate>(rotation, false);
@@ -186,7 +189,6 @@ public static class ArcticMapGenerator
         using var placePayload = ScopedList.Get<PlaceBuildingPayload>();
         foreach (var addedBuilding in addedBuildings)
         {
-            ArcticRuinsMod.Logger.Info!.Log(addedBuilding.Descriptor.ToString());
             var island = map.GetIsland(addedBuilding.Descriptor.Transform.Position);
             var islandTileTransform = addedBuilding.Descriptor.Transform.ToIsland(island);
             placePayload.Add(new PlaceBuildingPayload(
