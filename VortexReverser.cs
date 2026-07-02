@@ -82,6 +82,9 @@ namespace ArcticRuins
                     {
                         ArcticRuinsMod.Logger.Info!.Log("Skipping game balancing to allow custom ArcticRuins progression");
                         _skipApplyGameBalancingParameters = false;
+                        // Rewards should still be processed, so unnecessary rewards like the blueprint currency can be removed
+                        foreach (var upgrade in progression.AllUpgrades)
+                            upgrade.Rewards = balancer.ProcessRewards(upgrade.Rewards);
                         return;
                     }
                     orig(balancer, progression, config);
