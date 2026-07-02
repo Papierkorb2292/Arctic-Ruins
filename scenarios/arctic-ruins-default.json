@@ -89,7 +89,11 @@
                   {
                     "Shape": "RuRuRuRu",
                     "Amount": 4
-                  },
+                  }
+                ]
+              },
+              {
+                "Shapes": [
                   {
                     "Shape": "CbCcCbCc",
                     "Amount": 4
