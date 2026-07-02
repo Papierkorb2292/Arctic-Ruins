@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 3281733652
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ad0ed3653b1aab4aba165ee73ee5e23a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 51b38e668b29538eff619c85dc60e7e5
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: ad0ed3653b1aab4aba165ee73ee5e23a
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AssetBundle/StormChunksMat.mat
+- Assets/AssetBundle/RocketSlow.ogg
+- Assets/AssetBundle/StormNoiseMat.mat
+- Assets/AssetBundle/DataFragmentIconMat.mat
+- Assets/AssetBundle/RocketFast.ogg
+- Assets/AssetBundle/TitlecardBreak.ogg
+- Assets/AssetBundle/Titlecard.ogg
+- Assets/AssetBundle/TitlecardMat.mat
+- Assets/AssetBundle/Crash.ogg
+- Assets/AssetBundle/ProgressBarMat.mat
+- Assets/AssetBundle/IntroOverlayMat.mat
+- Assets/AssetBundle/VortexExit.ogg
+- Assets/AssetBundle/IntroVortexMat.mat
+- Assets/AssetBundle/ProgressBar.shadergraph
+- Assets/AssetBundle/StormNoise.shadergraph
+- Assets/AssetBundle/StormBackgroundMat.mat
+- Assets/AssetBundle/StormBackground.shadergraph
+- Assets/AssetBundle/StormChunks.shadergraph
+Dependencies: []

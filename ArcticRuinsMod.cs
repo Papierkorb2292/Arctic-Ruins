@@ -71,7 +71,25 @@ namespace ArcticRuins
             Instance = this;
             
             Resources = ModDirectoryLocator.CreateLocator<ArcticRuinsMod>().SubLocator("Resources");
-            AssetBundle = AssetBundle.LoadFromFile(Resources.SubPath("Windows/assets.bundle")); //TODO(opt): Multiplatform
+            string assetBundleFolder;
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                    assetBundleFolder = "Windows";
+                    break;
+                case RuntimePlatform.LinuxPlayer:
+                    assetBundleFolder = "Linux";
+                    break;
+                case RuntimePlatform.OSXPlayer:
+                    assetBundleFolder = "Mac";
+                    break;
+                default:
+                    Logger.Error?.Log($"Game uses unknown platform type {Application.platform}, could not determine asset bundle to use. Selecting Windows as default");
+                    assetBundleFolder = "Windows";
+                    break;
+            }
+
+            AssetBundle = AssetBundle.LoadFromFile(Resources.SubPath($"{assetBundleFolder}/assets.bundle"));
             
             _mainMenuHook = InitMainMenu();
             _createSimulationRenderersHook = CreateCustomSimulationRenderersHook();
