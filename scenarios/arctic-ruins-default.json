@@ -1881,30 +1881,6 @@
               ]
             }
           ]
-        },
-        {
-          "ContentBundle": [
-            {
-              "Id": "CBTrains_VortexDelivery",
-              "PreviewImageId": "CBTrains_VortexDelivery",
-              "VideoId": "PlaceholderVideoVD",
-              "Title": "@research.CBTrains_VortexDelivery.title",
-              "IconId": "ConverterVortex",
-              "Description": "@research.CBTrains_VortexDelivery.description",
-              "Category": "Trains",
-              "RequiredUpgradeIds": [],
-              "RequiredMechanicIds": [
-                "RUTrains"
-              ],
-              "Rewards": [
-                {
-                  "$type": "MechanicReward",
-                  "MechanicId": "RUTrainHubDelivery"
-                }
-              ],
-              "Costs": [ ]
-            }
-          ]
         }
       ]
     },
