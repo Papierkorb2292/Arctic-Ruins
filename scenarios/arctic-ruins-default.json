@@ -27,42 +27,6 @@
     "ColorSchemeConfigurationId": "DefaultColorSchemeRGBFlex",
     "ResearchLevelsAreProgressive": true,
     "BlueprintCurrencyShapes": [
-      {
-        "Shape": "CuRuCuCu",
-        "RequiredUpgradeIds": [],
-        "RequiredMechanicIds": [],
-        "Amount": 1
-      },
-      {
-        "Shape": "CuRuCuCu:CuCuCuCu",
-        "RequiredUpgradeIds": [],
-        "RequiredMechanicIds": [],
-        "Amount": 2
-      },
-      {
-        "Shape": "CuRuCuCu:CbCbCbCb",
-        "RequiredUpgradeIds": [
-          "CBFluids_Extraction"
-        ],
-        "RequiredMechanicIds": [],
-        "Amount": 5
-      },
-      {
-        "Shape": "CuRuCuCu:P-P-P-P-:CbCbCbCb",
-        "RequiredUpgradeIds": [
-          "CBSpecial_PinPusher"
-        ],
-        "RequiredMechanicIds": [],
-        "Amount": 10
-      },
-      {
-        "Shape": "CwRwCwCw:P-P-P-P-:CcCcCcCc",
-        "RequiredUpgradeIds": [
-          "CBFluids_Mixer"
-        ],
-        "RequiredMechanicIds": [],
-        "Amount": 20
-      }
     ],
     "InitiallyUnlockedUpgrades": [
       "Milestone_Initial"
