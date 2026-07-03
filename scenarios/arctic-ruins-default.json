@@ -165,7 +165,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 2000
+                "Amount": 20000
               },
               {
                 "$type": "ResearchPointsReward",
@@ -204,7 +204,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 4000
+                "Amount": 40000
               },
               {
                 "$type": "ContentBundleReward",
@@ -259,7 +259,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 5000
+                "Amount": 50000
               },
               {
                 "$type": "ContentBundleReward",
@@ -310,7 +310,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 6000
+                "Amount": 60000
               },
               {
                 "$type": "ContentBundleReward",
@@ -355,7 +355,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 10000
+                "Amount": 100000
               },
               {
                 "$type": "ContentBundleReward",
@@ -404,7 +404,7 @@
               },
               {
                 "$type": "BlueprintCurrencyReward",
-                "Amount": 30000
+                "Amount": 300000
               },
               {
                 "$type": "ContentBundleReward",
