@@ -47,12 +47,12 @@ public static class MilestoneReverser
             (Func<Func<ResearchUnlockManager, IResearchUpgrade, bool, bool>, ResearchUnlockManager, IResearchUpgrade, bool, bool>)
             ((orig, unlockManager, upgrade, force) =>
             {
-                if (!IsCustomProgression(unlockManager.Layout) || upgrade is not ResearchLevel level)
+                if (!CustomProgressions.TryGetValue(unlockManager.Layout, out var orchestrator) || upgrade is not ResearchLevel level)
                     return orig(unlockManager, upgrade, force);
                 var success = orig(unlockManager, new LevelWrapper(level), force);
                 if (success)
                 {
-                    ShowMilestoneUnlockedMessage(level);
+                    ShowMilestoneUnlockedMessage(orchestrator, level);
                 }
                 return success;
             })
@@ -180,8 +180,11 @@ public static class MilestoneReverser
         return Enumerable.Range(0, level.Rewards.Count).All(rewardIndex => techTracker.UnlockedRewards.Contains(new SaveData.TechReference(levelIndex, rewardIndex)));
     }
 
-    private static void ShowMilestoneUnlockedMessage(IResearchUpgrade milestone)
+    private static void ShowMilestoneUnlockedMessage(GameSessionOrchestrator orchestrator, IResearchUpgrade milestone)
     {
+        orchestrator._AudioManager.SoundPlayer.PlaySound(
+            ArcticRuinsMod.Instance.LoadSoundFromAssetBundle("MilestoneComplete.ogg", orchestrator));
+        
         var hudIntro = ArcticRuinsMod.Instance.IntroRenderer!.HUDIntro; 
         hudIntro.gameObject.SetActiveSelfExt(true);
         DOTween.To(

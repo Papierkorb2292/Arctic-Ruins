@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 3401869230
+CRC: 1388622441
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a7ebeed3f0ca5367aaad92c7d96a8669
+    Hash: b47a05e2fecfc2851eae3f56ca42c19e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 51b38e668b29538eff619c85dc60e7e5
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: a7ebeed3f0ca5367aaad92c7d96a8669
+    Hash: b47a05e2fecfc2851eae3f56ca42c19e
 HashAppended: 0
 ClassTypes:
 - Class: 21
@@ -23,6 +23,7 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/AssetBundle/StormChunksMat.mat
+- Assets/AssetBundle/MilestoneComplete.ogg
 - Assets/AssetBundle/RocketSlow.ogg
 - Assets/AssetBundle/StormNoiseMat.mat
 - Assets/AssetBundle/DataFragmentIconMat.mat
