@@ -127,7 +127,7 @@ public class IntroRenderer
         if (_hasStartedVortexAnimation)
         {
             _finishedVortex = true;
-            stepSequence.Join(DOTween.To(() => _fadeAlpha, alpha => { _fadeAlpha = alpha; }, 0, 1));    
+            stepSequence.Join(DOTween.To(() => _fadeAlpha, alpha => {_fadeAlpha = alpha; }, 0, 1));    
             return;
         }
         _hasStartedVortexAnimation = true;
@@ -290,17 +290,21 @@ public class IntroRenderer
         
         // Render a quad in front of the camera that is used to fade the image to white at the end of the intro.
         // Also, this quad always writes to the depth buffer, in order to prevent weird outlines on the vortex if post-processing is enabled
-        options.Renderers.RegularNonInstanced.DrawMesh(
-            GeometryHelpers.BillboardMesh,
-            _overlayMaterial,
-            Matrix4x4.TRS(
-                gameCamPos + gameCamRot * new Vector3(0, 0, 0.5f),
-                gameCamRot,
-                Vector3.one
-            ),
-            RenderCategory.Misc,
-            MaterialPropertyHelpers.CreateAlphaBlock(_fadeAlpha)
-        );
+        // But it's not needed when the vortex is done and the fade out is done
+        if (!_finishedVortex || _fadeAlpha > 0.1f)
+        {
+            options.Renderers.RegularNonInstanced.DrawMesh(
+                GeometryHelpers.BillboardMesh,
+                _overlayMaterial,
+                Matrix4x4.TRS(
+                    gameCamPos + gameCamRot * new Vector3(0, 0, 0.5f),
+                    gameCamRot,
+                    Vector3.one
+                ),
+                RenderCategory.Misc,
+                MaterialPropertyHelpers.CreateAlphaBlock(_fadeAlpha)
+            );
+        }
     }
 
     private void DrawVortexAnimation(FrameDrawOptionsNoLOD options, Matrix4x4 totalMatrix)
