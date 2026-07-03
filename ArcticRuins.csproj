@@ -31,6 +31,10 @@
             <HintPath>$(SPZ2_PATH)\SPZGameAssembly.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="MainMenuAssembly">
+            <HintPath>$(SPZ2_PATH)\MainMenuAssembly.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="Unity.Core">
             <HintPath>$(SPZ2_PATH)\Unity.Core.dll</HintPath>
             <Private>False</Private>

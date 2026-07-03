@@ -35,7 +35,9 @@ using ShapezShifter.Kit;
 using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
 using UnityEngine;
+using UnityEngine.UI;
 using ILogger = Core.Logging.ILogger;
+using Vector4 = UnityEngine.Vector4;
 
 namespace ArcticRuins
 {
@@ -60,6 +62,7 @@ namespace ArcticRuins
         [CanBeNull] public IntroRenderer IntroRenderer { get; private set; }
         
         private readonly Hook _mainMenuHook;
+        private readonly Hook _highlightGameModeHook;
         private readonly Hook _createSimulationRenderersHook;
         private readonly Hook _customMapRenderersHook;
         private readonly Hook _customHUDRenderersHook;
@@ -96,6 +99,7 @@ namespace ArcticRuins
             _customMapRenderersHook = CreateCustomMapRenderersHook();
             _customHUDRenderersHook = CreateCustomHUDRenderersHook();
             _addBuildinsToCatalogHook = CreateAddBuildingsToCatalogHook();
+            _highlightGameModeHook = CreateHighlightGameModeHook();
             RegisterSaveData();
             
             VortexReverser.Register();
@@ -230,6 +234,42 @@ namespace ArcticRuins
                 });
         }
 
+        private static Hook CreateHighlightGameModeHook()
+        {
+            var blueHighlight = FileTextureLoader.LoadTexture(Instance.Resources.SubPath("GameModeHighlight.png"));
+            // Values from the base game's meta file
+            var sprite = Sprite.Create(
+                blueHighlight,
+                new Rect(0.0f, 0.0f, blueHighlight.width, blueHighlight.height),
+                new UnityEngine.Vector2(0.5f, 0.5f),
+                264.19998f,
+                1,
+                SpriteMeshType.FullRect,
+                new Vector4(171.73f, 171.76775f, 171.73f, 171.76775f));
+            return DetourHelper.CreatePostfixHook<HUDMenuSelectModeState, GameModeDefinition, GameModeId>(
+                (state, mode, id) => state.RegisterMode(mode, id),
+                (state, mode, _) =>
+                {
+                    if (mode.Id.Id != "ArcticRuins") return;
+                    var selector = state.ModeInstances.Last();
+                    selector.Highlighted = true;
+                    foreach(Transform child in selector.UIHighlightedIndicator.transform)
+                    {
+                        if (child.gameObject.name == "Highlight")
+                        {
+                            // Change image to blue
+                            var image = child.gameObject.GetComponent<Image>();
+                            image.m_Sprite = sprite;
+                        }
+                        else
+                        {
+                            // Don't show the "Recommended" text
+                            child.gameObject.SetActiveSelfExt(false);
+                        }
+                    }
+                });
+        }
+
         public void Dispose()
         {
             _mainMenuHook.Dispose();
@@ -237,6 +277,7 @@ namespace ArcticRuins
             _customMapRenderersHook.Dispose();
             _customHUDRenderersHook.Dispose();
             _addBuildinsToCatalogHook.Dispose();
+            _highlightGameModeHook.Dispose();
             VortexReverser.Dispose();
             MilestoneReverser.Dispose();
             AsteroidProgressSystem.Dispose();
