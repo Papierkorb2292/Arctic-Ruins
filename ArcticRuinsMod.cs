@@ -287,7 +287,7 @@ namespace ArcticRuins
             IntroRenderer.Dispose();
         }
 
-        public SoundEffect LoadSoundFromAssetBundle(string name, GameSessionOrchestrator session)
+        public SoundEffect LoadSoundFromAssetBundle(string name, GameSessionOrchestrator session, float volume = 0.5f)
         {
             var effect = ScriptableObject.CreateInstance<SoundEffect>();
             effect.Clips = [
@@ -297,6 +297,7 @@ namespace ArcticRuins
             var baseSound = session.AssetRefs.AudioConfig.UISoundEffects.ResearchAvailable;
             effect.MixerGroup = baseSound.MixerGroup;
             effect.SoundEffectSourcePrefab = baseSound.SoundEffectSourcePrefab;
+            effect.Volume = volume;
             return effect;
         }
     }
