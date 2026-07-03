@@ -40,6 +40,8 @@
     "ui.arctic-ruins.shapes-unlocked.Milestone_FactoryFloor3": "Heyy, you wanna come over and tell me what you think of my GLaDOS cosplay? Well, too bad, you crashed your ship!!\n\nAnyway, new shape is available",
     "ui.arctic-ruins.shapes-unlocked.Milestone_AdvancedMachining": "And just so you know, everybody at the convention loved my cosplay, and you're not gonna get to see it now. So, who would you cosplay as? The Martian?\n\nAlso, there's a new shape available at the communication relay",
     "ui.arctic-ruins.shapes-unlocked.Milestone_SpaceFloor3": "Eyy, you did it! Thank you for exploring all that space for us, as a reward, we're gonna give you this shiny badge, isn't that cool? What more could you want in life? (Except maybe a working rocket)\n\n<info>But for real, thank you for playing through my mod, I hope you enjoyed it</info> :)",
+    "research.Milestone_InitialArticRuins.title": "Rough Landing",
+    "research.Milestone_InitialArticRuins.description": "After you very gracefully absolutely smashed your ship into the ground, you still managed to salvage a few basic building types. The rest you'll have to find again",
     "research.Milestone_BasicDisassemblyArticRuins.title": "Basic Disassembly",
     "research.Milestone_BasicDisassemblyArticRuins.description": "All the necessary tools to disassemble shapes from the vortex",
     "research.Milestone_AdvancedMachiningArticRuins.title": "Advanced Machining",

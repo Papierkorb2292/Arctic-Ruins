@@ -41,8 +41,8 @@
             "Id": "Milestone_Initial",
             "VideoId": "MilestoneClassicInitialVD",
             "PreviewImageId": "Placeholder",
-            "Title": "@research.Milestone_InitialClassic.title",
-            "Description": "@research.Milestone_InitialClassic.description",
+            "Title": "@research.Milestone_InitialArticRuins.title",
+            "Description": "@research.Milestone_InitialArticRuins.description",
             "WikiEntryId": "WKVortexLTD_Handbook",
             "IconId": "building.BeltDefaultVariant"
           },
