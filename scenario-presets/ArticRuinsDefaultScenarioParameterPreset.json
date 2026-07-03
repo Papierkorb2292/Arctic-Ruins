@@ -13,7 +13,7 @@
       "FluidPatchBaseSize": 6,
       "FluidPatchSizeGrowPercentPerChunk": 70,
       "FluidPatchMaxSize": 8,
-      "ShapePatchLikelinessPercent": 20,
+      "ShapePatchLikelinessPercent": 50,
       "ShapePatchBaseSize": 4,
       "ShapePatchSizeGrowPercentPerChunk": 70,
       "ShapePatchMaxSize": 11,
