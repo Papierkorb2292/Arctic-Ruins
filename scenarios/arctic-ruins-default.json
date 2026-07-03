@@ -244,17 +244,20 @@
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBFluids_Extraction"
+                "ContentBundleId": "CBTrains_Core"
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBFluids_PainterTop"
+                "ContentBundleId": "CBTrains_ShapeTransport"
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBFluids_Mixer"
+                "ContentBundleId": "CBTrains_TrainStopQuick"
               },
-
+              {
+                "$type": "ContentBundleReward",
+                "ContentBundleId": "CBTrains_LineRed"
+              },
               {
                 "$type": "ResearchPointsReward",
                 "Amount": 30
@@ -296,19 +299,15 @@
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_Core"
+                "ContentBundleId": "CBFluids_Extraction"
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_ShapeTransport"
+                "ContentBundleId": "CBFluids_PainterTop"
               },
               {
                 "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_TrainStopQuick"
-              },
-              {
-                "$type": "ContentBundleReward",
-                "ContentBundleId": "CBTrains_LineRed"
+                "ContentBundleId": "CBFluids_Mixer"
               },
               {
                 "$type": "ResearchPointsReward",
