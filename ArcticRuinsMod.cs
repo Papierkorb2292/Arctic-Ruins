@@ -158,11 +158,10 @@ namespace ArcticRuins
             gameData._GameModes[new GameModeId("ArcticRuins")] = new GameModeDefinition(
                 (MetaGameModeDefinition)ScriptableObject.CreateInstance(typeof(MetaGameModeDefinition), scriptable =>
                 {
-                    //TODO: Add proper assets
                     var mode = (MetaGameModeDefinition)scriptable;
                     mode.Icon = FileTextureLoader.LoadTextureAsSprite(Instance.Resources.SubPath("DataFragment_Icon.png"), out _);
                     mode.VideoPreview = baseMode.VideoPreview;
-                    mode.ImagePreview = baseMode.ImagePreview;
+                    mode.ImagePreview = FileTextureLoader.LoadTextureAsSprite(Instance.Resources.SubPath("GameModePreviewArcticRuins.png"), out _);
                     mode.TrainSimulationConfiguration = baseMode.TrainSimulationConfiguration;
                     mode.name = "ArcticRuins";
                 }));
