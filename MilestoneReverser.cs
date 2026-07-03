@@ -61,7 +61,8 @@ public static class MilestoneReverser
             manager => manager.RecomputeUnlocks(),
             manager =>
             {
-                if (!IsCustomProgression(manager.Progression)) return;
+                // Don't check for custom progression here, cause that's only set later, but if it's not the custom game mode
+                // then UnlockedRewards should be empty anyway
                 manager._CachedUnlockedRewards.UnionWith(ArcticRuinsMod.Instance.SaveData.Tech.UnlockedRewards
                     .Select(techReference => manager.Progression.Levels[techReference.Level].Rewards[techReference.Index])
                     .OfType<ResearchRewardChunkLimit>());
