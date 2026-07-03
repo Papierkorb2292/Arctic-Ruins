@@ -24,62 +24,62 @@
       "ShapePatchGenerationLikeliness": [
         {
           "GenerationType": "TertiaryColorFullShapePure",
-          "MinimumDistanceToOrigin": 10,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 5
         },
         {
           "GenerationType": "TertiaryColorFullShape",
-          "MinimumDistanceToOrigin": 10,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 7
         },
         {
           "GenerationType": "TertiaryColorAlmostFullShape",
-          "MinimumDistanceToOrigin": 10,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 10
         },
         {
           "GenerationType": "TertiaryColorHalfShape",
-          "MinimumDistanceToOrigin": 10,
+          "MinimumDistanceToOrigin": 8,
           "Weight": 4
         },
         {
           "GenerationType": "SecondaryColorFullShapePure",
-          "MinimumDistanceToOrigin": 8,
+          "MinimumDistanceToOrigin": 6,
           "Weight": 15
         },
         {
           "GenerationType": "SecondaryColorFullShape",
-          "MinimumDistanceToOrigin": 8,
+          "MinimumDistanceToOrigin": 6,
           "Weight": 20
         },
         {
           "GenerationType": "SecondaryColorAlmostFullShape",
-          "MinimumDistanceToOrigin": 8,
+          "MinimumDistanceToOrigin": 6,
           "Weight": 25
         },
         {
           "GenerationType": "SecondaryColorHalfShape",
-          "MinimumDistanceToOrigin": 8,
+          "MinimumDistanceToOrigin": 6,
           "Weight": 10
         },
         {
           "GenerationType": "PrimaryColorFullShapePure",
-          "MinimumDistanceToOrigin": 6,
+          "MinimumDistanceToOrigin": 5,
           "Weight": 35
         },
         {
           "GenerationType": "PrimaryColorFullShape",
-          "MinimumDistanceToOrigin": 6,
+          "MinimumDistanceToOrigin": 5,
           "Weight": 40
         },
         {
           "GenerationType": "PrimaryColorAlmostFullShape",
-          "MinimumDistanceToOrigin": 6,
+          "MinimumDistanceToOrigin": 5,
           "Weight": 45
         },
         {
           "GenerationType": "PrimaryColorHalfShape",
-          "MinimumDistanceToOrigin": 6,
+          "MinimumDistanceToOrigin": 5,
           "Weight": 15
         },
         {

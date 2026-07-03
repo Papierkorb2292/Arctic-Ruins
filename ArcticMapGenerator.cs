@@ -27,14 +27,14 @@ public static class ArcticMapGenerator
 {
     private static readonly int[] LevelRadii = [
         0,
-        1 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        2 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        3 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        4 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        5 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        6 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        7 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
-        8 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK
+        1 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK, // Start of Basic Disassembly data fragments
+        2 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK, // Start of Shape Trains data fragments
+        3 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK, // Start of Fluid Painting data fragments
+        4 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK, // Start of Factory Floor 3 data fragments
+        6 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK, // Start of Advanced Machining data fragments
+        8 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK, // Start of Space Floor 3 data fragments
+        10 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK,
+        12 * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK
     ];
     private static readonly int[] LevelRadiiSquare = LevelRadii.Select(radius => radius * radius).ToArray();
 
