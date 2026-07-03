@@ -187,9 +187,6 @@
         <PublicizerLogFilePath>logs/krafs</PublicizerLogFilePath>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="UnityAssets\Assets\Titlecard.png">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -223,6 +220,12 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
 
+        <None Update="LICENSE">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="LICENSE-shapez2-mod-samples">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup>
       <Folder Include="obj\" />
