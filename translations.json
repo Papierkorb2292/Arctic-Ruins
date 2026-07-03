@@ -17,7 +17,7 @@
     "game-mode.ArcticRuins.title": "Arctic Ruins",
     "game-mode.ArcticRuins.description": "<b>Critical</b>: We just returned from <gl>summer break</gl>, went to boot the factory back up, and the <gl>vortex stopped accepting shapes</gl>!! We're sending you, totally qualified employee, to investigate",
     "scenario.arctic-ruins.title": "The Other Side",
-    "scenario.arctic-ruins.description": "It's clear that wherever the vortex is sending shapes to, something is wrong over there. Since you are assigned to deal with the problem, you are <gl>send through the vortex</gl> to find out what's happening on <gl>the other side</gl>",
+    "scenario.arctic-ruins.description": "It's clear that something is wrong with wherever the vortex is sending shapes to. Since you are assigned to deal with the problem, you are put in a rocket and <gl>send through the vortex</gl> (which is perfectly safe maybe) to find out what's happening on <gl>the other side</gl>",
     "scenario.artic-ruins.intro.vortex": "Alright, we're <gl>sending you through the vortex</gl> now, tell us what you find on the other side.\nOh! And one last thing: <gl>Do. Not. Crash. The Rocket!</gl> It is your one way back, ok?",
     "scenario.artic-ruins.intro.crash": "You're kidding...",
     "scenario.artic-ruins.intro.tutorial": "Great... do you know how much these things cost?! I claim no responsibility in this!\nLuckily, it sounds like the communication relay in there is still working. So you can still use it to tell us which <gl>shapes</gl> we should send through the <gl>vortex</gl>.\nYou'll have to figure out something to do with them, did you say you can see remains of a factory around you? Well, good luck!",
