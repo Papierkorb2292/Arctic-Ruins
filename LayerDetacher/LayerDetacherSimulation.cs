@@ -13,6 +13,9 @@ namespace ArcticRuins.LayerDetacher
         
         public int NumItemReceivers => 1;
         public int NumItemProviders => 2;
+
+        public Ticks? ItemArrivedOnLeftBeltTime;
+        public Ticks LastUpdateTicks;
         
         public LayerDetacherSimulation(LayerDetacherSimulationState state, ILayerDetacherConfiguration configuration, IShapeRegistry shapeRegistry, ShapeOperationLayerDetach detachOp) : base(state)
         {
@@ -54,15 +57,20 @@ namespace ArcticRuins.LayerDetacher
                 if (itemToTransfer == null && shapeItem == null)
                     return;
                 if (itemToTransfer != null)
+                {
                     LeftProcessingLane.HandOverItem(itemToTransfer, remainingTicks_T);
+                }
+
                 receivedItem = shapeItem;
             };
             RightOutputLane.AcceptHook = (_, ref item, ref _) =>
             {
                 if(State.RightCollapseResult.ResultsInEmptyShape) item = null;
             };
-            LeftOutputLane.AcceptHook = (_, ref item, ref _) =>
+            LeftOutputLane.AcceptHook = (_, ref item, ref remainingTicks_T) =>
             {
+                ItemArrivedOnLeftBeltTime = LastUpdateTicks - remainingTicks_T;
+                
                 if(State.LeftCollapseResult.ResultsInEmptyShape) item = null;
             };
         }
@@ -86,6 +94,7 @@ namespace ArcticRuins.LayerDetacher
         
         public void Update(Ticks startTicks, Ticks deltaTicks)
         {
+            LastUpdateTicks = startTicks + deltaTicks;
             LeftOutputLane.Update(deltaTicks);
             RightOutputLane.Update(deltaTicks);
             LeftProcessingLane.Update(deltaTicks);

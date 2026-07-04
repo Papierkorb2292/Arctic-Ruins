@@ -48,7 +48,10 @@ public class LayerDetacherSimulationRenderer
         if (!lane.HasItem)
             return;
         var overshootDuration = Ticks.FromMilliSeconds(200);
-        var progressTicks = lane.Progress_S / (LaneConstants.ItemSpacing / lane.Duration_T);
+        // Use the global tick amount instead of the belt's progress here, so the animation isn't delayed when the belt is piled up 
+        if (entity.Simulation.ItemArrivedOnLeftBeltTime == null)
+            return;
+        var progressTicks = entity.Simulation.LastUpdateTicks - entity.Simulation.ItemArrivedOnLeftBeltTime.Value;
         if (progressTicks > overshootDuration)
             progressTicks = overshootDuration;
         var overshootProgress = Ticks.Ratio(progressTicks, overshootDuration);
