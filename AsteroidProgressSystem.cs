@@ -92,7 +92,9 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
         if (source.CenterOfMass_GC.ManhattanDistance(GlobalChunkCoordinate.Origin) < 5)
             return 100;
         // Should increase as you get further away
-        return RoundToTwoSignificantDigits(20 * Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y)));
+        var maxDist = Math.Max(Math.Abs(source.CenterOfMass_GC.x), Math.Abs(source.CenterOfMass_GC.y));
+        var exactResult = 30 * maxDist;
+        return RoundToTwoSignificantDigits(exactResult);
     }
 
     private static int RoundToTwoSignificantDigits(int number)
