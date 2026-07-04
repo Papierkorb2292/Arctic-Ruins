@@ -394,7 +394,7 @@ public static class ArcticMapGenerator
     private static ShapePart ColorShapeRandomly(ShapePart shape, ConsistentRandom rng, MapShapeGenerator generator,
         MapShapeGenerationType type)
     {
-        if (shape.IsEmpty || !shape.Shape.AllowColor || !rng.TestPercentage(generator.MapGenerationParameters.ShapePatchShapeColorfulnessPercent))
+        if (shape.IsEmpty || !shape.Shape.AllowColor || !shape.Shape.AllowChangingColor || !rng.TestPercentage(generator.MapGenerationParameters.ShapePatchShapeColorfulnessPercent))
             return shape; // Keep original color (doesn't have to be uncolored)
 
         var newColor = type switch
