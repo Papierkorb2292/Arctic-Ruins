@@ -1,6 +1,8 @@
 # Arctic Ruins
 This Shapez2 mod was developed for the Shapez2 modding contest. It features a new game mode "Arctic Ruins", which turns the usual shapez formula on its head: Instead of assembling complex shapes out of simple base shapes, this game mode is all about disassembling complex shapes from the vortex back into simple shapes that can be put into the asteroids.
 
+You can get the mod on the Steam Workshop here: https://steamcommunity.com/sharedfiles/filedetails/?id=3758107959
+
 To make this possible, the mod includes the following few features:
 - The "Arctic Ruins" game mode selection in the main menu, with the custom scenario "The Other Side"
 - An intro sequence with sound effects that plays when starting the new game mode
