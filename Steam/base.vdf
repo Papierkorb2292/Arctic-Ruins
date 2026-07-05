@@ -1,10 +1,10 @@
 "workshopitem"
 {
     "appid" "2162800"
-    "publishedfileid" "3560404770"
+    "publishedfileid" "3758107959"
     "contentfolder" "${CONTENT_PATH}"
     "previewfile" "${PREVIEW_IMG}"
-    "visibility" "0"
-    "title" "Diagonal Cutters"
-    "description" "Adds a diagonal cutting building to the game"
+    "visibility" "2"
+    "title" "Arctic Ruins"
+    "description" "Adds a new gamemode to the game that turns the standard Shapez formula on its head: Where it is not the goal to assemble complex shapes to put into the vortex, but rather receive shapes from the vortex and disassemble them back into simpler shapes that can be put into the asteroids. Requiring you to build a rapidly evolving factory and go from one asteroid to the next to slowly uncover the map.\nPerfect for everyone looking for some fresh puzzles! Expected playtime: ~6h (without using prepared blueprints)\n\nA list of all features is available on GitHub, although I recommend going into the whole thing blind: https://github.com/Papierkorb2292/Arctic-Ruins"
 }
