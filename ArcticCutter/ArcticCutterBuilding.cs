@@ -67,7 +67,7 @@ namespace ArcticRuins.ArcticCutter
                .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                .WithDefaultPlacement()
-               .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).ChildAt(0).Replace()) // Replace normal cutter
+               .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(2).Replace("CutterDefaultVariant")) // Replace normal cutter
                .WithSimulation(new ArcticCutterFactoryBuilder(), ArcticRuinsMod.Logger)
                .WithAtomicShapeProcessingModules(BuiltinResearchSpeed.CutterSpeed, 2.0f)
                .WithPrediction(new ArcticCutterPredictionFactoryBuilder(), ArcticRuinsMod.Logger)

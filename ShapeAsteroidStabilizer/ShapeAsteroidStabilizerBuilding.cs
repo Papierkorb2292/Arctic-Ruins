@@ -79,7 +79,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithBuilding(asteroidStabilizerBuilder, asteroidStabilizerGroup)
                 .NotUnlocked() // Unlocked through scenario file
                 .WithDefaultPlacement()
-                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).ChildAt(4).Replace()) // Replace extractor
+                .InToolbar(ToolbarElementLocator.Root().ChildAt(0).Replace("ExtractorDefaultVariant")) // Replace extractor
                 .WithCustomSimulationSystem<IShapeAsteroidStabilizerConfiguration>((systems, dependencies, building, out config) =>
                 {
                     config = new ShapeShapeAsteroidStabilizerConfiguration(

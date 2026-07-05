@@ -41,9 +41,9 @@ namespace ArcticRuins
             };
         }
         
-        public static IToolbarEntryInsertLocation Replace(this IToolbarElementLocator elementLocator)
+        public static IToolbarEntryInsertLocation Replace(this IToolbarElementLocator elementLocator, string name)
         {
-            return new ToolbarEntryReplaceLocation(elementLocator);
+            return new ToolbarEntryReplaceLocation(elementLocator, name);
         }
 
         public static IAtomicBuildingExtender WithCustomSimulationSystem<TConfig>(this IDefinedPlaceableAccessibleBuildingExtender extenderAbstract, CustomSimulationSystemFactory<TConfig> systemFactory)
@@ -97,24 +97,27 @@ namespace ArcticRuins
         private class ToolbarEntryReplaceLocation : IToolbarEntryInsertLocation
         {
             public readonly IToolbarElementLocator ElementLocator;
+            public readonly string Name;
             
-            public ToolbarEntryReplaceLocation(IToolbarElementLocator elementLocator)
+            public ToolbarEntryReplaceLocation(IToolbarElementLocator elementLocator, string name)
             {
                 ElementLocator = elementLocator;
+                Name = name;
             }
             
             void IToolbarEntryInsertLocation.AddEntry(
                 ToolbarData toolbarData,
                 IToolbarElementData elementData)
             {
-                IParentToolbarElementData elementParent = ElementLocator.FindElementParent(toolbarData);
-                Index index1 = ElementLocator.LeafIndex();
-                int index2 = (index1.IsFromEnd ? elementParent.Children.Count() - index1.Value : index1.Value) + 1;
+                IParentToolbarElementData elementParent = ElementLocator.ChildAt(0).FindElementParent(toolbarData);
                 Debug.Log("Replacing");
 
-                using ScopedList<IToolbarElementData> scopedList = ScopedList<IToolbarElementData>.Get(elementParent.Children);
-                scopedList[index2] = elementData;
-                IToolbarElementData[] array = scopedList.ToArray();
+                IToolbarElementData[] array = elementParent.Children.ToArray();
+                for(int i = 0; i < array.Length; i++)
+                {
+                    if(array[i] is BuildingBasedPlacementToolbarElementData placementData && placementData.BuildingDefinition.Id.Id == Name)
+                        array[i] = elementData;
+                }
                 switch (elementParent)
                 {
                     case RootToolbarElementData toolbarElementData1:
