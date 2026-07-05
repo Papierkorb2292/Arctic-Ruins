@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Events;
 using Core.Localization;
+using Game.Core.BuildingLogic.Data;
 using Game.Core.Content.Buildings;
 using Game.Core.Coordinates;
 using Game.Core.Rendering.MeshGeneration;
@@ -94,6 +95,9 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithCustomModules(new ItemSimulationBuildingModuleDataProvider(BuiltinResearchSpeed.BeltSpeed, BuiltinResearchSpeed.BeltSpeed, 2.0f, 0, ItemSimulationEfficiencyMeasurementMode.ByInput))
                 .WithPrediction(new ShapeAsteroidStabilizerPredictionFactoryBuilder(), ArcticRuinsMod.Logger)
                 .Build();
+
+            var building = ((BuildingBuilder)asteroidStabilizerBuilder).BuildingDefinition;
+            building.CustomData.Attach(new BuildingDefinitionFactory.BuildingMirroringDefinition(building, false));
         }
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator, out ShapeShapeAsteroidStabilizerDrawData customDrawData)
