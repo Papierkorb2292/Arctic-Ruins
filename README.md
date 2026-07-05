@@ -4,7 +4,7 @@ This Shapez2 mod was developed for the Shapez2 modding contest. It features a ne
 You can get the mod on the Steam Workshop here: https://steamcommunity.com/sharedfiles/filedetails/?id=3758107959
 
 To make this possible, the mod includes the following few features:
-- The "Arctic Ruins" game mode selection in the main menu, with the custom scenario "The Other Side"
+- The "Arctic Ruins" game mode selection in the main menu (highlighted in blue), with the custom scenario "The Other Side"
 - An intro sequence with sound effects that plays when starting the new game mode
 - New factory buildings: The Stabilizer (for storing shapes in asteroids), and the Layer Detacher (unstacking shapes)
 - New functional buildings placed by the map generator: The Data Fragment (unlocks upgrades), and the Communication Relay (Select which shapes the vortex should output)
@@ -16,6 +16,7 @@ To make this possible, the mod includes the following few features:
 - The map generator randomly places ruin blueprints on the map and randomly adds Data Fragments to them
 - A custom shape generator for asteroids that takes into account which shapes can be made with the available milestones
 - Milestones can be unlocked if all their upgrades have been found, and they reward the player with new shapes (instead of the other way around)
+- Unlocking a milestone plays a custom sound and shows a small notification by the robot for each milestone
 - While playing the custom game mode, the orange color of all building and island models is replaced with cyan 
 
 ### AI Usage
