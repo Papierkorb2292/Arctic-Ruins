@@ -19,6 +19,7 @@ public static class MeshRecolorer
 {
     private static Hook _savegameHook;
     private static Dictionary<IMeshReference, List<ChangedUV>> _uvChanges = new();
+    private static Dictionary<LODMeshMaterialAsset, LODMaterialAsset> _materialChanges = new();
     
     public static void Register()
     {
@@ -71,6 +72,8 @@ public static class MeshRecolorer
 
     private static void RecolorIslands(GameIslands islands)
     {
+        // Copy materials from fluid spacer to shape spacer, because the normal shape spacer material always uses the orange accent color
+        CopyIslandMaterial(islands.GetDefinition(new IslandDefinitionId("Layout_TrainSpacerStraightShape")), islands.GetDefinition(new IslandDefinitionId("Layout_TrainSpacerStraightFluid")));
         foreach(var definition in islands.AllDefinitions)
         {
             if(definition.CustomData.TryGet<IslandMeshDrawer.Data>(out var drawData))
@@ -186,6 +189,21 @@ public static class MeshRecolorer
         _uvChanges[mesh] = changes;
     }
 
+    private static void CopyIslandMaterial(IIslandDefinition dest, IIslandDefinition src)
+    {
+        var srcMaterials = src.CustomData.Get<IslandMeshDrawer.Data>().MeshMaterials;
+        var destMaterials = dest.CustomData.Get<IslandMeshDrawer.Data>().MeshMaterials;
+        var srcAsset = (LODMeshMaterialAsset)srcMaterials[0];
+        for (int i = 0; i < destMaterials.Length; i++)
+        {
+            var destAsset = (LODMeshMaterialAsset)destMaterials[i];
+            if(_materialChanges.ContainsKey(destAsset))
+                continue;
+            _materialChanges[destAsset] = destAsset.MaterialAsset;
+            destAsset.MaterialAsset = srcAsset.MaterialAsset;
+        }
+    }
+
     private static void ResetChanges()
     {
         foreach (var (mesh, changes) in _uvChanges)
@@ -200,6 +218,11 @@ public static class MeshRecolorer
             mesh.GetMeshInternal().uv = uvs;
         }
         _uvChanges.Clear();
+        foreach (var (asset, material) in _materialChanges)
+        {
+            asset.MaterialAsset = material;
+        }
+        _materialChanges.Clear();
     }
 
     private readonly struct ChangedUV(int index, Vector2 initialValue)
