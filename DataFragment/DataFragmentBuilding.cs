@@ -71,7 +71,7 @@ namespace ArcticRuins.DataFragment
                 .WithoutEfficiencyData();
 
             AtomicBuildings.Extend()
-                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
+                .SpecificScenarios(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.DataFragmentKey))
                 .WithBuilding(communicationRelayBuilder, communicationRelayGroup)
                 .UnlockedInDevMode()
                 .WithDefaultPlacement()

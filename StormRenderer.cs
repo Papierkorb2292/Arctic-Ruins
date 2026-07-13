@@ -140,7 +140,7 @@ public class StormRenderer
 
     public static StormRenderer HookRenderer(GameSessionOrchestrator orchestrator)
     {
-        if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
+        if (!ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.StormKey).Invoke(orchestrator.Mode.Scenario))
             return null;
         var stormRenderer = new StormRenderer(orchestrator);
         orchestrator.Draw.Hooks.OnDrawSuperChunk += stormRenderer.Draw;

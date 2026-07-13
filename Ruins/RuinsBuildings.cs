@@ -72,7 +72,7 @@ namespace ArcticRuins.Ruins
                 .WithoutEfficiencyData();
 
             AtomicBuildings.Extend()
-                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
+                .SpecificScenarios(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.RuinBuildingsKey))
                 .WithBuilding(ruinsBuilder, ruinsGroup)
                 .UnlockedInDevMode()
                 .WithDefaultPlacement()

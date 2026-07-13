@@ -63,7 +63,7 @@ namespace ArcticRuins.ArcticCutter
                .WithEfficiencyData(new BuildingEfficiencyData(2.0f, 1));
 
             AtomicBuildings.Extend()
-               .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
+               .SpecificScenarios(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.ArcticCutterKey))
                .WithBuilding(arcticCutterBuilder, arcticCutterGroup)
                .UnlockedAtMilestone(Helper.FirstMilestoneSelector)
                .WithDefaultPlacement()

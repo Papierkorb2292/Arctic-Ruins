@@ -27,7 +27,7 @@ public static class MeshRecolorer
             (orchestrator, content, gameData, options) => orchestrator.Init_3_SavegameAndMode(content, gameData, options),
             (orchestrator, _, _, _) =>
             {
-                if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
+                if (!ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.MeshRecolorKey).Invoke(orchestrator.Mode.Scenario))
                 {
                     try
                     {

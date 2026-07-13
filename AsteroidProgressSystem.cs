@@ -197,7 +197,7 @@ public class AsteroidProgressSystem : IUpdateableSimulationSystem
     {
         public void ModifySimulationSystems(ICollection<ISimulationSystem> simulationSystems, SimulationSystemsDependencies dependencies)
         {
-            if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(dependencies.Mode.Scenario))
+            if (!ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.TheOtherSideAsteroidProgressKey).Invoke(dependencies.Mode.Scenario))
                 return;
             GetOrRegisterSimulationSystem(simulationSystems);
         }

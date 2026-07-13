@@ -78,6 +78,7 @@ public static class ArcticMapGenerator
             {
                 GeneratorOrchestrators.Add(orchestrator.ResourcesMap.Generator, orchestrator);
             });
+        var scenarioSelector = ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.TheOtherSideMapGeneratorKey);
         _tryGenerateShapePatchHook = new Hook(
             typeof(DefaultMapGenerator).GetMethod(nameof(DefaultMapGenerator.TryGenerateShapePatch), BindingFlags.NonPublic | BindingFlags.Instance)!,
             (TryGenerateShapePatchWrapper)((orig, generator, data, shape, size, out result) =>
@@ -86,7 +87,7 @@ public static class ArcticMapGenerator
                 if (!orig(generator, data, shape, size, out result))
                     return false;
                 if (!GeneratorOrchestrators.TryGetValue(generator, out var orchestrator) ||
-                    !ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario) ||
+                    !scenarioSelector.Invoke(orchestrator.Mode.Scenario) ||
                     result is not ShapeResourceClusterData shapeCluster)
                 {
                     return true;   

@@ -103,7 +103,7 @@ public class IntroRenderer
     
     public static IntroRenderer HookRenderer(GameSessionOrchestrator orchestrator)
     {
-        if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
+        if (!ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.TheOtherSideIntroKey).Invoke(orchestrator.Mode.Scenario))
             return null;
         var introRenderer = new IntroRenderer(orchestrator);
         orchestrator.Draw.Hooks.OnDrawSuperChunk += (options, chunk) =>

@@ -65,7 +65,7 @@ namespace ArcticRuins.CommunicationRelay
                 .WithoutEfficiencyData();
 
             AtomicBuildings.Extend()
-                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
+                .SpecificScenarios(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.CommunicationRelayKey))
                 .WithBuilding(communicationRelayBuilder, communicationRelayGroup)
                 .UnlockedInDevMode()
                 .WithDefaultPlacement()

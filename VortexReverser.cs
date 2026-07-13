@@ -19,6 +19,7 @@ using Game.Core.Map.Simulation;
 using Game.Core.Rendering.MeshGeneration;
 using Game.Core.Simulation;
 using MonoMod.RuntimeDetour;
+using ShapezShifter.Flow;
 using ShapezShifter.Flow.Atomic;
 using ShapezShifter.Hijack;
 using ShapezShifter.Hijack.Predictions;
@@ -36,6 +37,9 @@ namespace ArcticRuins
         private static ConditionalWeakTable<HubSystem, ReversedHubData> _reversedHubData = new();
 
         private static bool _skipApplyGameBalancingParameters;
+
+        private static ScenarioSelector _vortexReverserScenarios =
+            ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.TheOtherSideVortexReverserKey);
 
         public static void Register()
         {
@@ -95,7 +99,7 @@ namespace ArcticRuins
             GameRewirers.AddRewirer<IPredictionSystemsRewirer>(new HubPredictionSystemRewirer());
             // Skip ApplyGameBalancingParameters for custom game mode to not mess with shape count
             var skipGameBalancingParametersRewireFilter = new GameScenarioBuildingExtender(
-                scenarioFilter: ArcticRuinsMod.ArcticRuinsScenarioSelector,
+                scenarioFilter: _vortexReverserScenarios,
                 progressionExtender: NoopProgressionExtender.Instance,
                 groupId: new());
             skipGameBalancingParametersRewireFilter.AfterHijack.Register(() => _skipApplyGameBalancingParameters = true);
@@ -114,7 +118,7 @@ namespace ArcticRuins
         {
             var chain = RewirerChain.BeginRewiringWith( // Filter the scenario
                 new GameScenarioBuildingExtender(
-                    scenarioFilter: ArcticRuinsMod.ArcticRuinsScenarioSelector,
+                    scenarioFilter: _vortexReverserScenarios,
                     progressionExtender: NoopProgressionExtender.Instance,
                     groupId: new())
                 ).ThenContinueRewiringWith(() => new SenderReceiverPlacementSwapper()); // Configure building placements
@@ -224,7 +228,7 @@ namespace ArcticRuins
         {
             public void ModifySimulationSystems(ICollection<ISimulationSystem> simulationSystems, SimulationSystemsDependencies dependencies)
             {
-                if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(dependencies.Mode.Scenario))
+                if (!_vortexReverserScenarios.Invoke(dependencies.Mode.Scenario))
                     return;
                 var hubSystem = (HubSystem)simulationSystems.First(system => system is HubSystem);
                 hubSystem.Set(
@@ -259,7 +263,7 @@ namespace ArcticRuins
 
             public void ModifyPredictionSystems(ICollection<ISimulationSystem> simulationSystems, PredictionSystemsDependencies dependencies)
             {
-                if (!ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(dependencies.Mode.Scenario))
+                if (!_vortexReverserScenarios.Invoke(dependencies.Mode.Scenario))
                     return;
                 var conveyorSpeed = dependencies.Mode.Buildings.ForwardBelt.ConfigAs<IConveyorConfiguration>()
                     .ConveyorSpeed;

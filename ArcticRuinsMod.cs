@@ -44,9 +44,6 @@ namespace ArcticRuins
     [UsedImplicitly]
     public class ArcticRuinsMod : IMod
     {
-        public static readonly ScenarioSelector ArcticRuinsScenarioSelector =
-            scenario => scenario.UniqueId.Id.StartsWith("arctic-ruins");
-
         public const bool IsModDevelopmentMode = false;
 
         public static ILogger Logger { get; private set; }
@@ -105,7 +102,7 @@ namespace ArcticRuins
             VortexReverser.Register();
             MilestoneReverser.Register();
             AsteroidProgressSystem.Register();
-            //ArcticCutterBuilding.Register(); // Not done in time for the deadline
+            ArcticCutterBuilding.Register();
             ShapeAsteroidStabilizerBuilding.Register();
             LayerDetacherBuilding.Register();
             CommunicationRelayBuilding.Register();

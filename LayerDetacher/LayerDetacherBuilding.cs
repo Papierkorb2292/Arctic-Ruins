@@ -84,7 +84,7 @@ namespace ArcticRuins.LayerDetacher
             buildingDefinition = ((BuildingBuilder)layerDetacherBuilder).BuildingDefinition;
 
             AtomicBuildings.Extend()
-               .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
+                .SpecificScenarios(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.LayerDetacherKey))
                .WithBuilding(layerDetacherBuilder, group)
                .NotUnlocked() // Unlocked through scenario file
                .WithDefaultPlacement()

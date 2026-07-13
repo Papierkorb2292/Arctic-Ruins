@@ -153,7 +153,7 @@ public static class MilestoneReverser
                     orchestrator.Init_3_SavegameAndMode(content, data, options),
                 (orchestrator, _, _, _) =>
                 {
-                    if(ArcticRuinsMod.ArcticRuinsScenarioSelector.Invoke(orchestrator.Mode.Scenario))
+                    if(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.TheOtherSideMilestoneReverserKey).Invoke(orchestrator.Mode.Scenario))
                         CustomProgressions.Add(orchestrator.Research.Layout, orchestrator);
                 });
     }

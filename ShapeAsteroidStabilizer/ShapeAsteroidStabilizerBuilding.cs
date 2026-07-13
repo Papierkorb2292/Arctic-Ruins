@@ -75,7 +75,7 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithEfficiencyData(new BuildingEfficiencyData(3.0f, 1));
 
             AtomicBuildings.Extend()
-                .SpecificScenarios(ArcticRuinsMod.ArcticRuinsScenarioSelector)
+                .SpecificScenarios(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.StabilizerKey))
                 .WithBuilding(asteroidStabilizerBuilder, asteroidStabilizerGroup)
                 .NotUnlocked() // Unlocked through scenario file
                 .WithDefaultPlacement()
