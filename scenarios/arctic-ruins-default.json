@@ -3818,7 +3818,7 @@
     "Steps": [
       {
         "PositionX": 0,
-        "PositionY": 11,
+        "PositionY": 12,
         "Zoom": 100.0,
         "Angle": 50.0,
         "Text": "@scenario.artic-ruins.intro.vortex",
@@ -3826,7 +3826,7 @@
       },
       {
         "PositionX": 0,
-        "PositionY": 11,
+        "PositionY": 12,
         "Zoom": 100.0,
         "Angle": 50.0,
         "Text": "@scenario.artic-ruins.intro.crash",
@@ -3834,7 +3834,7 @@
       },
       {
         "PositionX": 0,
-        "PositionY": 11,
+        "PositionY": 12,
         "Zoom": 15.0,
         "Angle": 50.0,
         "Text": "@scenario.artic-ruins.intro.tutorial",
