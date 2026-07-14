@@ -34,9 +34,6 @@ public class StormRenderer
     private const int StormTileSize = StormChunkSize * CoordinateConstants.TILES_PER_CHUNK;
     private const int StormChunksPerSuperChunk = CoordinateConstants.CHUNKS_PER_SUPER_CHUNK / StormChunkSize;
     private static Hook _cameraControllerUpdateHook;
-    private static Hook _drawPendingBuildingSelectionHook;
-    private static Hook _drawPendingIslandSelectionHook;
-    private static Hook _preparePlacementDataHook;
     private static readonly ConditionalWeakTable<IModularEntityPlacer, object> _patchedPlacers = new();
 
     private readonly StormLayer[] _detailLayers;
@@ -81,7 +78,6 @@ public class StormRenderer
         _progressSystem.OnAsteroidProgressUpdate.Register((coord, data) => RevealPatch(coord, data, _targetHeights));
         this._orchestrator = orchestrator;
         InitializeStormHeight();
-        FilterLockedSelections(orchestrator);
     }
 
     public static void Register()
@@ -93,49 +89,13 @@ public class StormRenderer
                 ArcticRuinsMod.Instance.StormRenderer?.ZoomCameraOutsideStorm(cameraController);
                 original(cameraController, deltaTime);
             }));
-        _drawPendingBuildingSelectionHook = DetourHelper.CreatePrefixHook<HUDBuildingMassSelection, FrameDrawOptions, IReadOnlyCollection<BuildingModel>, HUDMassSelectionSelectionType>(
-            (selection, options, buildings, type) => selection.Draw_PendingSelection(options, buildings, type),
-            (_, options, buildings, type) =>
-            {
-                var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
-                if (stormRenderer != null && buildings is HashSet<BuildingModel> set)
-                    set.RemoveWhere(island => stormRenderer.IsChunkLocked(island.Transform.Position.ToChunkCoordinate()));
-                return (options, buildings, type);
-            }
-        );
-        _drawPendingIslandSelectionHook = DetourHelper.CreatePrefixHook<HUDIslandMassSelection, FrameDrawOptions, IReadOnlyCollection<IslandModel>, HUDMassSelectionSelectionType>(
-            (selection, options, islands, type) => selection.Draw_PendingSelection(options, islands, type),
-            (_, options, islands, type) =>
-            {
-                var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
-                if (stormRenderer != null && islands is HashSet<IslandModel> set)
-                    set.RemoveWhere(island => stormRenderer.IsChunkLocked(island.Position) || ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Position));
-                return (options, islands, type);
-            }
-        );
-        _preparePlacementDataHook = DetourHelper.CreatePostfixHook<EntityPlacementRunner, IEntityPlacer>(
-            (runner, placer) => runner.PreparePlacementData(placer),
-            (runner, _) =>
-            {
-                var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
-                if (stormRenderer == null)
-                    return;
-
-                // Add processor that invalidates everything inside the storm
-                if (runner.CurrentPlacer is IModularEntityPlacer placer && !_patchedPlacers.TryGetValue(placer, out var _))
-                {
-                    _patchedPlacers.AddOrUpdate(placer, placer);
-                    ((ICollection<IPlacementProcessor>)placer.PlacementProcessors).Add(new FilterLockedPlacementProcessor(stormRenderer));
-                }
-            });
+        LockedTiles.LockedBuildings.Add((pos, _) => ArcticRuinsMod.Instance.StormRenderer?.IsChunkLocked(pos.ToChunkCoordinate()) ?? false);
+        LockedTiles.LockedIslands.Add((pos, _) => ArcticRuinsMod.Instance.StormRenderer?.IsChunkLocked(pos) ?? false);
     }
 
     public static void Dispose()
     {
         _cameraControllerUpdateHook.Dispose();
-        _drawPendingBuildingSelectionHook.Dispose();
-        _drawPendingIslandSelectionHook.Dispose();
-        _preparePlacementDataHook.Dispose();
     }
 
     public static StormRenderer HookRenderer(GameSessionOrchestrator orchestrator)
@@ -428,53 +388,11 @@ public class StormRenderer
         var stormHeight = GetMaxStormHeightAtChunk(chunk);
         return stormHeight > -0.2f; // This height is chosen such that the player can interact with unlocked patches, but also the player can fully zoom in on every interactable chunk
     }
-
-    private void FilterLockedSelections(GameSessionOrchestrator orchestrator)
-    {
-        var buildingSelection = orchestrator.PlayerInteractionOrchestrator.PlayerInteractionState.BuildingSelection;
-        var islandSelection = orchestrator.PlayerInteractionOrchestrator.PlayerInteractionState.IslandSelection;
-        buildingSelection.OnAdded.Register(buildings =>
-        {
-            buildingSelection.Remove(buildings.Where(building => IsChunkLocked(building.Transform.Position.ToChunkCoordinate())));
-        });
-        islandSelection.OnAdded.Register(islands =>
-        {
-            islandSelection.Remove(islands.Where(island => IsChunkLocked(island.Position) || ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Position)));
-        });
-    }
     
     private class StormLayer(IMeshReference mesh, IMaterialReference material, WorldVector offset)
     {
         public IMeshReference Mesh => mesh;
         public IMaterialReference Material => material;
         public WorldVector Offset => offset;
-    }
-
-    private class FilterLockedPlacementProcessor(StormRenderer stormRenderer) : IPlacementProcessor
-    {
-        public void Process(IPlacementData placementData, PlacementInputHolder placementInput, IMapModel realMap,
-            IReadOnlyMapLayoutModel virtualMap, IPlacementErrors placementErrors)
-        {
-            using var buildingsFilter = ScopedList.Get<BuildingPlacement>();
-            placementData.GetAllBuildings(buildingsFilter);
-            foreach (var building in buildingsFilter.Where(building =>
-                         building.PlacementAllowability.WillBePlaced() &&
-                         stormRenderer.IsChunkLocked(building.Descriptor.Transform.Position
-                             .ToChunkCoordinate())))
-            {
-                placementData.InvalidateBuildingAt(building.Descriptor.Transform.Position);
-            }
-
-            using var islandsFilter = ScopedList.Get<IslandPlacement>();
-            placementData.GetAllIslands(islandsFilter);
-            foreach (var island in islandsFilter.Where(island =>
-                         island.PlacementAllowability.WillBePlaced() &&
-                         (stormRenderer.IsChunkLocked(island.Descriptor.Transform.Position) ||
-                          ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(island.Descriptor
-                              .Transform.Position))))
-            {
-                placementData.InvalidateIslandAt(island.Descriptor.Transform.Position);   
-            }
-        }
     }
 }

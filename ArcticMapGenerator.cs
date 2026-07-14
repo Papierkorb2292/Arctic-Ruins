@@ -107,6 +107,7 @@ public static class ArcticMapGenerator
                 
                 return true;
             }));
+        LockedTiles.LockedIslands.Add((pos, _) => ArcticRuinsMod.Instance.SaveData.UnremovablePlatforms.Contains(pos));
     }
 
     public static void Dispose()

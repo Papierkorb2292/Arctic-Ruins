@@ -113,6 +113,7 @@ namespace ArcticRuins
             ArcticPlatformIsland.Register();
             ArcticMapGenerator.Register();
             IntroRenderer.Register();
+            LockedTiles.Register();
         }
 
         private void RegisterSaveData()
@@ -197,6 +198,7 @@ namespace ArcticRuins
                 {
                     IntroRenderer = IntroRenderer.HookRenderer(orchestrator);
                     StormRenderer = StormRenderer.HookRenderer(orchestrator);
+                    LockedTiles.HookSessionOrchestrator(orchestrator);
                 });
         }
         
@@ -282,6 +284,7 @@ namespace ArcticRuins
             StormRenderer.Dispose();
             ArcticMapGenerator.Dispose();
             IntroRenderer.Dispose();
+            LockedTiles.Dispose();
         }
 
         public SoundEffect LoadSoundFromAssetBundle(string name, GameSessionOrchestrator session, float volume = 0.5f)
