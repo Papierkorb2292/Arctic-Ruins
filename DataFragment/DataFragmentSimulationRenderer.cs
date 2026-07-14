@@ -75,7 +75,7 @@ namespace ArcticRuins.DataFragment
             var stormRenderer = ArcticRuinsMod.Instance.StormRenderer;
             if (stormRenderer != null && stormRenderer.IsChunkLocked(chunk))
                 return;
-            var position = chunk.ToCenter_W() + new WorldVector(0, 0, 10f);
+            var position = GetBillboardPosition(entity.Transform.Position);
             var camDist = Mathf.Min((options.Viewport.MainCamera.transform.position - (Vector3)position).magnitude, 4000f);
             var s = Vector3.one * (camDist * 0.1f * (float) (1.0 + HUDTheme.PulseAnimation() * 0.30000001192092896)) * scale;
             options.Renderers.Buildings.Add(GeometryHelpers.BillboardMesh, IconMaterial, Matrix4x4.TRS(
@@ -83,6 +83,18 @@ namespace ArcticRuins.DataFragment
                 options.Viewport.MainCamera.transform.rotation,
                 s
             ));
+        }
+
+        private static WorldCoordinate GetBillboardPosition(GlobalTileCoordinate buildingCoord)
+        {
+            // If this is the first data fragment the player encounters (the one on the hub), display the billboard directly above it
+            // to make it more obvious that the player should interact with it. For other data fragments, display the billboard at the chunk center,
+            // so the player may need to search for the data fragment
+            var chunk = buildingCoord.ToChunkCoordinate();
+            if (chunk.ManhattanDistance(GlobalChunkCoordinate.Origin) < 3)
+                return buildingCoord.ToCenter_W() + new WorldVector(0, 0, 0.5f);
+            else
+                return chunk.ToCenter_W() + new WorldVector(0, 0, 10f);
         }
     }
 }
