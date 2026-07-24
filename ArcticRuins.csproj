@@ -191,48 +191,6 @@
         <PublicizerLogFilePath>logs/krafs</PublicizerLogFilePath>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\CommunicationRelay.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\DataFragment.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\DataFragmentCube.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\DiagonalCutter.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\IntroVortex.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\LayerDetacher.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\LayerDetacherLauncher.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\Rocket.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\Rubble.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\RuinWall.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\Stabilizer.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\StabilizerHammer.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\TitlecardLeft.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="UnityAssets\Assets\AssetBundle\Models\TitlecardRight.fbx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
