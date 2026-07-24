@@ -90,8 +90,7 @@ namespace ArcticRuins.Ruins
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator, string model)
         {
-            string baseMeshPath = modResourcesLocator.SubPath(model);
-            Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
+            Mesh baseMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle(model);
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
 

@@ -102,9 +102,8 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator, out ShapeShapeAsteroidStabilizerDrawData customDrawData)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("Stabilizer.fbx");
-            Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
-            Mesh hammerMesh = FileMeshLoader.LoadSingleMeshFromFile(modResourcesLocator.SubPath("StabilizerHammer.fbx"));
+            Mesh baseMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("Stabilizer.fbx");
+            Mesh hammerMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("StabilizerHammer.fbx");
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
             LOD6Mesh hammerModLod = MeshLod.Create().AddLod0Mesh(hammerMesh).BuildLod6Mesh();

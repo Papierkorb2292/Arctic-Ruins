@@ -81,8 +81,7 @@ namespace ArcticRuins.CommunicationRelay
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("CommunicationRelay.fbx");
-            Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
+            Mesh baseMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("CommunicationRelay.fbx");
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
 

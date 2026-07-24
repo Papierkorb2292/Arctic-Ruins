@@ -1,20 +1,30 @@
 ManifestFileVersion: 0
-CRC: 1388622441
+CRC: 353278170
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b47a05e2fecfc2851eae3f56ca42c19e
+    Hash: 633af5c82c278ee20404a88194518325
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 51b38e668b29538eff619c85dc60e7e5
+    Hash: 9d30d8c7e1cfd351a6edc9e5a9f8477e
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: b47a05e2fecfc2851eae3f56ca42c19e
+    Hash: 633af5c82c278ee20404a88194518325
 HashAppended: 0
 ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
 - Class: 21
   Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
 - Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
@@ -23,13 +33,18 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/AssetBundle/StormChunksMat.mat
-- Assets/AssetBundle/MilestoneComplete.ogg
+- Assets/AssetBundle/Models/TitlecardLeft.fbx
+- Assets/AssetBundle/Models/Rocket.fbx
 - Assets/AssetBundle/RocketSlow.ogg
+- Assets/AssetBundle/Models/DiagonalCutter.fbx
+- Assets/AssetBundle/MilestoneComplete.ogg
 - Assets/AssetBundle/StormNoiseMat.mat
 - Assets/AssetBundle/DataFragmentIconMat.mat
-- Assets/AssetBundle/RocketFast.ogg
+- Assets/AssetBundle/Models/CommunicationRelay.fbx
 - Assets/AssetBundle/TitlecardBreak.ogg
+- Assets/AssetBundle/RocketFast.ogg
 - Assets/AssetBundle/Titlecard.ogg
+- Assets/AssetBundle/Models/LayerDetacherLauncher.fbx
 - Assets/AssetBundle/TitlecardMat.mat
 - Assets/AssetBundle/Crash.ogg
 - Assets/AssetBundle/ProgressBarMat.mat
@@ -37,8 +52,17 @@ Assets:
 - Assets/AssetBundle/VortexExit.ogg
 - Assets/AssetBundle/IntroVortexMat.mat
 - Assets/AssetBundle/ProgressBar.shadergraph
+- Assets/AssetBundle/Models/StabilizerHammer.fbx
+- Assets/AssetBundle/Models/DataFragment.fbx
 - Assets/AssetBundle/StormNoise.shadergraph
 - Assets/AssetBundle/StormBackgroundMat.mat
+- Assets/AssetBundle/Models/RuinWall.fbx
+- Assets/AssetBundle/Models/Stabilizer.fbx
+- Assets/AssetBundle/Models/DataFragmentCube.fbx
 - Assets/AssetBundle/StormBackground.shadergraph
+- Assets/AssetBundle/Models/IntroVortex.fbx
+- Assets/AssetBundle/Models/LayerDetacher.fbx
 - Assets/AssetBundle/StormChunks.shadergraph
+- Assets/AssetBundle/Models/TitlecardRight.fbx
+- Assets/AssetBundle/Models/Rubble.fbx
 Dependencies: []

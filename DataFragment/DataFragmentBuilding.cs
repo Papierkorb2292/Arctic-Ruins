@@ -99,8 +99,7 @@ namespace ArcticRuins.DataFragment
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("DataFragment.fbx");
-            Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
+            Mesh baseMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("DataFragment.fbx");
 
             LOD6Mesh baseModLod = MeshLod.Create().AddLod0Mesh(baseMesh).BuildLod6Mesh();
 
@@ -120,8 +119,7 @@ namespace ArcticRuins.DataFragment
 
         private static ILODMesh CreateCubeMesh(ModFolderLocator modResourcesLocator)
         {
-            var cubeMeshPath = modResourcesLocator.SubPath("DataFragmentCube.fbx");
-            var cubeMesh = FileMeshLoader.LoadSingleMeshFromFile(cubeMeshPath);
+            var cubeMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("DataFragmentCube.fbx");
             return MeshLod.Create().AddLod0Mesh(cubeMesh).BuildLod6Mesh();
         }
     }

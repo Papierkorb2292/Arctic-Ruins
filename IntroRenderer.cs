@@ -22,16 +22,16 @@ public class IntroRenderer
     private readonly IMaterialReference _overlayMaterial = new MaterialReference { _Material = ArcticRuinsMod.Instance.AssetBundle.LoadAsset<Material>("Assets/AssetBundle/IntroOverlayMat.mat") };
     private readonly IMaterialReference _titlecardMaterial = new MaterialReference { _Material = ArcticRuinsMod.Instance.AssetBundle.LoadAsset<Material>("Assets/AssetBundle/TitlecardMat.mat") };
     private readonly IMeshReference _vortexMesh = new TemporaryMeshReference(
-        FileMeshLoader.LoadSingleMeshFromFile(ArcticRuinsMod.Instance.Resources.SubPath("IntroVortex.fbx"))
+        ArcticRuinsMod.Instance.LoadModelFromAssetBundle("IntroVortex.fbx")
     );
     private readonly IMeshReference _rocketMesh = new TemporaryMeshReference(
-        FileMeshLoader.LoadSingleMeshFromFile(ArcticRuinsMod.Instance.Resources.SubPath("Rocket.fbx"))
+        ArcticRuinsMod.Instance.LoadModelFromAssetBundle("Rocket.fbx")
     );
     private readonly IMeshReference _titlecardLeftMesh = new TemporaryMeshReference(
-        FileMeshLoader.LoadSingleMeshFromFile(ArcticRuinsMod.Instance.Resources.SubPath("TitlecardLeft.fbx"))
+        ArcticRuinsMod.Instance.LoadModelFromAssetBundle("TitlecardLeft.fbx")
     );
     private readonly IMeshReference _titlecardRightMesh = new TemporaryMeshReference(
-        FileMeshLoader.LoadSingleMeshFromFile(ArcticRuinsMod.Instance.Resources.SubPath("TitlecardRight.fbx"))
+        ArcticRuinsMod.Instance.LoadModelFromAssetBundle("TitlecardRight.fbx")
     );
     
     public HUDCinematicIntro HUDIntro;

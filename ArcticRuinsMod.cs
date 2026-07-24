@@ -300,5 +300,15 @@ namespace ArcticRuins
             effect.Volume = volume;
             return effect;
         }
+
+        public Mesh LoadModelFromAssetBundle(string name)
+        {
+            var path = $"Assets/AssetBundle/Models/{name}";
+            var mesh = AssetBundle.LoadAsset<Mesh>(path);
+            var scaled = new MeshBuilder(path, 0);
+            // Loading models through Unity makes them 100 times smaller compared to AssimpNet, so undo that
+            scaled.AddTranslateScale(new TemporaryMeshReference(mesh), 0, 100);
+            return scaled.GenerateSingleMeshMax65KVertices()._Mesh;
+        }
     }
 }

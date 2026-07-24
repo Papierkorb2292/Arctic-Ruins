@@ -97,9 +97,8 @@ namespace ArcticRuins.LayerDetacher
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator, bool isMirrored, out ILayerDetacherDrawData customDrawData)
         {
-            string baseMeshPath = modResourcesLocator.SubPath("LayerDetacher.fbx");
-            Mesh baseMesh = FileMeshLoader.LoadSingleMeshFromFile(baseMeshPath);
-            Mesh launcherMesh = FileMeshLoader.LoadSingleMeshFromFile(modResourcesLocator.SubPath("LayerDetacherLauncher.fbx"));
+            Mesh baseMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("LayerDetacher.fbx");
+            Mesh launcherMesh = ArcticRuinsMod.Instance.LoadModelFromAssetBundle("LayerDetacherLauncher.fbx");
 
             if (isMirrored)
             {
