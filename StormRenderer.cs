@@ -89,8 +89,8 @@ public class StormRenderer
                 ArcticRuinsMod.Instance.StormRenderer?.ZoomCameraOutsideStorm(cameraController);
                 original(cameraController, deltaTime);
             }));
-        LockedTiles.LockedBuildings.Add((pos, _) => ArcticRuinsMod.Instance.StormRenderer?.IsChunkLocked(pos.ToChunkCoordinate()) ?? false);
-        LockedTiles.LockedIslands.Add((pos, _) => ArcticRuinsMod.Instance.StormRenderer?.IsChunkLocked(pos) ?? false);
+        LockedTiles.LockedBuildings.Add((pos, _, _) => ArcticRuinsMod.Instance.StormRenderer?.IsChunkLocked(pos.ToChunkCoordinate()) ?? false);
+        LockedTiles.LockedIslands.Add((pos, _, _) => ArcticRuinsMod.Instance.StormRenderer?.IsChunkLocked(pos) ?? false);
     }
 
     public static void Dispose()

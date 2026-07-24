@@ -74,6 +74,9 @@ namespace ArcticRuins.CommunicationRelay
                 .WithCustomModules(new CommunicationRelayModules())
                 .WithoutPrediction()
                 .Build();
+            
+            // Filter out communication relay from remove actions, so a selection containing this building can still be deleted
+            LockedTiles.LockedBuildings.Add((pos, map, mode) => mode == LockedTiles.InteractionType.Remove && map.TryGetBuilding(pos, out var building) && building.Definition.Id == DefinitionId);
         }
 
         private static BuildingDrawData CreateDrawData(ModFolderLocator modResourcesLocator)
