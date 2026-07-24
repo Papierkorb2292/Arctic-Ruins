@@ -70,11 +70,23 @@ public class StormRenderer
         ];
         _progressSystem = (AsteroidProgressSystem)orchestrator.SimulationSystems.First(system => system is AsteroidProgressSystem);
         _gameResourcesMap = orchestrator.ResourcesMap;
-        _delaunay = new DelaunayHelper(() => _gameResourcesMap.SuperChunks
-            .SelectMany(sc => sc.AllResources)
-            .OfType<ShapeMapResourceSource>()
-            .Select(patch => patch.CenterOfMass_GC)
-            .Select(chunkCoord => new Vector2(chunkCoord.x, chunkCoord.y)));
+        _delaunay = new DelaunayHelper(origin =>
+        {
+            var startChunk = new GlobalChunkCoordinate((int)origin.X, (int)origin.Y, 0);
+            return IterateInfiniteSpiralAroundSuperChunk(startChunk.To_SC())
+                .Select(superChunkCoord => _gameResourcesMap.GetOrCreateSuperChunkAt_SC(superChunkCoord))
+                .SelectMany(sc =>
+                {
+                    var minDist = Math.Min(sc.Origin_GC.HorizontalDistance(startChunk), sc.Origin_GC.VerticalDistance(startChunk)) - 1;
+                    return sc.AllResources
+                        .OfType<ShapeMapResourceSource>()
+                        .Select(patch => patch.CenterOfMass_GC)
+                        .Select(chunkCoord => new Vector2(chunkCoord.x, chunkCoord.y))
+                        .Select(pos => new DelaunayHelper.IterationStep(pos, minDist * minDist));
+                });
+        });
+            
+            
         _progressSystem.OnAsteroidProgressUpdate.Register((coord, data) => RevealPatch(coord, data, _targetHeights));
         this._orchestrator = orchestrator;
         InitializeStormHeight();
@@ -153,14 +165,10 @@ public class StormRenderer
     {
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        foreach (var chunk in _gameResourcesMap.SuperChunks)
-        {
-            foreach (var patch in chunk.AllResources)
-            {
-                if(ArcticRuinsMod.Instance.SaveData.Asteroids.TryGetValue(patch.Origin_GC, out var data))
-                    RevealPatch(patch.Origin_GC, data, _heights);
-            }
-        }
+        // Copy into scoped list, because revealing patches may generate new asteroids
+        using var asteroids = ScopedList.Get(ArcticRuinsMod.Instance.SaveData.Asteroids); 
+        foreach (var (asteroidPos, data) in asteroids)
+            RevealPatch(asteroidPos, data, _heights);
         // Reveal hub
         AddCompletedCircle(new DelaunayHelper.Circle(Vector2.Zero, 36), _heights);
         ArcticRuinsMod.Logger.Info!.LogFormat("InitializeStormHeight took {0}", stopwatch.Elapsed);
@@ -274,6 +282,30 @@ public class StormRenderer
     
     private void ZoomCameraOutsideStorm(CameraController cameraController)
     {
+        /*var pos = ((WorldCoordinate)cameraController.Parent.position).ToGlobalChunkCoordinate();
+        ArcticRuinsMod.Logger.Info!.LogFormat("Pos: {0}", pos);
+        var closest = Vector2.Zero;
+        var dist = float.MaxValue;
+        foreach (var step in _delaunay.Points(new Vector2(pos.x, pos.y)))
+        {
+            if (step.MinimumSqrDistanceOfRemainingPoints > dist)
+                break;
+            var point = step.NextPoint;
+            var newDist = (point.X - pos.x) * (point.X - pos.x) + (point.Y - pos.y) * (point.Y - pos.y);
+            if (newDist < dist)
+            {
+                closest = point;
+                dist = newDist;
+            }
+        }
+        ArcticRuinsMod.Logger.Info!.LogFormat("Closest: {0}", closest);
+        foreach (var point in _delaunay.DelaunayPolygonAroundPoint(closest))
+        {
+            ArcticRuinsMod.Logger.Info!.LogFormat("Polygon: {0}", point);
+        }*/
+
+
+
         if(!IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.TargetZoom, cameraController.TargetAngle, cameraController.Parent.localRotation)) return;
 
         if (!IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.Zoom,
@@ -387,6 +419,28 @@ public class StormRenderer
     {
         var stormHeight = GetMaxStormHeightAtChunk(chunk);
         return stormHeight > -0.2f; // This height is chosen such that the player can interact with unlocked patches, but also the player can fully zoom in on every interactable chunk
+    }
+
+    private IEnumerable<SuperChunkCoordinate> IterateInfiniteSpiralAroundSuperChunk(SuperChunkCoordinate start)
+    {
+        var sideLength = 1;
+        var pos = start;
+        yield return pos;
+        var direction = SuperChunkVector.North;
+        while (true)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < sideLength; j++)
+                {
+                    pos += direction;
+                    yield return pos;
+                }
+
+                direction = direction.Rotate(GridRotation.RotateCW);
+            }
+            sideLength++;
+        }
     }
     
     private class StormLayer(IMeshReference mesh, IMaterialReference material, WorldVector offset)

@@ -24,7 +24,7 @@ public class Test
             new(2, 1),
             new(1.5f, 0.5f),
         };
-        var delaunay = new DelaunayHelper(() => delaunayTestPoints);
+        var delaunay = new DelaunayHelper(_ => delaunayTestPoints.Select(point => new DelaunayHelper.IterationStep(point, 0)));
 
         AssertDelaunay(new Vector2(0, 0), [
             new Vector2(0, 1),

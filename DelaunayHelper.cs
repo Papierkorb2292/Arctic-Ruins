@@ -9,6 +9,8 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
 {
     private Dictionary<Vector2, List<Vector2>> _surroundingPolygonCache = new();
     private Dictionary<Vector2, List<Circle>> _surroundingCircleCache = new();
+
+    public DelaunayHelper.PointProvider Points => points;
     
     /**
      * Returns all neighbors of the given point on the Delaunay triangulation
@@ -21,39 +23,47 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
             return polygon;
         polygon = [];
         // Find closest point first, which is known to be a vertex of the surrounding polygon
-        var closestDistSqr = float.MaxValue;
-        Vector2? nextVortex = null;
-        foreach (var vortex in points())
+        var closestDistSqr = float.PositiveInfinity;
+        Vector2? nextVertex = null;
+        foreach (var step in points(point))
         {
-            if (vortex == point) continue;
-            var distanceSqr = Vector2.DistanceSquared(vortex, point);
+            if (step.MinimumSqrDistanceOfRemainingPoints > closestDistSqr)
+                break;
+            var vertex = step.NextPoint;
+            if (vertex == point) continue;
+            var distanceSqr = Vector2.DistanceSquared(vertex, point);
             if (distanceSqr >= closestDistSqr) continue;
-            nextVortex = vortex;
+            nextVertex = vertex;
             closestDistSqr = distanceSqr;
         }
-        if(nextVortex == null)
+        if(nextVertex == null)
             return polygon;
 
         do
         {
-            var prevVortex  = nextVortex.Value;
-            polygon.Add(prevVortex);
-            nextVortex = null;
+            var prevVertex  = nextVertex.Value;
+            polygon.Add(prevVertex);
+            nextVertex = null;
             // Calculate next vortex by finding the point that spans the smallest circle on one side of the line.
             // Not a very efficient algorithm, but whatever
-            var prevLine = prevVortex - point;
+            var prevLine = prevVertex - point;
             var prevLineNormal = prevLine.RotateCCW90();
-            foreach (var vortex in points())
+            var currentDiameter = float.PositiveInfinity;
+            foreach (var step in points(point))
             {
-                if (vortex == point || vortex == prevVortex) continue;
-                var product = Vector2.Dot(prevLineNormal, vortex - point);
-                if (product <= 0) continue; // Only consider points on the left side of the line (we go counterclockwise)
-                if (nextVortex == null || IsPointInCircumcircleCCW(vortex, point, prevVortex, nextVortex.Value))
+                if (step.MinimumSqrDistanceOfRemainingPoints > currentDiameter * currentDiameter)
+                    break; // Point can be inside the circumcircle
+                var vertex = step.NextPoint;
+                if (vertex == point || vertex == prevVertex) continue;
+                var product = Vector2.Dot(prevLineNormal, vertex - point);
+                if (product <= 0) continue; // Only consider points on the right side of the line (we go clockwise)
+                if (nextVertex == null || IsPointInCircumcircleCCW(vertex, point, prevVertex, nextVertex.Value))
                 {
-                    nextVortex = vortex;
+                    nextVertex = vertex;
+                    currentDiameter = GetCircumcircleDiameter(point, prevVertex, vertex);
                 }
             }
-        } while (nextVortex != null && nextVortex != polygon[0]);
+        } while (nextVertex != null && nextVertex != polygon[0]);
 
         _surroundingPolygonCache[point] = polygon;
         return polygon;
@@ -75,8 +85,13 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
         return circles;
     }
     
-    //TODO(opt): Filter points that are known to be too far away
-    public delegate IEnumerable<Vector2> PointProvider();
+    public delegate IEnumerable<IterationStep> PointProvider(Vector2 start);
+
+    public readonly struct IterationStep(Vector2 nextPoint, float minimumSqrDistanceOfRemainingPoints)
+    {
+        public Vector2 NextPoint => nextPoint;
+        public float MinimumSqrDistanceOfRemainingPoints => minimumSqrDistanceOfRemainingPoints;
+    }
 
     public static bool IsPointInCircumcircleCCW(Vector2 point, Vector2 a, Vector2 b, Vector2 c)
     {
@@ -93,6 +108,18 @@ public class DelaunayHelper(DelaunayHelper.PointProvider points)
         var determinant = m11 * m22 * m33 + m12 * m23 * m31 + m13 * m21 * m32 - m13 * m22 * m31 - m12 * m21 * m33 -
                           m11 * m23 * m32;
         return determinant > 0;
+    }
+
+    public static float GetCircumcircleDiameter(Vector2 a, Vector2 b, Vector2 c)
+    {
+        // See https://en.wikipedia.org/wiki/Circumcircle#Other_properties
+        var sideA = b - c;
+        var sideB = c - a;
+        var sideC = b - a; 
+        float lengthA = sideA.Length();
+        float angleACos = Vector2.Dot(sideB, sideC) / (sideB.Length() * sideC.Length());
+        float angleASin = Mathf.Sqrt(1 - angleACos*angleACos);
+        return lengthA / angleASin;
     }
 
     public static Circle GetCircumcircle(Vector2 a, Vector2 b, Vector2 c)
