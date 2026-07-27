@@ -72,12 +72,15 @@ public class StormRenderer
         _gameResourcesMap = orchestrator.ResourcesMap;
         _delaunay = new DelaunayHelper(origin =>
         {
-            var startChunk = new GlobalChunkCoordinate((int)origin.X, (int)origin.Y, 0);
-            return IterateInfiniteSpiralAroundSuperChunk(startChunk.To_SC())
+            var startSuperChunk = new GlobalChunkCoordinate((int)origin.X, (int)origin.Y, 0).To_SC();
+            return IterateInfiniteSpiralAroundSuperChunk(startSuperChunk)
                 .Select(superChunkCoord => _gameResourcesMap.GetOrCreateSuperChunkAt_SC(superChunkCoord))
                 .SelectMany(sc =>
                 {
-                    var minDist = Math.Min(sc.Origin_GC.HorizontalDistance(startChunk), sc.Origin_GC.VerticalDistance(startChunk)) - 1;
+                    var minDist = Math.Max(
+                        0,
+                        Math.Min(sc.Origin_SC.HorizontalDistance(startSuperChunk), sc.Origin_SC.VerticalDistance(startSuperChunk)) - 1
+                        ) * CoordinateConstants.CHUNKS_PER_SUPER_CHUNK;
                     return sc.AllResources
                         .OfType<ShapeMapResourceSource>()
                         .Select(patch => patch.CenterOfMass_GC)
@@ -282,30 +285,6 @@ public class StormRenderer
     
     private void ZoomCameraOutsideStorm(CameraController cameraController)
     {
-        /*var pos = ((WorldCoordinate)cameraController.Parent.position).ToGlobalChunkCoordinate();
-        ArcticRuinsMod.Logger.Info!.LogFormat("Pos: {0}", pos);
-        var closest = Vector2.Zero;
-        var dist = float.MaxValue;
-        foreach (var step in _delaunay.Points(new Vector2(pos.x, pos.y)))
-        {
-            if (step.MinimumSqrDistanceOfRemainingPoints > dist)
-                break;
-            var point = step.NextPoint;
-            var newDist = (point.X - pos.x) * (point.X - pos.x) + (point.Y - pos.y) * (point.Y - pos.y);
-            if (newDist < dist)
-            {
-                closest = point;
-                dist = newDist;
-            }
-        }
-        ArcticRuinsMod.Logger.Info!.LogFormat("Closest: {0}", closest);
-        foreach (var point in _delaunay.DelaunayPolygonAroundPoint(closest))
-        {
-            ArcticRuinsMod.Logger.Info!.LogFormat("Polygon: {0}", point);
-        }*/
-
-
-
         if(!IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.TargetZoom, cameraController.TargetAngle, cameraController.Parent.localRotation)) return;
 
         if (!IsCameraInsideStorm(cameraController.Parent.position, cameraController.Viewport.Zoom,
@@ -336,6 +315,37 @@ public class StormRenderer
         var minimumCamHeight = Mathf.Lerp(-1, 0.5f, stormHeightInterpolation * stormHeightInterpolation) * StormTileSize; // Add 50% to the max storm height to account for the +50 in draw, for the chunk height in draw being 1, and for the layer offset
         
         return targetPosition.y < minimumCamHeight;
+    }
+    
+    // For testing  
+    private void RevealAsteroidClosestToCamera(CameraController cameraController)
+    {
+        var pos = ((WorldCoordinate)cameraController.Parent.position).ToGlobalChunkCoordinate();
+        ArcticRuinsMod.Logger.Info!.LogFormat("Pos: {0}", pos);
+        var closest = Vector2.Zero;
+        var dist = float.MaxValue;
+        foreach (var step in _delaunay.Points(new Vector2(pos.x, pos.y)))
+        {
+            if (step.MinimumSqrDistanceOfRemainingPoints > dist)
+                break;
+            var point = step.NextPoint;
+            var newDist = (point.X - pos.x) * (point.X - pos.x) + (point.Y - pos.y) * (point.Y - pos.y);
+            if (newDist < dist)
+            {
+                closest = point;
+                dist = newDist;
+            }
+        }
+        ArcticRuinsMod.Logger.Info!.LogFormat("Closest: {0}", closest);
+        foreach (var point in _delaunay.DelaunayPolygonAroundPoint(closest))
+        {
+            ArcticRuinsMod.Logger.Info!.LogFormat("Polygon: {0}", point);
+        }
+        var circles = _delaunay.GetCirclesAroundPoint(closest);
+        for (int i = 0; i < circles.Count; i++)
+        {
+            AddCompletedCircle(circles[i], _heights);
+        }
     }
 
     private static StormLayer CreateLayer(IMaterialReference material, float angleRad, float scaleMultiplier, float timeScaleMultiplier, int index)
