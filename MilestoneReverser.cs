@@ -167,11 +167,15 @@ public static class MilestoneReverser
                 (config, parameters, existing) =>
                 {
                     var difficultySelector = config.UIConfig.UIGeneralScenarioConfig.UIDifficultySelector;
-                    if(existing && ArcticRuinsFeatures.ScenarioHasFeature(parameters.ScenarioParameters.ScenarioId,
-                           ArcticRuinsFeatures.DisableDifficultyEditAfterCreation))
+                    var disabledAfterCreation = ArcticRuinsFeatures.ScenarioHasFeature(
+                        parameters.ScenarioParameters.ScenarioId,
+                        ArcticRuinsFeatures.DisableDifficultyEditAfterCreation);
+                    if(existing && disabledAfterCreation)
                         DisabledDifficultySelector.TryAdd(difficultySelector, difficultySelector);
                     else
                         DisabledDifficultySelector.Remove(difficultySelector);
+                    
+                    difficultySelector.transform.Find("Hint").Find("HintReselect").gameObject.SetActiveSelfExt(!disabledAfterCreation);
                     
                     difficultySelector.SyncFromParameters();
                 });
