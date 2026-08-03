@@ -18,6 +18,7 @@ public class ArcticRuinsFeatures
     public const string StabilizerKey = "Stabilizer";
     public const string StormKey = "Storm";
     public const string TheOtherSideVortexReverserKey = "TheOtherSideVortexReverser";
+    public const string DisableDifficultyEditAfterCreation = "DisableDifficultyEditAfterCreation";
 
     public static Dictionary<string, HashSet<string>> ScenarioFeatures = new()
     {
@@ -34,9 +35,13 @@ public class ArcticRuinsFeatures
             StabilizerKey,
             StormKey,
             TheOtherSideVortexReverserKey,
+            DisableDifficultyEditAfterCreation,
         ] }
     };
 
     public static ScenarioSelector GetSelectorForFeature(string featureKey) =>
-        scenario => ScenarioFeatures.GetValueOrDefault(scenario.UniqueId.Id)?.Contains(featureKey) ?? false;
+        scenario => ScenarioHasFeature(scenario.UniqueId, featureKey);
+
+    public static bool ScenarioHasFeature(ScenarioId scenario, string featureKey) =>
+        ScenarioFeatures.GetValueOrDefault(scenario.Id)?.Contains(featureKey) ?? false;
 }

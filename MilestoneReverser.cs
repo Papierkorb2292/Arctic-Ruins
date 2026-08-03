@@ -13,6 +13,7 @@ using MonoMod.RuntimeDetour;
 using ShapezShifter.Hijack;
 using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
+using Unity.Core.View;
 using UnityEngine;
 
 namespace ArcticRuins;
@@ -26,9 +27,13 @@ public static class MilestoneReverser
     private static Hook _shapeCostTextHook;
     private static Hook _hideMilestoneSummaryHook;
     private static Hook _discoverCustomProgressionHook;
+    private static Hook _disableDifficultySelectorAfterCreation;
+    private static Hook _skipDifficultySelectorsIfDisabled;
 
     private static HUDResearchTabLevels _tabLevels;
     private static readonly ConditionalWeakTable<HUDResearchShapeCostDisplay, object> CostDisplaysWithBeltText = new();
+    private static readonly ConditionalWeakTable<HUDDifficultySelector, object> DisabledDifficultySelector = new();
+    private static readonly ConditionalWeakTable<HUDDifficultySelector, HUDLocalizedText> DifficultySelectorWarning = new();
     private static readonly ConditionalWeakTable<ResearchProgression, GameSessionOrchestrator> CustomProgressions = new();
     
     public static void Register()
@@ -156,6 +161,49 @@ public static class MilestoneReverser
                     if(ArcticRuinsFeatures.GetSelectorForFeature(ArcticRuinsFeatures.TheOtherSideMilestoneReverserKey).Invoke(orchestrator.Mode.Scenario))
                         CustomProgressions.Add(orchestrator.Research.Layout, orchestrator);
                 });
+        _disableDifficultySelectorAfterCreation =
+            DetourHelper.CreatePostfixHook<HUDDialogConfigureScenario, GameParameters, bool>(
+                (config, parameters, existing) => config.Init(parameters, existing),
+                (config, parameters, existing) =>
+                {
+                    var difficultySelector = config.UIConfig.UIGeneralScenarioConfig.UIDifficultySelector;
+                    if(existing && ArcticRuinsFeatures.ScenarioHasFeature(parameters.ScenarioParameters.ScenarioId,
+                           ArcticRuinsFeatures.DisableDifficultyEditAfterCreation))
+                        DisabledDifficultySelector.TryAdd(difficultySelector, difficultySelector);
+                    else
+                        DisabledDifficultySelector.Remove(difficultySelector);
+                    
+                    difficultySelector.SyncFromParameters();
+                });
+        _skipDifficultySelectorsIfDisabled =
+            DetourHelper.CreatePostfixHook<HUDDifficultySelector>(
+                selector => selector.SyncFromParameters(),
+                selector =>
+                {
+                    var isDisabled = DisabledDifficultySelector.TryGetValue(selector, out _);
+                    foreach (var entry in selector.Entries)
+                    {
+                        entry.gameObject.SetActiveSelfExt(!isDisabled);
+                    }
+
+                    if (!DifficultySelectorWarning.TryGetValue(selector, out var warning))
+                    {
+                        warning = selector
+                            .RequestChildView(new PrefabViewReference<HUDLocalizedText>(selector.UIDifficultyPresetDescription))
+                            .PlaceAt(selector.UIEntriesParent.parent);
+                        warning.Text = "ui.acrtic-ruins.difficulty-locked".T();
+                        warning.Color = Color.indianRed;
+                        var transform = (RectTransform)warning.transform;
+                        var original = selector.UIEntriesParent;
+                        transform.anchorMin = original.anchorMin;
+                        transform.anchorMax = original.anchorMax;
+                        transform.anchoredPosition = original.anchoredPosition;
+                        transform.sizeDelta = original.sizeDelta - new Vector2(20, 20);
+                        DifficultySelectorWarning.Add(selector, warning);
+                    };
+
+                    warning.gameObject.SetActiveSelfExt(isDisabled);
+                });
     }
 
     public static void Dispose()
@@ -167,6 +215,8 @@ public static class MilestoneReverser
         _shapeCostTextHook.Dispose();
         _hideMilestoneSummaryHook.Dispose();
         _discoverCustomProgressionHook.Dispose();
+        _disableDifficultySelectorAfterCreation.Dispose();
+        _skipDifficultySelectorsIfDisabled.Dispose();
     }
 
     private static bool IsCustomProgression(ResearchProgression progression)
