@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 779107958
+CRC: 2492732711
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b38c5fe3fe7f6c37f0dff4dd0a9510e4
+    Hash: 18e3e58d2af555d661c1370318dcb04b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9d30d8c7e1cfd351a6edc9e5a9f8477e
+    Hash: dc95a7d6bbe4be81ad52da1b0af83b7e
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: b38c5fe3fe7f6c37f0dff4dd0a9510e4
+    Hash: 18e3e58d2af555d661c1370318dcb04b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -30,6 +30,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 83
   Script: {instanceID: 0}
+- Class: 329
+  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/AssetBundle/StormChunksMat.mat
@@ -40,6 +42,7 @@ Assets:
 - Assets/AssetBundle/MilestoneComplete.ogg
 - Assets/AssetBundle/StormNoiseMat.mat
 - Assets/AssetBundle/DataFragmentIconMat.mat
+- Assets/AssetBundle/Stabilizer.webm
 - Assets/AssetBundle/Models/CommunicationRelay.fbx
 - Assets/AssetBundle/TitlecardBreak.ogg
 - Assets/AssetBundle/RocketFast.ogg
@@ -49,6 +52,7 @@ Assets:
 - Assets/AssetBundle/Crash.ogg
 - Assets/AssetBundle/ProgressBarMat.mat
 - Assets/AssetBundle/IntroOverlayMat.mat
+- Assets/AssetBundle/LayerDetacher.webm
 - Assets/AssetBundle/VortexExit.ogg
 - Assets/AssetBundle/IntroVortexMat.mat
 - Assets/AssetBundle/ProgressBar.shadergraph

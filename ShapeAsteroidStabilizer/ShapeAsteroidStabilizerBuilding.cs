@@ -40,7 +40,18 @@ namespace ArcticRuins.ShapeAsteroidStabilizer
                 .WithIcon(Icon)
                 .AsNonTransportableBuilding()
                 .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
-                .WithDefaultStructureOverview();
+                .WithCustomStructureOverview(new MetaStructureOverview
+                {
+                    Slots = [
+                        new MetaStructureOverview.IOData
+                        {
+                            Offset = new Vector2(-0.75f, 0.025f),
+                            Direction = MetaStructureOverview.SlotDirection.Input,
+                            Content = MetaStructureOverview.SlotContent.Item
+                        }
+                    ],
+                    Video = ArcticRuinsMod.Instance.LoadVideoFromAssetBundle("Stabilizer.webm") 
+                });
             asteroidStabilizerGroup.ShowStatBeltProcessingTime = true; // For some reason the setter methods for these are not implemented
             asteroidStabilizerGroup.ShowStatBuildingsPerFullBelt = true;
             asteroidStabilizerGroup.PlacementRequirements =

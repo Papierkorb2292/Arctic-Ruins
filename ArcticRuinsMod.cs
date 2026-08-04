@@ -36,6 +36,7 @@ using ShapezShifter.SharpDetour;
 using ShapezShifter.Textures;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using ILogger = Core.Logging.ILogger;
 using Vector4 = UnityEngine.Vector4;
 
@@ -309,6 +310,17 @@ namespace ArcticRuins
             // Loading models through Unity makes them 100 times smaller compared to AssimpNet, so undo that
             scaled.AddTranslateScale(new TemporaryMeshReference(mesh), 0, 100);
             return scaled.GenerateSingleMeshMax65KVertices()._Mesh;
+        }
+
+        // Command to convert videos: ffmpeg -i VIDEO.mkv -t TIME -c:a libvorbis -c:v libvpx MY_BUILDING.webm
+        public MetaVideoDefinition LoadVideoFromAssetBundle(string name)
+        {
+            var path = $"Assets/AssetBundle/{name}";
+            var definition = ScriptableObject.CreateInstance<MetaVideoDefinition>();
+            definition.name = name;
+            definition.Video = AssetBundle.LoadAsset<VideoClip>(path);
+            definition.Markers = [];
+            return definition;
         }
     }
 }

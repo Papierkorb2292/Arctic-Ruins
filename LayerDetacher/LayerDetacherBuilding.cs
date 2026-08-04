@@ -42,7 +42,30 @@ namespace ArcticRuins.LayerDetacher
                 .WithIcon(Icon)
                 .AsNonTransportableBuilding()
                 .WithPreferredPlacement(DefaultPreferredPlacementMode.LinePerpendicular)
-                .WithDefaultStructureOverview();
+                .WithCustomStructureOverview(new MetaStructureOverview
+                {
+                    Slots = [
+                        new MetaStructureOverview.IOData
+                        {
+                            Offset = new Vector2(-0.75f, -0.35f),
+                            Direction = MetaStructureOverview.SlotDirection.Input,
+                            Content = MetaStructureOverview.SlotContent.Item
+                        },
+                        new MetaStructureOverview.IOData
+                        {
+                            Offset = new Vector2(0.75f, -0.35f),
+                            Direction = MetaStructureOverview.SlotDirection.Output,
+                            Content = MetaStructureOverview.SlotContent.Item
+                        },
+                        new MetaStructureOverview.IOData
+                        {
+                            Offset = new Vector2(0.75f, 0.325f),
+                            Direction = MetaStructureOverview.SlotDirection.Output,
+                            Content = MetaStructureOverview.SlotContent.Item
+                        }
+                    ],
+                    Video = ArcticRuinsMod.Instance.LoadVideoFromAssetBundle("LayerDetacher.webm") 
+                });
             ((BuildingGroupBuilder)layerDetacherGroup).ShowStatBeltProcessingTime = true;
             ((BuildingGroupBuilder)layerDetacherGroup).ShowStatBuildingsPerFullBelt = true;
             layerDetacherGroup = new MultiDefinitionBuildingGroupBuilder(layerDetacherGroup); // Needs to be able to have multiple buildings registered

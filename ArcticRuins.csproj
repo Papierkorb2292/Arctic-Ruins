@@ -163,6 +163,10 @@
             <HintPath>$(SPZ2_PATH)\UnityEngine.AudioModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnityEngine.VideoModule">
+            <HintPath>$(SPZ2_PATH)\UnityEngine.VideoModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
 
         <Reference Include="DOTween">
             <HintPath>$(SPZ2_PATH)\DOTween.dll</HintPath>
