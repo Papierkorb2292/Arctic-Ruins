@@ -8,6 +8,7 @@ using ArcticRuins.ArcticPlatform;
 using ArcticRuins.DataFragment;
 using Core.Collections.Scoped;
 using Core.Randomizing;
+using Game.Core.Blueprint;
 using Game.Core.Coordinates;
 using Game.Core.Map.Generation;
 using Game.Core.Map.Simulation;
@@ -160,7 +161,7 @@ public static class ArcticMapGenerator
             var randomBlueprint =  Blueprints[blueprintIndex];
             
             var blueprint = blueprintCache.GetBlueprint(randomBlueprint.Name);
-            if (blueprint is BuildingBlueprint buildingBlueprint)
+            if (blueprint is AnnotatedBuildingBlueprint buildingBlueprint)
                 PlaceBuildingBlueprint(buildingBlueprint, orchestrator, pos, randomBlueprint.Coord, GridRotation.RotationsInClockwiseOrder[rng.Next(0, 4)]);
 
             if (hasDataFragment)
@@ -168,7 +169,7 @@ public static class ArcticMapGenerator
         } catch(MapCannotCreateIslandException) { }
     }
 
-    private static void PlaceBuildingBlueprint(BuildingBlueprint blueprint, GameSessionOrchestrator orchestrator,
+    private static void PlaceBuildingBlueprint(AnnotatedBuildingBlueprint blueprint, GameSessionOrchestrator orchestrator,
         GlobalChunkCoordinate chunk, IslandTileCoordinate relativePos, GridRotation rotation)
     {
         var map = orchestrator.MapModel;
@@ -300,7 +301,7 @@ public static class ArcticMapGenerator
             null);
         
         
-        PlaceBuildingBlueprint((BuildingBlueprint)blueprints.GetBlueprint("Hub"), orchestrator, new GlobalChunkCoordinate(-1, 0, 0), new IslandTileCoordinate(3, 8, 0), GridRotation.NoRotate);
+        PlaceBuildingBlueprint((AnnotatedBuildingBlueprint)blueprints.GetBlueprint("Hub"), orchestrator, new GlobalChunkCoordinate(-1, 0, 0), new IslandTileCoordinate(3, 8, 0), GridRotation.NoRotate);
     }
     
     // Generate a shape for a cluster at the given distance. This shape will only use the levels that the player
@@ -442,9 +443,9 @@ public static class ArcticMapGenerator
 
     private class BlueprintCache(GameSessionOrchestrator orchestrator)
     {
-        private readonly Dictionary<string, IBlueprint> _loadedBlueprints = new();
+        private readonly Dictionary<string, IAnnotatedBlueprint> _loadedBlueprints = new();
         
-        public IBlueprint GetBlueprint(string name)
+        public IAnnotatedBlueprint GetBlueprint(string name)
         {
             if (_loadedBlueprints.TryGetValue(name, out var blueprint))
                 return blueprint;
@@ -453,10 +454,16 @@ public static class ArcticMapGenerator
             return blueprint;
         }
 
-        private IBlueprint LoadBlueprint(string name)
+        private IAnnotatedBlueprint LoadBlueprint(string name)
         {
             var path = ArcticRuinsMod.Instance.Resources.SubPath($"Blueprints/{name}.txt");
-            return orchestrator.BlueprintSerializer.Deserialize(File.ReadAllText(path));
+            if (orchestrator.BlueprintLibrary.BlueprintImporter.TryImport(File.ReadAllText(path), out var blueprint, out _, out var error))
+            {
+                return blueprint;
+            }
+            ArcticRuinsMod.Logger.Error!.LogFormat("Failed to load blueprint {0}", name);
+            ArcticRuinsMod.Logger.Error!.LogException(error);
+            return null;
         }
     }
 

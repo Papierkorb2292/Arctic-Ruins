@@ -98,6 +98,22 @@
             <HintPath>$(SPZ2_PATH)\Game.Orchestration.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="Game.Core.Blueprint">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Blueprint.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Core.Blueprint.Exporter">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Blueprint.Exporter.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Core.Blueprint.Importer">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Blueprint.Importer.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Game.Core.Blueprint.Serialization">
+            <HintPath>$(SPZ2_PATH)\Game.Core.Blueprint.Serialization.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
 
         <Reference Include="Game.Interaction">
             <HintPath>$(SPZ2_PATH)\Game.Interaction.dll</HintPath>

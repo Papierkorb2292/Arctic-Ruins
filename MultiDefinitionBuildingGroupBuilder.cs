@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Game.Core.Content.Buildings;
 using ShapezShifter.Flow;
 
@@ -33,24 +34,26 @@ public class MultiDefinitionBuildingGroupBuilder(IBuildingGroupBuilder _delegate
     public IBuildingGroupBuilder NotRenderingConnectorIndicator() => _delegate.NotRenderingConnectorIndicator();
     public IBuildingGroupBuilder RenderingConnectorConflictIndicators() => _delegate.RenderingConnectorConflictIndicators();
     public IBuildingGroupBuilder NotRenderingConnectorConflictIndicator() => _delegate.NotRenderingConnectorConflictIndicator();
+    public IBuildingGroupBuilder ShowingNotchIndicators() => _delegate.ShowingNotchIndicators();
+    public IBuildingGroupBuilder NotShowingNotchIndicators() => _delegate.NotShowingNotchIndicators();
+
     public IBuildingGroupBuilder ShowingBeltProcessingTimeStat() => _delegate.ShowingBeltProcessingTimeStat();
     public IBuildingGroupBuilder NotShowingBeltProcessingTimeStat() => _delegate.NotShowingBeltProcessingTimeStat();
     public IBuildingGroupBuilder ShowingBuildingsPerFullBeltStat() => _delegate.ShowingBuildingsPerFullBeltStat();
     public IBuildingGroupBuilder NotShowingBuildingsPerFullBeltStat() => _delegate.NotShowingBuildingsPerFullBeltStat();
+    public IBuildingGroupBuilder ShowingInSpeedOverview() => _delegate.ShowingInSpeedOverview();
+    public IBuildingGroupBuilder NotShowingInSpeedOverview() => _delegate.NotShowingInSpeedOverview();
+
     public IBuildingGroupBuilder DisplayableAsReward() => _delegate.DisplayableAsReward();
     public IBuildingGroupBuilder NotDisplayableAsReward() => _delegate.NotDisplayableAsReward();
     public IBuildingGroupBuilder SkippingReplacementConnectorChecks() => _delegate.SkippingReplacementConnectorChecks();
     public IBuildingGroupBuilder NotSkippingReplacementConnectorChecks() => _delegate.NotSkippingReplacementConnectorChecks();
     public IBuildingGroupBuilder WithConnectionMultiplier(int autoAttractScore) => _delegate.WithConnectionMultiplier(autoAttractScore);
     public IBuildingGroupBuilder WithPipetteOverride(BuildingDefinitionGroupId overrideGroup) => _delegate.WithPipetteOverride(overrideGroup);
-    public IBuildingGroupBuilder WithoutPipetteOverride() => _delegate.WithoutPipetteOverride();
     public IBuildingGroupBuilder WithPlacementIndicator<TPlacementIndicator>() where TPlacementIndicator : IBuildingPlacementIndicator => _delegate.WithPlacementIndicator<TPlacementIndicator>();
-    public IBuildingGroupBuilder WithoutPlacementIndicators() => _delegate.WithoutPlacementIndicators();
-    public IBuildingGroupBuilder WithPlacementRequirements() => _delegate.WithPlacementRequirements();
-    public IBuildingGroupBuilder WithoutPlacementRequirements() => _delegate.WithoutPlacementRequirements();
+    public IBuildingGroupBuilder WithPlacementRequirements(IEnumerable<IBuildingPlacementRequirement> requirements) => _delegate.WithPlacementRequirements(requirements);
     public IBuildingGroupBuilder WithCustomStructureOverview(MetaStructureOverview structureOverview) => _delegate.WithCustomStructureOverview(structureOverview);
     public IBuildingGroupBuilder WithDefaultStructureOverview() => _delegate.WithDefaultStructureOverview();
-    public IBuildingGroupBuilder WithoutStructureOverview() => _delegate.WithoutStructureOverview();
     public BuildingDefinitionGroup BuildAndRegister(GameBuildings gameBuildings)
     {
         if (gameBuildings.TryGetDefinitionGroup(GroupId, out var definition))

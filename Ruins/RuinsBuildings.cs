@@ -41,6 +41,8 @@ namespace ArcticRuins.Ruins
 
             string iconPath = ArcticRuinsMod.Instance.Resources.SubPath(icon);
 
+            ArcticRuinsMod.Instance.CustomBuildings.Add((definitionId, groupId));
+            
             IBuildingGroupBuilder ruinsGroup = BuildingGroup.Create(groupId)
                 .WithTitle(titleId.T())
                 .WithDescription(titleDescription.T())
