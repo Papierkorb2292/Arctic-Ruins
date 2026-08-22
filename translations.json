@@ -48,7 +48,7 @@
     "research.Milestone_AdvancedMachiningArticRuins.title": "Advanced Machining",
     "research.Milestone_AdvancedMachiningArticRuins.description": "Let your machines cuddle up with even more compact factories"
   },
-  "zh-CN": {
+  "zh-Hans": {
     "building-variant.arctic-cutter.title": "切割机",
     "building-variant.arctic-cutter.description": "将形状从中间<gl>切开</gl>",
     "building-variant.asteroid-stabilizer.title": "稳定器",
