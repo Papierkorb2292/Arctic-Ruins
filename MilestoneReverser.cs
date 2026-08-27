@@ -195,7 +195,7 @@ public static class MilestoneReverser
                         warning = selector
                             .RequestChildView(new PrefabViewReference<HUDLocalizedText>(selector.UIDifficultyPresetDescription))
                             .PlaceAt(selector.UIEntriesParent.parent);
-                        warning.Text = "ui.acrtic-ruins.difficulty-locked".T();
+                        warning.Text = "ui.arctic-ruins.difficulty-locked".T();
                         warning.Color = new Color(0.8039216f, 0.3607843f, 0.3607843f); // This is Color.indianRed in newer Unity versions
                         var transform = (RectTransform)warning.transform;
                         var original = selector.UIEntriesParent;
