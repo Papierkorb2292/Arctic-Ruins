@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <OutputPath>$(SPZ2_PERSISTENT)\mods\ArcticRuins</OutputPath>
+        <OutputPath>$(SPZ2_PERSISTENT)\mods\Arctic Ruins</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 
